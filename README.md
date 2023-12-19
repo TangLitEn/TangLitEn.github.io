@@ -72,7 +72,6 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - Canberra Mathematical Association - Australian Mathematics Competition : Certificate of Credit - Aug 2017
 - Institute of Chemistry, Malaysia - Malaysian National Chemistry Quiz 2017 : Distinction - Aug 2017
 
-
 # Get In Touch 👉🏻👈🏻
 📫 tangliten512@gmail.com
 \
