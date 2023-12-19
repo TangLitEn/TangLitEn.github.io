@@ -1,7 +1,7 @@
 title: Tang Lit En
-#logo: 
+logo: /assets/img/PersonalImage.jpeg
 #description: 
-#show_downloads: true
+show_downloads: true
 theme: jekyll-theme-minimal
 
 # other theme options http://jekyllthemes.org/
