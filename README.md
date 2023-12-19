@@ -35,6 +35,7 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - Hardware: Microcontroller (atmega328P), STM32, ESP32
 
 # Certificates 🔖
+- Coursera
 
 # Social Medias 🔗
 
