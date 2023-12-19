@@ -6,10 +6,33 @@ I've had the privilege of leading different initiatives, serving as the **9th pr
 What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻**. Whether it's designing innovative robots or delving into the intricacies of data, I find immense joy in these realms. 
 
 # Education 📚
+- Bachelor of Engineering (Electrical and Electronic Engineering) at Nanyang Technological University
+- Dean's List (2022-2023)
+- Expected Honours (Highest Distinction); Current CGPA: 4.79 / 5.00
 
 # Work Experience 💼
+- Layout Automation Engineer-Intern at MediaTek (Jan 2023 - Aug 2023)
+- Electrical Engineering Intern at Accesstech Engineering Pte Ltd (May 2022 - Jul 2022)
 
 # Projects ✨
+- Lifelong Education Platform “Learnr” (Final Year Project)
+- Multistage Approval System in Google Cloud Environment
+- Sentimental Analysis on Online Purchase Review
+- Electromagnetic Uniform Plane Waves Visualizer in C++
+- Design and Optimization of Radio-Frequency Circuits
+
+# Co-Curricular Activities 🛝
+- President of NTU MLDA@EEE (Jul 2023 - Present)
+- President of NTU-EEE Enitio 2023 (Aug 2022 - Aug 2023)
+- President of NTU Garage@EEE (May 2022 - May 2023)
+- President of NTU-EEE Enitio 2021 (Dec 2020 - Aug 2021)
+
+# Skills 🍳
+- Software Programming: C, C++, Python, JavaScript, HTML
+- Software Applications: Google App Script, GitHub, Telegram Bot, LT-Spice
+- IT Tools/Frameworks/Libraries: Pandas, NumPy
+- A.I. & Machine Learning: Linear Regression, Random Forest
+- Hardware: Microcontroller (atmega328P), STM32, ESP32
 
 # Certificates 🔖
 
