@@ -33,11 +33,13 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - Swimming Teacher at RNJ Swimming Academy (Dec 2017 - Apr 2020)
 
 # Projects ✨
-- NTU Final Year Project: Lifelong Education Platform “Learnr” (Oct 2023 - Present)
-- Multistage Approval System in Google Cloud Environment (Jul 2023 - Sep 2023)
+- NTU Final Year Project: Lifelong Education Platform “Learnr” (Sep 2023 - Present)
+- [Kaggle Competition: Titanic - Machine Learning from Disaster (Nov 2023 - Dec 2023)](https://github.com/TangLitEn/kaggle-titanic)
+- [Line Maze Robot Solver Simulator (Oct 2023 - Nov 2023)](https://github.com/TangLitEn/line-maze-robot-solver-simulator)
+- [Multistage Approval System in Google Cloud Environment (Jul 2023 - Sep 2023)](https://github.com/TangLitEn/multistage_approval_gform)
 - Sentimental Analysis on Online Purchase Review (Oct 2023 - Dec 2023)
 - UKSAEI 2022 Competition: Foreign Foragers, Learn & Grow Local (Nov 2022 - Dec 2022)
-- Electromagnetic Uniform Plane Waves Visualizer in C++ (Jul 2022 - Oct 2022)
+- [Electromagnetic Uniform Plane Waves Visualizer in C++ (Jul 2022 - Oct 2022)](https://github.com/TangLitEn/UPW_Visualization)
 - Design and Optimization of Radio-Frequency Circuits (Jan 2022 - Apr 2022)
 - NTU Data Science and AI project: IMDb movie rating prediction (Jan 2021 - Apr 2021)
 
