@@ -57,6 +57,7 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - President of Sin Chew Media Corporation Bhd Student Reporter Camp (Johor - Segamat Division 29th Cohort) (Sep 2015 - Dec 2015)
 
 # Certificates 🔖
+- Coursera - [Foundations: Data, Data, Everywhere](https://www.coursera.org/account/accomplishments/verify/U5SBUT2ZZKDH) - Jan 2024
 - Coursera - [Personal & Family Financial Planning](https://coursera.org/verify/MQ24MCHH792H) - Dec 2023
 - Coursera - [Crash Course on Python](https://www.coursera.org/account/accomplishments/certificate/FBRLVYX72REC) - Mar 2021
 - Coursera - [Creativity Toolkit I: Changing Perspectives](https://www.coursera.org/account/accomplishments/certificate/X4FGALRGYT9M) - Jan 2021
