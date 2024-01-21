@@ -57,22 +57,23 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - President of Sin Chew Media Corporation Bhd Student Reporter Camp (Johor - Segamat Division 29th Cohort) (Sep 2015 - Dec 2015)
 
 # Certificates 🔖
-- Coursera - [Ask Questions to Make Data-Driven Decisions](https://www.coursera.org/account/accomplishments/verify/9ABUFCA8PCSQ) - Jan 2024
-- Coursera - [Foundations: Data, Data, Everywhere](https://www.coursera.org/account/accomplishments/verify/U5SBUT2ZZKDH) - Jan 2024
+- Coursera - Google Data Analytics Professional Certificate - CURRENT
+  - Coursera - [Ask Questions to Make Data-Driven Decisions](https://www.coursera.org/account/accomplishments/verify/9ABUFCA8PCSQ) - Jan 2024
+  - Coursera - [Foundations: Data, Data, Everywhere](https://www.coursera.org/account/accomplishments/verify/U5SBUT2ZZKDH) - Jan 2024
 - Coursera - [Personal & Family Financial Planning](https://coursera.org/verify/MQ24MCHH792H) - Dec 2023
 - Coursera - [Crash Course on Python](https://www.coursera.org/account/accomplishments/certificate/FBRLVYX72REC) - Mar 2021
-- Coursera - [Creativity Toolkit I: Changing Perspectives](https://www.coursera.org/account/accomplishments/certificate/X4FGALRGYT9M) - Jan 2021
-- Coursera - [Creativity Toolkit II: Creative Collaboration](https://www.coursera.org/account/accomplishments/certificate/PJQTEF6WF4CV) - Jan 2021
-- Coursera - [Entrepreneurship I: Laying the Foundation](https://www.coursera.org/account/accomplishments/certificate/U6FTB4E2XM6P) - Jan 2021
-- Coursera - [Entrepreneurship II: Preparing for Launch](https://www.coursera.org/account/accomplishments/certificate/X4ZQQFPS64Q8) - Jan 2021
 - Coursera - [Gamification](https://www.coursera.org/account/accomplishments/certificate/29X7DHCKYXML) - Jan 2021
-- Coursera - [Innovation: From Creativity to Entrepreneurship Capstone](https://www.coursera.org/account/accomplishments/certificate/XUN6ANRD8CQG) - Jan 2021
 - Coursera - [Innovation: From Creativity to Entrepreneurship Specialization](https://www.coursera.org/account/accomplishments/specialization/certificate/95CSFXMXMMML) - Jan 2021
+  - Coursera - [Innovation: From Creativity to Entrepreneurship Capstone](https://www.coursera.org/account/accomplishments/certificate/XUN6ANRD8CQG) - Jan 2021
+  - Coursera - [Creativity Toolkit I: Changing Perspectives](https://www.coursera.org/account/accomplishments/certificate/X4FGALRGYT9M) - Jan 2021
+  - Coursera - [Creativity Toolkit II: Creative Collaboration](https://www.coursera.org/account/accomplishments/certificate/PJQTEF6WF4CV) - Jan 2021
+  - Coursera - [Entrepreneurship I: Laying the Foundation](https://www.coursera.org/account/accomplishments/certificate/U6FTB4E2XM6P) - Jan 2021
+  - Coursera - [Entrepreneurship II: Preparing for Launch](https://www.coursera.org/account/accomplishments/certificate/X4ZQQFPS64Q8) - Jan 2021
+  - Coursera - [Strategic Innovation: Building and Sustaining Innovative Organizations](https://www.coursera.org/account/accomplishments/certificate/WYPSV6UNPU37) - Dec 2020
+  - Coursera - [Strategic Innovation: Managing Innovation Initiatives](https://www.coursera.org/account/accomplishments/certificate/GQBWNHZTPG5U) - Dec 2020
 - Coursera - [Planet Earth...and You!](https://www.coursera.org/account/accomplishments/certificate/EWWFLTZAEK83) - Jan 2021
 - Coursera - [Moral Foundations of Politics](https://www.coursera.org/account/accomplishments/certificate/RWG7VKH63WBF) - Dec 2020
 - Coursera - [Our Energy Future](https://www.coursera.org/account/accomplishments/certificate/6GZ9R3JPG692) - Dec 2020
-- Coursera - [Strategic Innovation: Building and Sustaining Innovative Organizations](https://www.coursera.org/account/accomplishments/certificate/WYPSV6UNPU37) - Dec 2020
-- Coursera - [Strategic Innovation: Managing Innovation Initiatives](https://www.coursera.org/account/accomplishments/certificate/GQBWNHZTPG5U) - Dec 2020
 - Coursera - [The Science of Well-Being](https://www.coursera.org/account/accomplishments/certificate/V6PZ9NEYU4K9) - Nov 2020
 - Institute of Chemistry, Malaysia - Malaysian National Chemistry Quiz 2019 : Merit - Aug 2019
 - Life Saving Society Malaysia - Lifeguard & Water Safety Training : Bronze Medallion - May 2018
