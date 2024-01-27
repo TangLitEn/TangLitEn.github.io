@@ -58,6 +58,7 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 
 # Certificates 🔖
 - Coursera - Google Data Analytics Professional Certificate - CURRENT
+  - Coursera - [Process Data from Dirty to Clean](https://www.coursera.org/account/accomplishments/records/K5PG27DFP6C5) - Jan 2024
   - Coursera - [Prepare Data for Exploration](https://www.coursera.org/account/accomplishments/certificate/6PAV3N4WBE3Z) - Jan 2024
   - Coursera - [Ask Questions to Make Data-Driven Decisions](https://www.coursera.org/account/accomplishments/verify/9ABUFCA8PCSQ) - Jan 2024
   - Coursera - [Foundations: Data, Data, Everywhere](https://www.coursera.org/account/accomplishments/verify/U5SBUT2ZZKDH) - Jan 2024
