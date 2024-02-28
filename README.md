@@ -46,6 +46,7 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 
 # Co-Curricular Activities 🛝
 - President of NTU MLDA@EEE (Jul 2023 - Present)
+- Electrical Team of NTU EEE Lead Laos OCIP 2023 (Mar 2023 - Jun 2023)
 - President of NTU-EEE Enitio 2023 (Aug 2022 - Aug 2023)
 - President of NTU Garage@EEE (May 2022 - May 2023)
 - Chief Group Leader of NTU-EEE Enitio 2022 (May 2022 - Aug 2022)
