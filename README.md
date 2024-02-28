@@ -58,6 +58,12 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - Chief Camp Coordinator of Sin Chew Media Corporation Bhd Student Reporter Cadet Training Camp (29th Cohort) (May 2016 - Dec 2016)
 - President of Sin Chew Media Corporation Bhd Student Reporter Camp (Johor - Segamat Division 29th Cohort) (Sep 2015 - Dec 2015)
 
+# Volunteering ✨
+- The Greenies@Passion Wave (Oct 2023 - Dec 3023)
+- The Greenies@Passion Wave (Mar 2022 - Mar 2022)
+- Willing Hearts (May 2021 - May 2021)
+- IT Workshops for Taman Jurong Active Aging Committee (TJAAC) (Oct 2020 - Nov 2020)
+
 # Certificates 🔖
 - Coursera - Google Data Analytics Professional Certificate - CURRENT
   - Coursera = [Share Data Through the Art of Visualization](https://coursera.org/share/23ead7bf246f725017578b203ced1432) - Feb 2024
