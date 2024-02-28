@@ -48,6 +48,7 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - President of NTU MLDA@EEE (Jul 2023 - Present)
 - President of NTU-EEE Enitio 2023 (Aug 2022 - Aug 2023)
 - President of NTU Garage@EEE (May 2022 - May 2023)
+- Chief Group Leader of NTU-EEE Enitio 2022 (May 2022 - Aug 2022)
 - Event Director of NTU Buddhist Society (Aug 2021 - Jul 2022)
 - Sports Secretary of NTU Malaysian Student Association (Aug 2020 - Sep 2021)
 - President of NTU-EEE Enitio 2021 (Dec 2020 - Aug 2021)
