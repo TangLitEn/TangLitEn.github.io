@@ -65,7 +65,8 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - IT Workshops for Taman Jurong Active Aging Committee (TJAAC) (Oct 2020 - Nov 2020)
 
 # Certificates 🔖
-- Coursera - Google Data Analytics Professional Certificate - CURRENT
+- Coursera - [Google Data Analytics Professional Certificate](https://www.coursera.org/account/accomplishments/professional-cert/U3UHDLYDBW7T) - Mar 2024
+  - Coursera - [Google Data Analytics Capstone: Complete a Case Study](https://www.coursera.org/account/accomplishments/records/HVPYKG3EDVLJ) - Mar 2024
   - Coursera - [Data Analysis with R Programming](https://www.coursera.org/account/accomplishments/records/RRN6TPX8RPP3) - Mar 2024
   - Coursera - [Share Data Through the Art of Visualization](https://coursera.org/share/23ead7bf246f725017578b203ced1432) - Feb 2024
   - Coursera - [Analyze Data to Answer Questions](https://www.coursera.org/account/accomplishments/records/APKHRKHMCRHR) - Jan 2024
