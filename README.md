@@ -1,7 +1,7 @@
 # About Me 👑 
 👋Hello there! I'm Tang Lit En, but you can just call me LIEN👀. Currently in my **final year** at **Nanyang Technological University** <img src="https://github.com/TangLitEn/TangLitEn/assets/65808174/7aa82688-e9b5-4079-8a59-6b9856f7a936"  width="10" height="10">, pursuing a degree in **Electrical and Electronics Engineering⚡️** . While I embrace the idea of lifelong learning, my journey in academia has been marked by active involvement in various clubs and organizations.
 
-I've had the privilege of leading different initiatives, serving as the **9th president of Garage@EEE🛠️ NTU** and the **5th president of MLDA@EEE🤖 NTU**. Throughout these roles, I've honed my leadership and project management skills. Beyond my administrative responsibilities, I thrive on getting my hands dirty and indulging in project tinkering.
+I've had the privilege of leading different initiatives, serving as the **9th president of Garage@EEE🛠️ NTU** and the **6th president of MLDA@EEE🤖 NTU**. Throughout these roles, I've honed my leadership and project management skills. Beyond my administrative responsibilities, I thrive on getting my hands dirty and indulging in project tinkering.
 
 What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻**. Whether it's designing innovative robots or delving into the intricacies of data, I find immense joy in these realms. 
 
@@ -65,6 +65,8 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - IT Workshops for Taman Jurong Active Aging Committee (TJAAC) (Oct 2020 - Nov 2020)
 
 # Certificates 🔖
+- Coursera - Google Project Management: Professional Certificate - CURRENT
+  - Coursera - [Foundations of Project Management](https://www.coursera.org/account/accomplishments/verify/N3FBD6AM68G8) - Mar 2024
 - Coursera - [Google Data Analytics Professional Certificate](https://www.coursera.org/account/accomplishments/professional-cert/U3UHDLYDBW7T) - Mar 2024
   - Coursera - [Google Data Analytics Capstone: Complete a Case Study](https://www.coursera.org/account/accomplishments/records/HVPYKG3EDVLJ) - Mar 2024
   - Coursera - [Data Analysis with R Programming](https://www.coursera.org/account/accomplishments/records/RRN6TPX8RPP3) - Mar 2024
