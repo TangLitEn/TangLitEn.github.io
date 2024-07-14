@@ -12,13 +12,25 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 
 # Education 📚
 - Bachelor of Engineering (Electrical and Electronic Engineering) at Nanyang Technological University
-  - Dean's List (2022-2023)
-  - Expected Honours (Highest Distinction); Current CGPA: 4.79 / 5.00
+  - Dean's List (2021-2022)
+  - Dean's List (2023-2024)
+  - Honours (Highest Distinction); CGPA: 4.80 / 5.00
 - Swim Teacher Certificates at University Teknologi MARA Batch 2020
 - Malaysia High School Certificate (STPM)
   - Grade 4.00/4.00
   - Co-curricular Activities 9.8/10
   - Top achiever of Mathematics and Physics
+ 
+# Awards 🏆
+- NTU Koh Boon Hwee Award (Jul 2024)
+- NTU Professional Engineers Board Gold Medal (Jul 2024) 
+- NTU School of Electrical and Electronic Engineering Valedictorian (Jul 2024)
+- ASEAN Scholarship holder (Aug 2020 - Aug 2024)
+- UK-Singapore Universities Alliance for Entrepreneurship and Innovation (UKSAEI): 1st Place (Dec 2022)
+- Institute of Chemistry, Malaysia - Malaysian National Chemistry Quiz 2019 : Merit (Aug 2019)
+- Life Saving Society Malaysia - Lifeguard & Water Safety Training : Bronze Medallion (May 2018)
+- Canberra Mathematical Association - Australian Mathematics Competition : Certificate of Credit (Aug 2017)
+- Institute of Chemistry, Malaysia - Malaysian National Chemistry Quiz 2017 : Distinction (Aug 2017)
  
 # Skills 🍳
 - Software Programming: C Language, C++, Python, JavaScript, HTML,Google App Script, GitHub, Telegram Bot, LT-Spice
@@ -65,6 +77,7 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - IT Workshops for Taman Jurong Active Aging Committee (TJAAC) (Oct 2020 - Nov 2020)
 
 # Certificates 🔖
+- Coursera - The Science of Gastronomy - CURRENT
 - Coursera - Google Project Management: Professional Certificate
   - Coursera - [Foundations of Project Management](https://www.coursera.org/account/accomplishments/verify/N3FBD6AM68G8) - Mar 2024
 - Coursera - [Google Data Analytics Professional Certificate](https://www.coursera.org/account/accomplishments/professional-cert/U3UHDLYDBW7T) - Mar 2024
@@ -91,10 +104,6 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - Coursera - [Moral Foundations of Politics](https://www.coursera.org/account/accomplishments/certificate/RWG7VKH63WBF) - Dec 2020
 - Coursera - [Our Energy Future](https://www.coursera.org/account/accomplishments/certificate/6GZ9R3JPG692) - Dec 2020
 - Coursera - [The Science of Well-Being](https://www.coursera.org/account/accomplishments/certificate/V6PZ9NEYU4K9) - Nov 2020
-- Institute of Chemistry, Malaysia - Malaysian National Chemistry Quiz 2019 : Merit - Aug 2019
-- Life Saving Society Malaysia - Lifeguard & Water Safety Training : Bronze Medallion - May 2018
-- Canberra Mathematical Association - Australian Mathematics Competition : Certificate of Credit - Aug 2017
-- Institute of Chemistry, Malaysia - Malaysian National Chemistry Quiz 2017 : Distinction - Aug 2017
 
 # Get In Touch 👉🏻👈🏻
 📫 tangliten512@gmail.com
