@@ -45,7 +45,7 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - Swimming Teacher at RNJ Swimming Academy (Dec 2017 - Apr 2020)
 
 # Projects ✨
-- NTU Final Year Project: Lifelong Education Platform “Learnr” (Sep 2023 - Present)
+- NTU Final Year Project: Implementing Control Theory on Micro:bit (Sep 2023 - Apr 2024)
 - [Kaggle Binary Classification with a Bank Churn Dataset](https://github.com/TangLitEn/kaggle-Binary-Classification-with-a-Bank-Churn-Dataset) (Jan 2024 - Feb 2024)
 - [Kaggle Competition: Titanic - Machine Learning from Disaster](https://github.com/TangLitEn/kaggle-titanic) (Nov 2023 - Dec 2023)
 - [Line Maze Robot Solver Simulator](https://github.com/TangLitEn/line-maze-robot-solver-simulator) (Oct 2023 - Nov 2023)
