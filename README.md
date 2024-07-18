@@ -77,7 +77,7 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - IT Workshops for Taman Jurong Active Aging Committee (TJAAC) (Oct 2020 - Nov 2020)
 
 # Certificates 🔖
-- Coursera - The Science of Gastronomy - CURRENT
+- Coursera - [The Science of Gastronomy](https://www.coursera.org/account/accomplishments/verify/P6654RJK7UQ8) - Jul 2024
 - Coursera - Google Project Management: Professional Certificate
   - Coursera - [Foundations of Project Management](https://www.coursera.org/account/accomplishments/verify/N3FBD6AM68G8) - Mar 2024
 - Coursera - [Google Data Analytics Professional Certificate](https://www.coursera.org/account/accomplishments/professional-cert/U3UHDLYDBW7T) - Mar 2024
