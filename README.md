@@ -71,7 +71,7 @@ What truly fuels **my passion is the world of robotics🦾 and Data Sciences💻
 - President of Sin Chew Media Corporation Bhd Student Reporter Camp (Johor - Segamat Division 29th Cohort) (Sep 2015 - Dec 2015)
 
 # Volunteering ✨
-- The Greenies@Passion Wave (Oct 2023 - Dec 3023)
+- The Greenies@Passion Wave (Oct 2023 - Dec 2023)
 - The Greenies@Passion Wave (Mar 2022 - Mar 2022)
 - Willing Hearts (May 2021 - May 2021)
 - IT Workshops for Taman Jurong Active Aging Committee (TJAAC) (Oct 2020 - Nov 2020)
