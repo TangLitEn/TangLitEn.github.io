@@ -1,5 +1,6 @@
 ---
 layout: post
+categories: general
 ---
 
 Try injecting something here

@@ -3,8 +3,8 @@ layout: post
 title: "This post demonstrates post content styles"
 categories: junk
 author:
-- Bart Simpson
-- Nelson Mandela Muntz
+  - Bart Simpson
+  - Nelson Mandela Muntz
 meta: "Springfield"
 ---
 
@@ -30,7 +30,7 @@ Phasellus et hendrerit mauris. Proin eget nibh a massa vestibulum pretium. Suspe
 
 Praesent varius interdum vehicula. Aenean risus libero, placerat at vestibulum eget, ultricies eu enim. Praesent nulla tortor, malesuada adipiscing adipiscing sollicitudin, adipiscing eget est.
 
-> This quote will *change* your life. It will reveal the <i>secrets</i> of the universe, and all the wonders of humanity. Don't <em>misuse</em> it.
+> This quote will _change_ your life. It will reveal the <i>secrets</i> of the universe, and all the wonders of humanity. Don't <em>misuse</em> it.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce bibendum neque eget nunc mattis eu sollicitudin enim tincidunt.
 
@@ -40,14 +40,12 @@ Vestibulum lacus tortor, ultricies id dignissim ac, bibendum in velit. Proin con
 
 ```html
 <html>
-  <head>
-  </head>
+  <head> </head>
   <body>
     <p>Hello, World!</p>
   </body>
 </html>
 ```
-
 
 In arcu magna, aliquet vel pretium et, molestie et arcu. Mauris lobortis nulla et felis ullamcorper bibendum. Phasellus et hendrerit mauris.
 
@@ -65,7 +63,7 @@ In arcu magna, aliquet vel pretium et, molestie et arcu. Mauris lobortis nulla e
 
 In arcu magna, aliquet vel pretium et, molestie et arcu. Mauris lobortis nulla et felis ullamcorper bibendum. Phasellus et hendrerit mauris.
 
-###### Small yet significant sub-heading  (h6)
+###### Small yet significant sub-heading (h6)
 
 In arcu magna, aliquet vel pretium et, molestie et arcu. Mauris lobortis nulla et felis ullamcorper bibendum. Phasellus et hendrerit mauris.
 
@@ -87,8 +85,6 @@ In arcu magna, aliquet vel pretium et, molestie et arcu. Mauris lobortis nulla e
 3. Third item, what what?!
 4. Fourth item, fo sheezy my neezy
 
-
-
 ## Headings are cool! (h2)
 
 Proin eget nibh a massa vestibulum pretium. Suspendisse eu nisl a ante aliquet bibendum quis a nunc. Praesent varius interdum vehicula. Aenean risus libero, placerat at vestibulum eget, ultricies eu enim. Praesent nulla tortor, malesuada adipiscing adipiscing sollicitudin, adipiscing eget est.
@@ -99,17 +95,16 @@ Proin eget nibh a massa vestibulum pretium. Suspendisse eu nisl a ante aliquet b
 
 ### Tables
 
-Title 1               | Title 2               | Title 3               | Title 4
---------------------- | --------------------- | --------------------- | ---------------------
-lorem                 | lorem ipsum           | lorem ipsum dolor     | lorem ipsum dolor sit
-lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit
-lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit
-lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit
+| Title 1               | Title 2               | Title 3               | Title 4               |
+| --------------------- | --------------------- | --------------------- | --------------------- |
+| lorem                 | lorem ipsum           | lorem ipsum dolor     | lorem ipsum dolor sit |
+| lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit |
+| lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit |
+| lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit |
 
-
-Title 1 | Title 2 | Title 3 | Title 4
---- | --- | --- | ---
-lorem | lorem ipsum | lorem ipsum dolor | lorem ipsum dolor sit
-lorem ipsum dolor sit amet | lorem ipsum dolor sit amet consectetur | lorem ipsum dolor sit amet | lorem ipsum dolor sit
-lorem ipsum dolor | lorem ipsum | lorem | lorem ipsum
-lorem ipsum dolor | lorem ipsum dolor sit | lorem ipsum dolor sit amet | lorem ipsum dolor sit amet consectetur
+| Title 1                    | Title 2                                | Title 3                    | Title 4                                |
+| -------------------------- | -------------------------------------- | -------------------------- | -------------------------------------- |
+| lorem                      | lorem ipsum                            | lorem ipsum dolor          | lorem ipsum dolor sit                  |
+| lorem ipsum dolor sit amet | lorem ipsum dolor sit amet consectetur | lorem ipsum dolor sit amet | lorem ipsum dolor sit                  |
+| lorem ipsum dolor          | lorem ipsum                            | lorem                      | lorem ipsum                            |
+| lorem ipsum dolor          | lorem ipsum dolor sit                  | lorem ipsum dolor sit amet | lorem ipsum dolor sit amet consectetur |
