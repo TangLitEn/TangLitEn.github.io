@@ -51,7 +51,7 @@ minima:
   # Refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this.
   #date_format: "%b-%d-%Y"
 
-future:
+future: # enable future post
   true
 
   # Generate social links in footer.
