@@ -15,3 +15,12 @@ You can find the source code for Jekyll at GitHub:
 [jekyll](https://github.com/jekyll/jekyll)
 
 [jekyll-organization]: https://github.com/jekyll
+
+<h2>All Categories</h2>
+<ul>
+  {% for category in site.categories %}
+    <li>
+      <a href="/categories/{{ category[0] | slugify }}/">{{ category[0] }}</a> ({{ category[1].size }} posts)
+    </li>
+  {% endfor %}
+</ul>
