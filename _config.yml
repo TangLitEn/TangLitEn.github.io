@@ -1,4 +1,4 @@
-title: Your awesome title
+title: LIEN - The journey
 author:
   name: Tang (LIEN) Lit En
   email: tangliten512@gmail.com
@@ -6,9 +6,7 @@ author:
 # The `>` after `description:` means to ignore line-breaks until next key.
 # If you want to omit the line-break after the end of text, use `>-` instead.
 description: >
-  Write an awesome description for your new site here. You can edit this line
-  in _config.yml. It will appear in your document head meta (for Google search
-  results) and in your feed.xml site description.
+  The purpose of this page is simple: to document my journey authentically and provide a platform for my ventures, discoveries, and creative pursuits. Not everything will be groundbreaking, but it will always be honest, meaningful work.
 
 # Build settings
 
