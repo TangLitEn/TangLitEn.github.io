@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Workout planning and exploration"
-categories: Improvement
+categories: improvement
 ---
 
 _Take this post as a insight sharing, I am not a medical professions and this are just some of the information I discovered~_
