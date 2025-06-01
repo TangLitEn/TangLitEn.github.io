@@ -6,7 +6,7 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 #
 layout: home
-title: WOW2
+title: WOW
 ---
 
 Testing to write some banana here
