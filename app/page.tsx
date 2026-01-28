@@ -24,7 +24,7 @@ export default function Home() {
         }}
       >
         <h1 style={{ fontSize: 32, marginBottom: 8 }}>
-          👋 Hi, I’m Lit En YAY 2
+          👋 Hi, I’m Lit En YAY 3
         </h1>
 
         <p style={{ fontSize: 18, opacity: 0.8 }}>
