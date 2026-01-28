@@ -50,7 +50,7 @@ function Home() {
                         fontSize: 32,
                         marginBottom: 8
                     },
-                    children: "👋 Hi, I’m Lit En"
+                    children: "👋 Hi, I’m Lit En YAY"
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
                     lineNumber: 26,
