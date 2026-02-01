@@ -1,49 +1,20 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import SWRegister from "./sw-register";
+import "../styles/globals.css";
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
+import Container from "../components/Container";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "LIEN",
-  description: "Personal app",
-  manifest: "/manifest.json",
-  themeColor: "#0f172a",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "LIEN",
-  },
-  icons: {
-    icon: [
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
-    ],
-    apple: [{ url: "/icon-180.png", sizes: "180x180", type: "image/png" }],
-  },
+export const metadata = {
+  title: "Lit En — Personal Site",
+  description: "Problem solving, learning systems, and life optimization."
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <SWRegister />
-        {children}
+      <body>
+        <NavBar />
+        <Container>{children}</Container>
+        <Footer />
       </body>
     </html>
   );
