@@ -26,6 +26,7 @@ export default function ContactPage() {
             {CONTACT.email}
           </a>
         </div>
+        
 
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
           {CONTACT.links.map((l) => (
