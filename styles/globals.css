@@ -30,7 +30,7 @@ body {
 }
 
 * { box-sizing: border-box; }
-html, body { padding: 0; margin: 0; }
+html, body { padding: 0; margin: 0; overflow-x: hidden; }
 body {
   background: radial-gradient(1200px 800px at 10% 0%, rgba(130, 87, 229, 0.18), transparent 60%),
               radial-gradient(900px 600px at 80% 20%, rgba(56, 189, 248, 0.12), transparent 60%),
@@ -68,12 +68,15 @@ code {
   flex-direction: column;
   gap: 16px;
   height: 100%;
+  min-width: 0;
 }
 
 .lp-hero-media {
   display: grid;
   gap: 16px;
   height: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .lp-profile {
@@ -135,6 +138,7 @@ code {
   display: grid;
   gap: 14px;
   align-items: start;
+  max-width: 100%;
 }
 
 .lp-slider-frame {
@@ -145,6 +149,7 @@ code {
   border: 1px solid var(--border);
   aspect-ratio: 16 / 9;
   min-height: 240px;
+  width: 100%;
 }
 
 .lp-slide {
@@ -359,12 +364,14 @@ code {
     text-align: center;
     width: 100%;
     max-width: none;
-    margin: 0 -18px;
-    width: calc(100% + 36px);
   }
 
   .lp-hero-copy {
     align-items: center;
+  }
+
+  .lp-hero-media {
+    width: 100%;
   }
 
   .lp-slider-controls {
