@@ -10,18 +10,7 @@ export default function TimelineItem({
   return (
     <a
       href={`/blog/${post.slug}/`}
-      style={{
-        display: "grid",
-        gridTemplateColumns: post.image ? "160px 1fr" : "1fr",
-        gap: 14,
-        alignItems: "start",
-        background: "rgba(255,255,255,0.04)",
-        border: "1px solid rgba(255,255,255,0.10)",
-        borderRadius: 14,
-        padding: 14,
-        textDecoration: "none",
-        color: "inherit"
-      }}
+      className={`timeline-card ${post.image ? "has-image" : "no-image"}`}
     >
       {post.image ? (
         <div
@@ -39,28 +28,19 @@ export default function TimelineItem({
               onOpenImage?.(post.image as string, post.title);
             }
           }}
-          style={{ display: "block", cursor: "zoom-in" }}
+          className="timeline-card-media"
         >
-          <div
-            style={{
-              width: "100%",
-              aspectRatio: "4 / 3",
-              borderRadius: 10,
-              overflow: "hidden",
-              border: "1px solid rgba(255,255,255,0.10)",
-              background: "rgba(255,255,255,0.04)"
-            }}
-          >
+          <div className="timeline-card-media-frame">
             <img
               src={post.image}
               alt={post.title}
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              className="timeline-card-media-image"
             />
           </div>
         </div>
       ) : null}
 
-      <div style={{ display: "grid", gap: 8 }}>
+      <div className="timeline-card-body">
         <div style={{ color: "rgba(255,255,255,0.65)", fontSize: 13 }}>{post.date}</div>
 
         <div style={{ fontWeight: 700, fontSize: 16 }}>{post.title}</div>

@@ -20,20 +20,7 @@ export default function PostView({ post }: { post: Post }) {
 
   return (
     <>
-      <div
-        style={{
-          marginTop: 14,
-          marginBottom: 18,
-          display: "grid",
-          gridTemplateColumns: post.meta.image ? "150px 1fr" : "1fr",
-          gap: 16,
-          alignItems: "center",
-          background: "linear-gradient(120deg, rgba(255,255,255,0.05), rgba(0,0,0,0.0))",
-          border: "1px solid rgba(255,255,255,0.10)",
-          borderRadius: 16,
-          padding: 16
-        }}
-      >
+      <div className={`post-hero ${post.meta.image ? "has-image" : "no-image"}`}>
         {post.meta.image ? (
           <div
             role="button"
@@ -49,47 +36,31 @@ export default function PostView({ post }: { post: Post }) {
                 setLightboxAlt(post.meta.title);
               }
             }}
-            style={{ cursor: "zoom-in" }}
+            className="post-hero-media"
           >
-            <div
-              style={{
-                width: 150,
-                height: 150,
-                borderRadius: 12,
-                overflow: "hidden",
-                border: "1px solid rgba(255,255,255,0.10)",
-                background: "rgba(255,255,255,0.04)"
-              }}
-            >
+            <div className="post-hero-media-frame">
               <img
                 src={post.meta.image}
                 alt={post.meta.title}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                className="post-hero-media-image"
               />
             </div>
           </div>
         ) : null}
 
-        <div style={{ display: "grid", gap: 6 }}>
-          <div style={{ color: "rgba(255,255,255,0.65)", fontSize: 13 }}>{post.meta.date}</div>
-          <h1 style={{ margin: 0, fontSize: 22 }}>{post.meta.title}</h1>
+        <div className="post-hero-body">
+          <div className="post-hero-date">{post.meta.date}</div>
+          <h1 className="post-hero-title">{post.meta.title}</h1>
           {post.meta.description ? (
-            <div style={{ color: "rgba(255,255,255,0.75)" }}>{post.meta.description}</div>
+            <div className="post-hero-description">{post.meta.description}</div>
           ) : null}
 
           {post.meta.tags?.length ? (
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
+            <div className="post-hero-tags">
               {post.meta.tags.map((t) => (
                 <span
                   key={t}
-                  style={{
-                    fontSize: 12,
-                    color: "rgba(255,255,255,0.75)",
-                    border: "1px solid rgba(255,255,255,0.10)",
-                    background: "rgba(255,255,255,0.04)",
-                    padding: "4px 8px",
-                    borderRadius: 999
-                  }}
+                  className="post-hero-tag"
                 >
                   {t}
                 </span>
