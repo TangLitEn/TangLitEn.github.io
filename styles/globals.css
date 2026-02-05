@@ -349,6 +349,12 @@ code {
   transition: transform 150ms ease, border-color 150ms ease;
 }
 
+.lp-music-info {
+  padding: 8px;
+  min-width: 34px;
+  justify-content: center;
+}
+
 .lp-slider-btn:hover {
   transform: translateY(-1px);
   border-color: rgba(255, 255, 255, 0.3);

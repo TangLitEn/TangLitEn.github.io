@@ -11,6 +11,8 @@ export default function NavBar() {
       style={{
         position: "sticky",
         top: 0,
+        left: 0,
+        right: 0,
         zIndex: 50,
         backdropFilter: "blur(10px)",
         background: "rgba(11,12,16,0.65)",
@@ -38,9 +40,12 @@ export default function NavBar() {
             Lit En
           </a>
 
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-end" }} />
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-end" }}>
+            <MusicPlayer />
+          </div>
         </div>
       </div>
     </div>
   );
 }
+import MusicPlayer from "./MusicPlayer";
