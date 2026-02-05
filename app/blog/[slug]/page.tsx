@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getAllPostSlugs, getPostBySlug } from "../../../lib/posts";
+import PostView from "../../../components/PostView";
 
 export function generateStaticParams() {
   return getAllPostSlugs().map((slug) => ({ slug }));
@@ -20,25 +21,11 @@ export default async function BlogPostPage({
 
   return (
     <main style={{ padding: "28px 0 52px" }}>
-      <a href="/blog/" style={{ color: "rgba(255,255,255,0.65)" }}>
-        ← Back to Blog
+      <a href="/timeline/" style={{ color: "rgba(255,255,255,0.65)" }}>
+        ← Back to Timeline
       </a>
 
-      <h1 style={{ margin: "14px 0 6px" }}>{post.meta.title}</h1>
-      <div style={{ color: "rgba(255,255,255,0.65)", marginBottom: 18 }}>
-        {post.meta.date}
-        {post.meta.tags?.length ? ` · ${post.meta.tags.join(" · ")}` : ""}
-      </div>
-
-      <article
-        style={{
-          background: "rgba(255,255,255,0.04)",
-          border: "1px solid rgba(255,255,255,0.10)",
-          borderRadius: 14,
-          padding: 18,
-        }}
-        dangerouslySetInnerHTML={{ __html: post.html }}
-      />
+      <PostView post={post} />
     </main>
   );
 }

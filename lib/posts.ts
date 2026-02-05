@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { marked } from "marked";
+import { marked, Renderer } from "marked";
 
 const POSTS_DIR = path.join(process.cwd(), "content", "blog");
 
@@ -11,6 +11,7 @@ export type PostMeta = {
   date: string;
   tags: string[];
   description: string;
+  image?: string;
 };
 
 export function getAllPostSlugs(): string[] {
@@ -35,9 +36,29 @@ export function getPostBySlug(slug: string): { meta: PostMeta; html: string } {
     title: String(data.title ?? slug),
     date: String(data.date ?? "1970-01-01"),
     tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
-    description: String(data.description ?? "")
+    description: String(data.description ?? ""),
+    image: typeof data.image === "string" ? data.image : undefined
   };
 
-  const html = marked.parse(content) as string;
+  const renderer = new Renderer();
+  renderer.image = (href: any, title?: any, text?: any) => {
+    const resolvedHref =
+      typeof href === "string"
+        ? href
+        : href && typeof href === "object"
+          ? href.href
+          : "";
+    const resolvedTitle =
+      href && typeof href === "object" && typeof href.title === "string" ? href.title : title;
+    const resolvedText =
+      href && typeof href === "object" && typeof href.text === "string" ? href.text : text;
+
+    if (!resolvedHref) return "";
+
+    const safeTitle = resolvedTitle ? ` title="${resolvedTitle}"` : "";
+    const safeText = resolvedText ? resolvedText : "";
+    return `<img src="${resolvedHref}" alt="${safeText}"${safeTitle} style="max-width:100%;height:auto;cursor:zoom-in;" />`;
+  };
+  const html = marked.parse(content, { renderer }) as string;
   return { meta, html };
 }

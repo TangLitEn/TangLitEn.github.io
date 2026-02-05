@@ -1,43 +1,77 @@
-import { TimelineEntry } from "../data/timeline";
+import { PostMeta } from "../lib/posts";
 
 export default function TimelineItem({
-  entry,
-  variant
+  post,
+  onOpenImage
 }: {
-  entry: TimelineEntry;
-  variant: "timeline" | "list";
+  post: PostMeta;
+  onOpenImage?: (src: string, alt?: string) => void;
 }) {
   return (
-    <div
+    <a
+      href={`/blog/${post.slug}/`}
       style={{
         display: "grid",
-        gridTemplateColumns: "120px 1fr",
-        gap: 12,
+        gridTemplateColumns: post.image ? "160px 1fr" : "1fr",
+        gap: 14,
         alignItems: "start",
         background: "rgba(255,255,255,0.04)",
         border: "1px solid rgba(255,255,255,0.10)",
         borderRadius: 14,
-        padding: 14
+        padding: 14,
+        textDecoration: "none",
+        color: "inherit"
       }}
     >
-      <div style={{ color: "rgba(255,255,255,0.65)", fontSize: 13 }}>
-        <div style={{ fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>{entry.date}</div>
-        <div style={{ marginTop: 6 }}>{entry.kind}</div>
-      </div>
-
-      <div style={{ display: "grid", gap: 6 }}>
-        <div style={{ fontWeight: 700, fontSize: 16 }}>
-          {entry.title}{" "}
-          {entry.org ? (
-            <span style={{ fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>· {entry.org}</span>
-          ) : null}
+      {post.image ? (
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onOpenImage?.(post.image as string, post.title);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              e.stopPropagation();
+              onOpenImage?.(post.image as string, post.title);
+            }
+          }}
+          style={{ display: "block", cursor: "zoom-in" }}
+        >
+          <div
+            style={{
+              width: "100%",
+              aspectRatio: "4 / 3",
+              borderRadius: 10,
+              overflow: "hidden",
+              border: "1px solid rgba(255,255,255,0.10)",
+              background: "rgba(255,255,255,0.04)"
+            }}
+          >
+            <img
+              src={post.image}
+              alt={post.title}
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          </div>
         </div>
+      ) : null}
 
-        <div style={{ color: "rgba(255,255,255,0.78)" }}>{entry.description}</div>
+      <div style={{ display: "grid", gap: 8 }}>
+        <div style={{ color: "rgba(255,255,255,0.65)", fontSize: 13 }}>{post.date}</div>
 
-        {entry.tags?.length ? (
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 6 }}>
-            {entry.tags.map((t) => (
+        <div style={{ fontWeight: 700, fontSize: 16 }}>{post.title}</div>
+
+        {post.description ? (
+          <div style={{ color: "rgba(255,255,255,0.78)" }}>{post.description}</div>
+        ) : null}
+
+        {post.tags?.length ? (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 2 }}>
+            {post.tags.map((t) => (
               <span
                 key={t}
                 style={{
@@ -55,6 +89,6 @@ export default function TimelineItem({
           </div>
         ) : null}
       </div>
-    </div>
+    </a>
   );
 }
