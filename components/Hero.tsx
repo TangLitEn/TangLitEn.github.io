@@ -39,7 +39,13 @@ export default function Hero() {
           </div>
           <div className="lp-contact-links">
             {CONTACT.links.map((l) => (
-              <a key={l.label} href={l.href} target="_blank" rel="noreferrer" className="lp-contact-link">
+              <a
+                key={l.label}
+                href={l.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="lp-contact-link"
+              >
                 {l.label} ↗
               </a>
             ))}

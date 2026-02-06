@@ -17,12 +17,18 @@ export default function MusicPlayer() {
     if (!audio) return;
 
     const tryAutoPlay = () => {
-      audio
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          // Autoplay can be blocked until a user gesture; ignore.
-        });
+      try {
+        const result = audio.play();
+        if (result && typeof (result as Promise<void>).then === "function") {
+          (result as Promise<void>)
+            .then(() => setIsPlaying(true))
+            .catch(() => {
+              // Autoplay can be blocked until a user gesture; ignore.
+            });
+        }
+      } catch {
+        // Some browsers throw when play() is disallowed; ignore.
+      }
     };
 
     const handleFirstInteract = () => {
@@ -83,7 +89,7 @@ export default function MusicPlayer() {
         className="lp-slider-btn lp-music-info"
         href="https://www.youtube.com/watch?v=ieCU9OV8_tg"
         target="_blank"
-        rel="noreferrer"
+        rel="noreferrer noopener"
         aria-label="Music info: Exyl - Discord Checkpoint"
         title="Exyl — Discord Checkpoint (I very like it)"
       >
