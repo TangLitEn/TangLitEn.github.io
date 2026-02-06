@@ -36,7 +36,13 @@ self.addEventListener("fetch", (event) => {
     caches.match(event.request).then((cached) => {
       const networkFetch = fetch(event.request)
         .then((response) => {
-          if (response && response.ok && url.origin === self.location.origin) {
+          if (
+            response &&
+            response.ok &&
+            response.status === 200 &&
+            response.type === "basic" &&
+            url.origin === self.location.origin
+          ) {
             const copy = response.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
           }
