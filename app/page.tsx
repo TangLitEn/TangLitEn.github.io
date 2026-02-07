@@ -1,6 +1,7 @@
 import Hero from "../components/Hero";
 import TimelineSection from "../components/TimelineSection";
 import { getAllPostsMeta } from "../lib/posts";
+import Link from "next/link";
 
 export default function HomePage() {
   const posts = getAllPostsMeta();
@@ -18,7 +19,7 @@ export default function HomePage() {
         </p>
         <TimelineSection compact posts={posts} />
         <div style={{ marginTop: 14 }}>
-          <a href="/timeline/">View full timeline →</a>
+          <Link href="/timeline/">View full timeline →</Link>
         </div>
       </section>
 

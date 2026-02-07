@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { PostMeta } from "../lib/posts";
 
 export default function TimelineItem({
@@ -9,7 +10,7 @@ export default function TimelineItem({
   onOpenImage?: (src: string, alt?: string) => void;
 }) {
   return (
-    <a
+    <Link
       href={`/blog/${post.slug}/`}
       className={`timeline-card ${post.image ? "has-image" : "no-image"}`}
     >
@@ -72,6 +73,6 @@ export default function TimelineItem({
           </div>
         ) : null}
       </div>
-    </a>
+    </Link>
   );
 }

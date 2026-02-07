@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { getAllPostSlugs, getPostBySlug } from "../../../lib/posts";
 import PostView from "../../../components/PostView";
 
@@ -27,9 +28,9 @@ export default async function BlogPostPage({
 
   return (
     <main style={{ padding: "28px 0 52px" }}>
-      <a href="/timeline/" style={{ color: "rgba(255,255,255,0.65)" }}>
+      <Link href="/timeline/" style={{ color: "rgba(255,255,255,0.65)" }}>
         ← Back to Timeline
-      </a>
+      </Link>
 
       <PostView post={post} />
     </main>
