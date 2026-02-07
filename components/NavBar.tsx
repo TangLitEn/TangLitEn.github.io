@@ -4,9 +4,9 @@ import MusicPlayer from "./MusicPlayer";
 
 export default function NavBar() {
   return (
-    <div
+    <header
       style={{
-        position: "sticky",
+        position: "fixed",
         top: 0,
         left: 0,
         right: 0,
@@ -42,6 +42,6 @@ export default function NavBar() {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

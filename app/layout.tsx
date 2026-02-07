@@ -20,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <NavBar />
+        <div aria-hidden style={{ height: 76 }} />
         <Container>{children}</Container>
         <Footer />
         <SWRegister />
