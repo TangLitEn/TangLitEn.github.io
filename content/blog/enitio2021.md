@@ -1,7 +1,7 @@
 ---
 title: "Enitio 2021: Race To Raftel"
 date: "2020-12"
-tags: ["Garage@EEE", "Enitio"]
+tags: ["NTU", "Garage@EEE", "Enitio"]
 description: "President for Enitio 2021: Race To Raftel at Garage@EEE."
 image: "/blog/2021-08/1658468542630.jpeg"
 ---
