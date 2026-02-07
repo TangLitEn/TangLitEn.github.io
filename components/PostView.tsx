@@ -74,9 +74,22 @@ export default function PostView({ post }: { post: Post }) {
       </div>
 
       <article
+        className="post-content"
         onClick={(e) => {
           const target = e.target as HTMLElement | null;
           if (!target) return;
+          const liteButton = target.closest(".md-embed-lite-button") as HTMLElement | null;
+          if (liteButton) {
+            const container = liteButton.closest(".md-embed-lite") as HTMLElement | null;
+            if (container) {
+              const embed = container.getAttribute("data-embed");
+              if (embed) {
+                container.innerHTML = `<iframe src="${embed}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+                container.classList.add("md-embed");
+              }
+            }
+            return;
+          }
           if (target.tagName !== "IMG") return;
           const img = target as HTMLImageElement;
           if (!img.src) return;

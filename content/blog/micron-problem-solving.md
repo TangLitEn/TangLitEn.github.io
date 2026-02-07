@@ -7,4 +7,10 @@ description: "Working on process / yield / reliability problem-solving with a fo
 
 Working on process / yield / reliability problem-solving with a focus on disciplined debugging and measurable improvements.
 
+- Role: Process Integration Engineer
+- Organization: Micron Technology
+- Dates: Aug 2024 - Present
+- Location: Singapore - Hybrid
+- Skills: Communication, Data Analytics and +1 skill
+
 More notes coming soon.
