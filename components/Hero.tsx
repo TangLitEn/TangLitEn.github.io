@@ -2,6 +2,7 @@
 
 import ImageSlider from "./ImageSlider";
 import { CONTACT } from "../data/contact";
+import { ORGANISATION_CHIPS } from "../data/organisations";
 
 export default function Hero() {
   return (
@@ -25,6 +26,31 @@ export default function Hero() {
           <div className="lp-profile-bio">Building systems that compound</div>
           <div className="lp-profile-subtitle">
             Semiconductors · Learning platforms · Life optimization
+          </div>
+          <div className="lp-org-chip-row" aria-label="Current organizations">
+            {ORGANISATION_CHIPS.map((org) => (
+              <a
+                key={org.name}
+                href={org.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="lp-slider-btn lp-org-chip"
+              >
+                <span className="lp-org-chip-logo-wrap" aria-hidden="true">
+                  <img
+                    src={org.logo}
+                    alt={`${org.name} logo`}
+                    width={14}
+                    height={14}
+                    className="lp-org-chip-logo"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                </span>
+                <span>{org.name}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
