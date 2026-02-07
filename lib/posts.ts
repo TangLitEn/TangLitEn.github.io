@@ -364,11 +364,19 @@ export function getPostBySlug(slug: string): { meta: PostMeta; html: string } {
             const safeEmbed = escapeAttr(typed.embed);
             const safeId = escapeAttr(typed.id);
             const thumb = `https://i.ytimg.com/vi/${safeId}/hqdefault.jpg`;
-            return `<div class="md-embed-lite" data-embed="${safeEmbed}">
+            const watchUrl = `https://www.youtube.com/watch?v=${safeId}`;
+            return `<div class="md-embed-lite" data-embed="${safeEmbed}" data-watch="${escapeAttr(
+              watchUrl
+            )}">
   <img class="md-embed-lite-thumb" src="${thumb}" alt="YouTube thumbnail" />
-  <button class="md-embed-lite-button" type="button" aria-label="Play video">
+  <a class="md-embed-lite-button" href="${escapeAttr(
+    watchUrl
+  )}" target="_blank" rel="noreferrer noopener" aria-label="Play video">
     <span class="md-embed-lite-icon"></span>
-  </button>
+  </a>
+  <a class="md-embed-lite-link" href="${escapeAttr(
+    watchUrl
+  )}" target="_blank" rel="noreferrer noopener">Open on YouTube</a>
 </div>`;
           },
         },

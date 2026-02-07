@@ -16,6 +16,6 @@ THANK YOU EVERYONE FOR JOINING!
 
 WEBPAGE > [Enitio 2021](https://enitio2021.weebly.com/)
 
-::: youtube
+::: youtube-lite
 https://www.youtube.com/watch?v=aJ2kp675on8
 :::
