@@ -14,8 +14,8 @@ Enitio is a freshmen orientation program held by Garage@EEE, aimed at redefining
 THANK YOU EVERYONE FOR JOINING!
 :::
 
-WEBPAGE > [Enitio 2021](https://enitio2021.weebly.com/)
-
 ::: youtube-lite
 https://www.youtube.com/watch?v=aJ2kp675on8
 :::
+
+[[Enitio 2021|https://enitio2021.weebly.com/]]

@@ -307,6 +307,37 @@ export function getPostBySlug(slug: string): { meta: PostMeta; html: string } {
     marked.use({
       renderer,
       extensions: [
+        {
+          name: "chipLink",
+          level: "inline",
+          start(src: string) {
+            return src.match(/\[\[/)?.index;
+          },
+          tokenizer(src: string) {
+            const rule = /^\[\[([^\]|]+)\|([^\]]+)\]\]/;
+            const match = rule.exec(src);
+            if (!match) return;
+            const [, label, href] = match;
+            if (!label || !href) return;
+            if (!isSafeUrl(href.trim())) return;
+            return {
+              type: "chipLink",
+              raw: match[0],
+              text: label.trim(),
+              href: href.trim(),
+            };
+          },
+          renderer(token: unknown) {
+            const typed = token as { text?: string; href?: string };
+            if (!typed.text || !typed.href || !isSafeUrl(typed.href)) return "";
+            const safeText = escapeHtml(typed.text);
+            const safeHref = escapeAttr(typed.href);
+            const isExternal = /^https?:\/\//i.test(typed.href);
+            const relAttr = isExternal ? ' rel="noreferrer noopener"' : "";
+            const targetAttr = isExternal ? ' target="_blank"' : "";
+            return `<a class="md-chip" href="${safeHref}"${targetAttr}${relAttr}>${safeText}</a>`;
+          },
+        },
         mediaBlock,
         {
           name: "youtubeBlock",
