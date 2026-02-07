@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function NotFound() {
   return (
     <main style={{ padding: "28px 0 52px" }}>
@@ -5,7 +7,7 @@ export default function NotFound() {
       <p style={{ color: "rgba(255,255,255,0.65)" }}>
         Page not found.
       </p>
-      <a href="/">Go home →</a>
+      <Link href="/">Go home →</Link>
     </main>
   );
 }

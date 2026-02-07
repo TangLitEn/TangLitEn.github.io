@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -277,7 +278,7 @@ export default function ImageSlider() {
                   setActiveIndex(index);
                 }}
                 aria-label={`Go to slide ${index + 1}`}
-                aria-pressed={isActive}
+                aria-selected={isActive}
                 role="tab"
               />
             );

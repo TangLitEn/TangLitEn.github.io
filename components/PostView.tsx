@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import Lightbox from "./Lightbox";
 
@@ -39,10 +40,12 @@ export default function PostView({ post }: { post: Post }) {
             className="post-hero-media"
           >
             <div className="post-hero-media-frame">
-              <img
+              <Image
                 src={post.meta.image}
                 alt={post.meta.title}
                 className="post-hero-media-image"
+                fill
+                sizes="150px"
               />
             </div>
           </div>

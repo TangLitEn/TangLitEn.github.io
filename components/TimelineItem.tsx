@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PostMeta } from "../lib/posts";
 
 export default function TimelineItem({
@@ -31,10 +32,12 @@ export default function TimelineItem({
           className="timeline-card-media"
         >
           <div className="timeline-card-media-frame">
-            <img
+            <Image
               src={post.image}
               alt={post.title}
               className="timeline-card-media-image"
+              fill
+              sizes="(max-width: 768px) 100vw, 160px"
             />
           </div>
         </div>

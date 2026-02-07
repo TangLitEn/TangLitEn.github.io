@@ -1,9 +1,6 @@
-const linkStyle: React.CSSProperties = {
-  padding: "8px 10px",
-  borderRadius: 10,
-  border: "1px solid rgba(255,255,255,0.10)",
-  background: "rgba(255,255,255,0.04)"
-};
+import Image from "next/image";
+import Link from "next/link";
+import MusicPlayer from "./MusicPlayer";
 
 export default function NavBar() {
   return (
@@ -21,11 +18,11 @@ export default function NavBar() {
     >
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "14px 18px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-          <a
+          <Link
             href="/"
             style={{ fontWeight: 700, letterSpacing: 0.2, display: "inline-flex", alignItems: "center", gap: 10 }}
           >
-            <img
+            <Image
               src="/personal_logo.jpg"
               alt="Lit En logo"
               width={28}
@@ -38,7 +35,7 @@ export default function NavBar() {
               }}
             />
             Lit En
-          </a>
+          </Link>
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-end" }}>
             <MusicPlayer />
@@ -48,4 +45,3 @@ export default function NavBar() {
     </div>
   );
 }
-import MusicPlayer from "./MusicPlayer";

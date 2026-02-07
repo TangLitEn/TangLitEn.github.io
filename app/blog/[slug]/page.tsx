@@ -16,8 +16,14 @@ export default async function BlogPostPage({
   const slug = resolvedParams?.slug;
 
   if (!slug || slug === "undefined") notFound();
+  if (!getAllPostSlugs().includes(slug)) notFound();
 
-  const post = getPostBySlug(slug);
+  let post;
+  try {
+    post = getPostBySlug(slug);
+  } catch {
+    notFound();
+  }
 
   return (
     <main style={{ padding: "28px 0 52px" }}>

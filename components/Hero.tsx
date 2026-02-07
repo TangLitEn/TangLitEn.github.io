@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import ImageSlider from "./ImageSlider";
 import { CONTACT } from "../data/contact";
 import { ORGANISATION_CHIPS } from "../data/organisations";
@@ -10,11 +11,11 @@ export default function Hero() {
       <div className="lp-hero-copy">
         <div className="lp-profile">
           <div className="lp-profile-avatar-wrap">
-            <img
+            <Image
               src="/avatar.png"
               alt="Avatar"
-              width={180}
-              height={180}
+              width={190}
+              height={190}
               className="lp-profile-avatar"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -37,7 +38,7 @@ export default function Hero() {
                 className="lp-slider-btn lp-org-chip"
               >
                 <span className="lp-org-chip-logo-wrap" aria-hidden="true">
-                  <img
+                  <Image
                     src={org.logo}
                     alt={`${org.name} logo`}
                     width={14}
