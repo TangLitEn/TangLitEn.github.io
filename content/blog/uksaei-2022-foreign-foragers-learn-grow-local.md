@@ -1,7 +1,7 @@
 ---
 title: "UKSAEI 2022: Foreign Foragers, Learn & Grow Local"
 date: "2022-11"
-tags: ["Competition"]
+tags: ["NTU"]
 description: "Competition Project at UKSAEI (Nov 2022 - Dec 2022)."
 image: "/blog/2022-11/uksaei1.jpg"
 ---
