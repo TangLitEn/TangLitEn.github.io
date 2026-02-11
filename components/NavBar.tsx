@@ -23,7 +23,7 @@ export default function NavBar() {
             style={{ fontWeight: 700, letterSpacing: 0.2, display: "inline-flex", alignItems: "center", gap: 10 }}
           >
             <Image
-              src="/personal_logo.jpg"
+              src="/favicon.ico"
               alt="Lit En logo"
               width={28}
               height={28}
