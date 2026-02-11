@@ -4,14 +4,16 @@ import Footer from "../components/Footer";
 import Container from "../components/Container";
 import SWRegister from "./sw-register";
 
+const ICON_VERSION = "20260211-v4";
+
 export const metadata = {
   title: "Lit En — Personal Site",
   description: "Problem solving, learning systems, and life optimization.",
-  manifest: "/manifest.json",
+  manifest: `/manifest.json?v=${ICON_VERSION}`,
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/apple-icon.png"
+    icon: `/icon.png?v=${ICON_VERSION}`,
+    shortcut: `/icon.png?v=${ICON_VERSION}`,
+    apple: `/apple-icon.png?v=${ICON_VERSION}`
   }
 };
 
