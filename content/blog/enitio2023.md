@@ -9,7 +9,7 @@ image: "/blog/2023-08/DSC00848.JPG"
 Enitio is a freshmen orientation program held by Garage@EEE, aimed at redefining orientation by infusing elements of technology with traditional university orientation games
 
 ::: media
-![Enitio 2023](/blog/2023-08/photo_2026-02-07 19.01.22.jpeg)
+![Enitio 2023](/blog/2023-08/ALL.jpeg)
 **Enitio 2023**
 Committees and participants!
 :::
