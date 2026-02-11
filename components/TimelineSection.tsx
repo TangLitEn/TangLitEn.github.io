@@ -37,6 +37,19 @@ export default function TimelineSection({ compact, posts }: Props) {
     return available;
   }, [posts, tags, activeYear]);
 
+  const tagCounts = useMemo(() => {
+    const inYear = activeYear === "All" ? posts : posts.filter((p) => p.date.startsWith(`${activeYear}-`));
+    const counts = new Map<string, number>([["All", inYear.length]]);
+
+    inYear.forEach((post) => {
+      post.tags.forEach((tag) => {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      });
+    });
+
+    return counts;
+  }, [posts, activeYear]);
+
   const availableYears = useMemo(() => {
     if (activeTag === "All") return new Set(years);
 
@@ -48,6 +61,19 @@ export default function TimelineSection({ compact, posts }: Props) {
     });
     return available;
   }, [posts, years, activeTag]);
+
+  const yearCounts = useMemo(() => {
+    const withTag = activeTag === "All" ? posts : posts.filter((p) => p.tags.includes(activeTag));
+    const counts = new Map<string, number>([["All", withTag.length]]);
+
+    withTag.forEach((post) => {
+      const year = post.date.slice(0, 4);
+      if (!/^\d{4}$/.test(year)) return;
+      counts.set(year, (counts.get(year) ?? 0) + 1);
+    });
+
+    return counts;
+  }, [posts, activeTag]);
 
   const entries = useMemo(() => {
     const sorted = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -74,6 +100,9 @@ export default function TimelineSection({ compact, posts }: Props) {
                 borderRadius: 999,
                 padding: "6px 10px",
                 fontSize: 12,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
                 border:
                   activeYear === year
                     ? "1px solid rgba(255,255,255,0.45)"
@@ -83,7 +112,25 @@ export default function TimelineSection({ compact, posts }: Props) {
                 opacity: enabled ? 1 : 0.6
               }}
             >
-              {year === "All" ? "All Years" : year}
+              <span>{year === "All" ? "All Years" : year}</span>
+              <span
+                style={{
+                  minWidth: 16,
+                  height: 16,
+                  borderRadius: 999,
+                  padding: "0 5px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 10,
+                  lineHeight: 1,
+                  fontWeight: 700,
+                  background: activeYear === year ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.12)",
+                  color: enabled ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.45)"
+                }}
+              >
+                {yearCounts.get(year) ?? 0}
+              </span>
             </button>
           );
         })}
@@ -103,6 +150,9 @@ export default function TimelineSection({ compact, posts }: Props) {
               borderRadius: 999,
               padding: "6px 10px",
               fontSize: 12,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
               border:
                 activeTag === tag
                   ? "1px solid rgba(255,255,255,0.45)"
@@ -112,7 +162,25 @@ export default function TimelineSection({ compact, posts }: Props) {
               opacity: enabled ? 1 : 0.6
             }}
           >
-            {tag}
+            <span>{tag}</span>
+            <span
+              style={{
+                minWidth: 16,
+                height: 16,
+                borderRadius: 999,
+                padding: "0 5px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 10,
+                lineHeight: 1,
+                fontWeight: 700,
+                background: activeTag === tag ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.12)",
+                color: enabled ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.45)"
+              }}
+            >
+              {tagCounts.get(tag) ?? 0}
+            </span>
           </button>
           );
         })}
