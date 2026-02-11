@@ -24,10 +24,7 @@ export default function Hero() {
           </div>
           <div className="lp-profile-name">Lit En</div>
           <div className="lp-profile-handle">TangLitEn</div>
-          <div className="lp-profile-bio">Building systems that compound</div>
-          <div className="lp-profile-subtitle">
-            Semiconductors · Learning platforms · Life optimization
-          </div>
+          <div className="lp-profile-bio">Analyse Problems, Design Solutions</div>
           <div className="lp-org-chip-row" aria-label="Current organizations">
             {ORGANISATION_CHIPS.map((org) => (
               <a
