@@ -409,6 +409,19 @@ code {
   margin-top: 6px;
 }
 
+.lp-profile-intro {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.lp-profile-intro p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .lp-profile-subtitle {
   color: var(--muted);
   font-size: 14px;
@@ -509,15 +522,6 @@ code {
   padding: 16px;
 }
 
-.lp-contact-label {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.lp-contact-email {
-  font-size: 16px;
-}
-
 .lp-contact-links {
   display: flex;
   gap: 10px;
@@ -529,6 +533,137 @@ code {
   border: 1px solid var(--border);
   padding: 8px 10px;
   border-radius: 999px;
+}
+
+.lp-contact-link:hover {
+  text-decoration: none;
+}
+
+.ml-card {
+  display: grid;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.ml-card.is-compact {
+  gap: 9px;
+  padding: 14px 16px;
+}
+
+.ml-card.is-embedded {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  padding: 12px 0 0;
+}
+
+.ml-title {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.ml-subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.ml-form {
+  display: grid;
+  gap: 10px;
+}
+
+.ml-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.ml-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ml-input:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 2px;
+}
+
+.ml-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.ml-action-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.ml-action-chip:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.ml-action-chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+  transform: none;
+}
+
+.ml-status {
+  min-height: 0;
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.2;
+  padding-left: 4px;
+}
+
+.ml-card.is-compact .ml-form {
+  gap: 9px;
+}
+
+.ml-card.is-compact .ml-title {
+  font-size: 17px;
+}
+
+.ml-card.is-compact .ml-subtitle {
+  font-size: 13px;
+}
+
+.ml-card.is-compact .ml-actions {
+  gap: 6px;
+}
+
+.ml-card.is-compact .ml-status {
+  font-size: 12px;
+}
+
+.ml-card.is-compact .ml-action-chip {
+  padding: 7px 11px;
+}
+
+.ml-status.is-success {
+  color: rgba(134, 239, 172, 0.95);
+}
+
+.ml-status.is-error {
+  color: rgba(252, 165, 165, 0.95);
 }
 
 .lp-slider-btn {

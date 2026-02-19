@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import ImageSlider from "./ImageSlider";
+import MailingList from "./MailingList";
 import { CONTACT } from "../data/contact";
 import { ORGANISATION_CHIPS } from "../data/organisations";
 
@@ -25,6 +26,16 @@ export default function Hero() {
           <div className="lp-profile-name">Lit En</div>
           <div className="lp-profile-handle">TangLitEn</div>
           <div className="lp-profile-bio">Analyse Problems, Design Solutions</div>
+          <div className="lp-profile-intro">
+            <p>
+              I&apos;m a graduate of Nanyang Technological University (NTU)🇸🇬 in Electrical &amp; Electronic Engineering⚡,
+              where I was actively involved in student leadership and hands-on projects.
+            </p>
+            <p>
+              Along the way, I&apos;ve learned that I thrive in high-agency environments - places where ideas move fast, ownership matters, and systems
+              can be continuously improved.
+            </p>
+          </div>
           <div className="lp-org-chip-row" aria-label="Current organizations">
             {ORGANISATION_CHIPS.map((org) => (
               <a
@@ -55,13 +66,15 @@ export default function Hero() {
       <div className="lp-hero-media">
         <ImageSlider />
         <div className="lp-contact-card">
-          <div>
-            <div className="lp-contact-label">Email</div>
-            <a href={`mailto:${CONTACT.email}`} className="lp-contact-email">
-              {CONTACT.email}
-            </a>
-          </div>
           <div className="lp-contact-links">
+            <a
+              href={`mailto:${CONTACT.email}`}
+              className="lp-contact-link"
+              aria-label={`Email ${CONTACT.email}`}
+              title={CONTACT.email}
+            >
+              Email ↗
+            </a>
             {CONTACT.links.map((l) => (
               <a
                 key={l.label}
@@ -74,6 +87,7 @@ export default function Hero() {
               </a>
             ))}
           </div>
+          <MailingList compact embedded />
         </div>
       </div>
     </section>
