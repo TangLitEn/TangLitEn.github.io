@@ -8,7 +8,7 @@ export default function Footer() {
       }}
     >
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "0 18px", fontSize: 13 }}>
-        © {new Date().getFullYear()} Lit En · Built with Next.js · Static export for GitHub Pages
+        © {new Date().getFullYear()} Lit En
       </div>
     </footer>
   );
