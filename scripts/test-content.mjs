@@ -14,7 +14,7 @@ function loadPosts(root = process.cwd()) {
   vm.runInNewContext(compiled, { module: compiledModule, exports: compiledModule.exports, require, process: { cwd: () => root }, console, URL, Date });
   return compiledModule.exports;
 }
-const { renderMarkdown, getAllPostsMeta, getPostBySlug } = loadPosts();
+const { renderMarkdown, getAllPostsMeta, getPostBySlug, getNotebookPostsMeta, getCheckpointPostsMeta } = loadPosts();
 const note = renderMarkdown("## First\n\nA thought.[^one] Another reference.[^one]\n\n## First\n\n[^one]: My *personal* comment with a [source](https://example.com).\n    A continuation line.\n");
 assert.equal((note.html.match(/role="note"/g) ?? []).length, 1, "Repeated references must share a note");
 assert.match(note.html, /href="#sn-one"/);
@@ -33,6 +33,11 @@ assert.match(renderMarkdown("[[Website|https://example.com]]").html, /class="md-
 const posts = getAllPostsMeta();
 const originalSlugs = ["29th-cohort-cadet-reporter-training-camp", "enitio2021", "enitio2023", "event-director-ntu-buddhist-society", "garage-eee", "johor-segamat-division-29th-cohort-camp", "learnr", "mediatek", "micron-problem-solving", "mlda-eee", "ntu-eee-lead-laos", "ntu-valedictorian", "project-design-and-optimization-of-radio-frequency-circuits-ntu", "tinkrr-life-optimization", "uksaei-2022-foreign-foragers-learn-grow-local"];
 for (const slug of originalSlugs) assert.ok(posts.find((post) => post.slug === slug)?.checkpoint, `${slug} remains a published checkpoint`);
+const notebookPosts = getNotebookPostsMeta();
+const checkpointPosts = getCheckpointPostsMeta();
+assert.ok(notebookPosts.every((post) => !post.checkpoint), "Life checkpoints never enter the notebook");
+assert.ok(checkpointPosts.every((post) => post.checkpoint));
+assert.equal(notebookPosts.length + checkpointPosts.length, posts.length, "Each published entry belongs to exactly one collection");
 for (const post of posts) {
   assert.ok(getPostBySlug(post.slug).html.trim(), `${post.slug} renders`);
   assert.ok(post.readingMinutes >= 1);
@@ -49,9 +54,14 @@ try {
   assert.equal(published[0].date, "2026-09-07", "Unquoted YAML dates retain their value");
   assert.equal(published[0].checkpoint, false, "New notes are not automatically life checkpoints");
   assert.equal(published[0].tags.length, 1, "Tags are deduplicated");
+  fs.writeFileSync(path.join(fixture, "content/blog/milestone.md"), '---\ntitle: A milestone\ndate: "2020-01-01"\ncheckpoint: true\ntags: [Research]\n---\nA life checkpoint');
+  assert.equal(fixturePosts.getNotebookPostsMeta().length, 1);
+  assert.equal(fixturePosts.getCheckpointPostsMeta().length, 1);
+  assert.equal(fixturePosts.getNotebookPostsMeta()[0].slug, "published");
+  assert.equal(fixturePosts.getCheckpointPostsMeta()[0].slug, "milestone");
   const search = fixturePosts.getSearchIndex();
-  assert.equal(search.length, 1);
+  assert.equal(search.length, 2, "Search includes both collections");
   assert.match(search[0].searchText, /body-only searchable phrase/);
   assert.doesNotMatch(search[0].searchText, /draft-only/);
 } finally { fs.rmSync(fixture, { recursive: true, force: true }); }
-console.log("Content checks passed: Markdown, notes, links, media, all 15 existing entries, drafts, dates, and search indexing.");
+console.log("Content checks passed: Markdown, notes, links, media, all 15 existing entries, drafts, dates, collection separation, and search indexing.");

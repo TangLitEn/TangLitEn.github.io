@@ -189,6 +189,14 @@ export function getAllPostsMeta(): PostMeta[] {
   return all.sort((a, b) => normalizeDate(b.date).localeCompare(normalizeDate(a.date)));
 }
 
+export function getNotebookPostsMeta(): PostMeta[] {
+  return getAllPostsMeta().filter((post) => !post.checkpoint);
+}
+
+export function getCheckpointPostsMeta(): PostMeta[] {
+  return getAllPostsMeta().filter((post) => post.checkpoint);
+}
+
 export function getSearchIndex(): SearchEntry[] {
   return getAllPostsMeta().map((meta) => {
     const { html } = getPostBySlug(meta.slug);

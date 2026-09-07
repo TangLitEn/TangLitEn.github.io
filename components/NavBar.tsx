@@ -59,11 +59,13 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
     if (open && active >= 0) search.current?.querySelector(`#search-result-${active}`)?.scrollIntoView({ block: "nearest" });
   }, [active, open]);
 
+  const isCheckpoint = pathname.startsWith("/blog/") && entries.some((entry) =>
+    entry.checkpoint && pathname.replace(/\/$/, "") === `/blog/${entry.slug}`
+  );
   const links = [
-    { href: "/", label: "Posts", current: pathname === "/" || pathname.startsWith("/blog/") },
-    { href: "/checkpoints/", label: "Life checkpoints", current: pathname === "/checkpoints/" || pathname === "/timeline/" },
+    { href: "/", label: "Posts", current: pathname === "/" || (pathname.startsWith("/blog/") && !isCheckpoint) },
     { href: "/tags/", label: "Tags", current: pathname.startsWith("/tags/") },
-    { href: "/about/", label: "About", current: pathname === "/about/" },
+    { href: "/about/", label: "About", current: pathname === "/about/" || isCheckpoint },
   ];
 
   return (
@@ -100,7 +102,7 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
             <ul id="search-results" role="listbox" aria-label="Search results">
               {results.map((entry, index) => <li id={`search-result-${index}`} key={entry.slug} role="option" aria-selected={active === index}>
                 <Link href={`/blog/${entry.slug}/`} onClick={() => { setOpen(false); input.current?.blur(); }}>
-                  <strong>{entry.title}</strong><span>{entry.date.slice(0, 4)} · {entry.tags.join(" / ")}</span>
+                  <strong>{entry.title}</strong><span>{entry.checkpoint ? "Life checkpoint" : "Notebook"} · {entry.date.slice(0, 4)} · {entry.tags.join(" / ")}</span>
                 </Link>
               </li>)}
             </ul>

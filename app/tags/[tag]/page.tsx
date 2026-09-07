@@ -13,5 +13,8 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
   const { tag: slug } = await params;
   const tag = getTags().find((item) => item.toLowerCase() === slug);
   if (!tag) notFound();
-  return <main id="main-content" className="page narrow-page"><Link className="back-link" href="/tags/">← All tags</Link><div className="page-heading"><p className="eyebrow">FILED UNDER</p><h1>{tag}<span className="accent">.</span></h1><p>Notes, projects, and memories connected by {tag}.</p></div><PostIndex posts={getAllPostsMeta()} initialTag={tag} /></main>;
+  const taggedPosts = getAllPostsMeta().filter((post) => post.tags.includes(tag));
+  const notebook = taggedPosts.filter((post) => !post.checkpoint);
+  const checkpoints = taggedPosts.filter((post) => post.checkpoint);
+  return <main id="main-content" className="page narrow-page"><Link className="back-link" href="/tags/">← All tags</Link><div className="page-heading"><p className="eyebrow">FILED UNDER</p><h1>{tag}<span className="accent">.</span></h1><p>Notes, projects, and memories connected by {tag}.</p></div>{notebook.length > 0 && <div className="tag-collection"><h2>Notebook</h2><PostIndex posts={notebook} initialTag={tag} /></div>}{checkpoints.length > 0 && <div className="tag-collection"><h2>Life checkpoints</h2><PostIndex posts={checkpoints} initialTag={tag} collection="checkpoints" /></div>}</main>;
 }

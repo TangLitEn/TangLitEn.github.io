@@ -5,7 +5,7 @@ import { useState } from "react";
 import type { PostMeta } from "../lib/posts";
 import { formatDate, tagSlug } from "../lib/format";
 
-export default function PostIndex({ posts, initialTag = "" }: { posts: PostMeta[]; initialTag?: string }) {
+export default function PostIndex({ posts, initialTag = "", collection = "posts" }: { posts: PostMeta[]; initialTag?: string; collection?: "posts" | "checkpoints" }) {
   const [view, setView] = useState("posts");
   const [tag, setTag] = useState(initialTag);
   const [year, setYear] = useState("");
@@ -14,13 +14,13 @@ export default function PostIndex({ posts, initialTag = "" }: { posts: PostMeta[
   const filtered = posts.filter((post) => (!tag || post.tags.includes(tag)) && (!year || post.date.startsWith(year)));
   const groupedYears = Array.from(new Set(filtered.map((post) => post.date.slice(0, 4))));
 
-  return <section id="posts" className="post-index" aria-label="Posts and archive">
+  return <section id={collection} className="post-index" aria-label={collection === "checkpoints" ? "Life checkpoints and archive" : "Posts and archive"}>
     <div className="index-toolbar">
       <div className="view-switch" role="group" aria-label="Post display">
-        <button type="button" aria-pressed={view === "posts"} onClick={() => setView("posts")}>Posts</button>
+        <button type="button" aria-pressed={view === "posts"} onClick={() => setView("posts")}>{collection === "checkpoints" ? "Checkpoints" : "Posts"}</button>
         <button type="button" aria-pressed={view === "archive"} onClick={() => setView("archive")}>Archive</button>
       </div>
-      <span className="entry-count" aria-live="polite">{filtered.length} entries</span>
+      <span className="entry-count" aria-live="polite">{filtered.length} {filtered.length === 1 ? "entry" : "entries"}</span>
     </div>
     <div className="index-filters">
       <label><span className="sr-only">Filter by topic</span><select value={tag} onChange={(event) => setTag(event.target.value)}><option value="">All topics</option>{tags.map((item) => <option key={item}>{item}</option>)}</select></label>

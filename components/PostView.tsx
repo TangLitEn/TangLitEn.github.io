@@ -15,6 +15,7 @@ export default function PostView({ post }: { post: Post }) {
   const openImage = (src: string, alt?: string) => { setLightboxSrc(src); setLightboxAlt(alt); };
   return <>
     <header className="article-heading">
+      <p className="eyebrow">{post.meta.checkpoint ? "LIFE CHECKPOINT" : "NOTEBOOK"}</p>
       <div className="entry-meta"><time dateTime={post.meta.date}>{formatDate(post.meta.date)}</time><span>·</span><span>{post.meta.readingMinutes} min read</span><span>·</span><span>Lit En</span></div>
       <h1>{post.meta.title}</h1>
       {post.meta.description && <p className="article-description">{post.meta.description}</p>}
@@ -28,7 +29,7 @@ export default function PostView({ post }: { post: Post }) {
         const img = target as HTMLImageElement; openImage(img.src, img.alt);
       }
     }} dangerouslySetInnerHTML={{ __html: post.html }} /></div>
-    <div className="article-end"><span>Thanks for reading.</span><Link href="/">More from the notebook ↗</Link></div>
+    <div className="article-end"><span>Thanks for reading.</span><Link href={post.meta.checkpoint ? "/about/#checkpoints" : "/"}>{post.meta.checkpoint ? "More life checkpoints ↗" : "More from the notebook ↗"}</Link></div>
     <Lightbox src={lightboxSrc} alt={lightboxAlt} onClose={() => setLightboxSrc(null)} />
   </>;
 }

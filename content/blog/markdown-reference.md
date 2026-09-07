@@ -12,7 +12,7 @@ This is a non-confidential authoring reference, hidden from the website by `draf
 
 To see this page in the local preview, temporarily set `draft: false` and open `/blog/markdown-reference/`. Restore `draft: true` before publishing the site. Drafts have no website route while hidden, including in local development. A draft committed to this public repository is not private.
 
-Copy this file to a new lowercase, hyphenated `.md` filename when starting a post. Replace the title, date, tags, description, cover image, and example content. Set `checkpoint: true` only if it should also appear in Life checkpoints.
+Copy this file to a new lowercase, hyphenated `.md` filename when starting a post. Replace the title, date, tags, description, cover image, and example content. Set `checkpoint: false` for a notebook post, or `checkpoint: true` to place it in About’s Life checkpoints instead of the notebook.
 
 ## Text and structure
 
@@ -113,7 +113,7 @@ The language label is optional. Code formatting is supported; syntax coloring is
 | Setting | Value | Effect |
 | --- | --- | --- |
 | draft | true | Excluded from the website |
-| checkpoint | true | Also appears in Life checkpoints when published |
+| checkpoint | true | Appears in About’s Life checkpoints instead of the notebook |
 | tags | An array of topic names | Creates topic links and filters |
 
 Wide tables and code blocks scroll within the article on narrow screens.

@@ -110,7 +110,12 @@ tags:
 
 Keep tag spelling and capitalization consistent. Repeated identical tags on one post are removed automatically; avoid creating separate tags such as `NTU` and `ntu`, because their page URLs both become lowercase.
 
-A checkpoint is still a normal post: `checkpoint: true` adds it to the Life checkpoints timeline as well. There is no separate checkpoint file format.
+The two collections are separate:
+
+- `checkpoint: false` (or omitted): a notebook post, shown in Posts and Archive.
+- `checkpoint: true`: a life checkpoint, shown in About’s timeline and excluded from the notebook.
+
+Both use the same Markdown format and keep their `/blog/filename/` article URLs. Search covers both and labels each result. Tags are shared, with notebook posts and life checkpoints shown in separate groups on each tag page. All 15 original entries are life checkpoints; `protein-basics.md` is the notebook’s initial filler note.
 
 Extra front-matter fields such as `author`, `slug`, `category`, `published`, `hidden`, or `readingTime` currently have no effect. Use `draft` to control inclusion and the filename to control the URL.
 
@@ -164,7 +169,7 @@ Task-list boxes show their saved state; they are not an interactive task tracker
 ```markdown
 [External source](https://example.com)
 [Another post](/blog/learnr/)
-[Life checkpoints](/checkpoints/)
+[Life checkpoints](/about/#checkpoints)
 [A section below](#what-i-learned)
 [Download my PDF](/files/my-paper.pdf)
 ```
@@ -179,7 +184,7 @@ For a small button-style link, use the site's custom syntax:
 
 ```markdown
 [[Visit Learnr|https://www.learnr.sg/]]
-[[Back to checkpoints|/checkpoints/]]
+[[Back to checkpoints|/about/#checkpoints]]
 ```
 
 This requires both a label and a URL separated by `|`. It is not wiki-link syntax; `[[A post title]]` alone does not link to another post.
@@ -337,10 +342,10 @@ Future dates do not schedule publication: a post with `draft: false` is included
 | Feature | Where its information comes from |
 | --- | --- |
 | Post URL | Markdown filename |
-| Posts and Archive | All non-draft posts, newest first |
+| Posts and Archive | Non-draft notebook posts (`checkpoint: false` or omitted), newest first |
 | Archive year | The post's `date` |
-| Life checkpoints | Non-draft posts with `checkpoint: true` |
-| Topic filters and tag pages | The `tags` arrays |
+| Life checkpoints on About | Non-draft posts with `checkpoint: true` |
+| Topic filters and tag pages | The `tags` arrays; notebook filters use only notebook posts, tag pages group both collections separately |
 | Header search | Titles, descriptions, tags, and rendered post text |
 | Reading time | Approximate source word count divided by 220, rounded up; at least one minute |
 | Author label | Currently fixed to Lit En |
@@ -366,6 +371,7 @@ For equations or diagrams today, include an image and a text explanation.
 | --- | --- |
 | New post is missing or returns 404 | Check `draft`, filename spelling, `.md` extension, and that the file is directly in `content/blog/`. Refresh or restart the preview after adding a new file. |
 | Post unexpectedly appears on the website | Use `draft: true`, not `draft: "true"`, `hidden: true`, or `published: false`. |
+| Post is missing from the notebook | Check that `checkpoint` is `false` or omitted, and `draft` is not `true`. |
 | Post does not appear in Life checkpoints | Add `checkpoint: true` and ensure it is not a draft. |
 | Date shows 1970 | Supply a quoted, valid date in the supported format. |
 | Front matter causes an error | Check the opening/closing `---`, quote strings containing colons, and use spaces instead of tabs for YAML indentation. |
@@ -380,7 +386,8 @@ For equations or diagrams today, include an image and a text explanation.
 | Content | File |
 | --- | --- |
 | Welcome and notebook sidebar | `app/page.tsx` |
-| About biography and its side notes | `app/about/page.tsx` |
+| About biography, side notes, and page layout | `app/about/page.tsx` |
+| Life checkpoints section on About | `components/LifeCheckpoints.tsx` |
 | Email and social links | `data/contact.ts` |
 | Organization links | `data/organisations.ts` |
 | Header navigation and search | `components/NavBar.tsx` |
@@ -388,4 +395,4 @@ For equations or diagrams today, include an image and a text explanation.
 | Markdown rendering and custom syntax | `lib/posts.ts` |
 | Site title, description, and share metadata | `app/layout.tsx` |
 
-The original `/timeline/` route remains available for older bookmarks and shows Life checkpoints.
+The old `/checkpoints/` and `/timeline/` routes forward older bookmarks to `/about/#checkpoints`. The header has one About tab for both the biography and life checkpoints.
