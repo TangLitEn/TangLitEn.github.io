@@ -4,6 +4,7 @@ date: "2016-12"
 tags: ["XJ13179"]
 description: "Chief Camp Coordinator for 29th Cohort State-level Cadet Reporter Training Camp at Sin Chew Daily."
 image: "/blog/2016-12/1625671699455.jpeg"
+checkpoint: true
 ---
 
 The cadet reporter training camp is a 4 days 3 nights camp where we train the new batch of cadet reporters how to become decent cadet reporters such as equip them with the skills for news report writing and also the skills to communicate and organize events.

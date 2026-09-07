@@ -4,6 +4,7 @@ date: "2024-08"
 tags: ["Micron"]
 description: "Working on process / yield / reliability problem-solving with a focus on disciplined debugging and measurable improvements."
 image: "/blog/2024-08/micron.jpeg"
+checkpoint: true
 ---
 
 Joined Micron as a HVM Process Integration Engineer, using data analytics skill to identify problems and propose solutions. 

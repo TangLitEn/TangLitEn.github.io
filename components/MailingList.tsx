@@ -120,6 +120,7 @@ export default function MailingList({ compact = false, embedded = false }: { com
       <form className="ml-form" onSubmit={handleSubmit}>
         <input
           id="mailing-email"
+          aria-label="Email address for the mailing list"
           type="email"
           autoComplete="email"
           inputMode="email"

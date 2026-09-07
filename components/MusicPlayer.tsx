@@ -12,40 +12,6 @@ export default function MusicPlayer() {
     }
   }, []);
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const tryAutoPlay = () => {
-      try {
-        const result = audio.play();
-        if (result && typeof (result as Promise<void>).then === "function") {
-          (result as Promise<void>)
-            .then(() => setIsPlaying(true))
-            .catch(() => {
-              // Autoplay can be blocked until a user gesture; ignore.
-            });
-        }
-      } catch {
-        // Some browsers throw when play() is disallowed; ignore.
-      }
-    };
-
-    const handleFirstInteract = () => {
-      tryAutoPlay();
-      window.removeEventListener("pointerdown", handleFirstInteract);
-      window.removeEventListener("keydown", handleFirstInteract);
-    };
-
-    window.addEventListener("pointerdown", handleFirstInteract);
-    window.addEventListener("keydown", handleFirstInteract);
-
-    return () => {
-      window.removeEventListener("pointerdown", handleFirstInteract);
-      window.removeEventListener("keydown", handleFirstInteract);
-    };
-  }, []);
-
   const togglePlayback = async () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -66,7 +32,7 @@ export default function MusicPlayer() {
 
   return (
     <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-      <button className="lp-slider-btn lp-slider-btn-play" type="button" onClick={togglePlayback}>
+      <button className="lp-slider-btn lp-slider-btn-play" type="button" aria-label={isPlaying ? "Pause background music" : "Play background music"} aria-pressed={isPlaying} onClick={togglePlayback}>
         <span className="lp-slider-btn-icon" aria-hidden>
           {isPlaying ? (
             <svg viewBox="0 0 20 20" fill="none">

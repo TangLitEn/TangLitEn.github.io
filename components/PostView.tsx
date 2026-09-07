@@ -1,99 +1,34 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import Lightbox from "./Lightbox";
+import type { Heading, PostMeta } from "../lib/posts";
+import { formatDate, tagSlug } from "../lib/format";
 
-type Post = {
-  meta: {
-    title: string;
-    date: string;
-    description?: string;
-    tags?: string[];
-    image?: string;
-  };
-  html: string;
-};
+type Post = { meta: PostMeta; html: string; headings: Heading[] };
 
 export default function PostView({ post }: { post: Post }) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [lightboxAlt, setLightboxAlt] = useState<string | undefined>(undefined);
-
-  return (
-    <>
-      <div className={`post-hero ${post.meta.image ? "has-image" : "no-image"}`}>
-        {post.meta.image ? (
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => {
-              setLightboxSrc(post.meta.image as string);
-              setLightboxAlt(post.meta.title);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                setLightboxSrc(post.meta.image as string);
-                setLightboxAlt(post.meta.title);
-              }
-            }}
-            className="post-hero-media"
-          >
-            <div className="post-hero-media-frame">
-              <Image
-                src={post.meta.image}
-                alt={post.meta.title}
-                className="post-hero-media-image"
-                fill
-                sizes="150px"
-              />
-            </div>
-          </div>
-        ) : null}
-
-        <div className="post-hero-body">
-          <div className="post-hero-date">{post.meta.date}</div>
-          <h1 className="post-hero-title">{post.meta.title}</h1>
-          {post.meta.description ? (
-            <div className="post-hero-description">{post.meta.description}</div>
-          ) : null}
-
-          {post.meta.tags?.length ? (
-            <div className="post-hero-tags">
-              {post.meta.tags.map((t) => (
-                <span
-                  key={t}
-                  className="post-hero-tag"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          ) : null}
-        </div>
-      </div>
-
-      <article
-        className="post-content"
-        onClick={(e) => {
-          const target = e.target as HTMLElement | null;
-          if (!target) return;
-          if (target.tagName !== "IMG") return;
-          const img = target as HTMLImageElement;
-          if (!img.src) return;
-          setLightboxSrc(img.src);
-          setLightboxAlt(img.alt || undefined);
-        }}
-        style={{
-          background: "rgba(255,255,255,0.04)",
-          border: "1px solid rgba(255,255,255,0.10)",
-          borderRadius: 14,
-          padding: 18
-        }}
-        dangerouslySetInnerHTML={{ __html: post.html }}
-      />
-
-      <Lightbox src={lightboxSrc} alt={lightboxAlt} onClose={() => setLightboxSrc(null)} />
-    </>
-  );
+  const openImage = (src: string, alt?: string) => { setLightboxSrc(src); setLightboxAlt(alt); };
+  return <>
+    <header className="article-heading">
+      <div className="entry-meta"><time dateTime={post.meta.date}>{formatDate(post.meta.date)}</time><span>·</span><span>{post.meta.readingMinutes} min read</span><span>·</span><span>Lit En</span></div>
+      <h1>{post.meta.title}</h1>
+      {post.meta.description && <p className="article-description">{post.meta.description}</p>}
+      <div className="tag-links">{post.meta.tags.map((tag) => <Link key={tag} href={`/tags/${tagSlug(tag)}/`}>{tag}</Link>)}</div>
+    </header>
+    {post.headings.length > 1 && <details className="contents"><summary>On this page</summary><ol>{post.headings.map((heading) => <li key={heading.id} className={heading.depth === 3 ? "subheading" : ""}><a href={`#${heading.id}`}>{heading.text}</a></li>)}</ol></details>}
+    {post.meta.image && <button type="button" className="article-cover" onClick={() => openImage(post.meta.image!, post.meta.title)} aria-label="Enlarge cover image"><Image src={post.meta.image} alt={post.meta.title} width={960} height={540} priority /></button>}
+    <div className="article-layout"><article className="post-content" onClick={(event) => {
+      const target = event.target as HTMLElement;
+      if (target.tagName === "IMG" && !target.closest("a")) {
+        const img = target as HTMLImageElement; openImage(img.src, img.alt);
+      }
+    }} dangerouslySetInnerHTML={{ __html: post.html }} /></div>
+    <div className="article-end"><span>Thanks for reading.</span><Link href="/">More from the notebook ↗</Link></div>
+    <Lightbox src={lightboxSrc} alt={lightboxAlt} onClose={() => setLightboxSrc(null)} />
+  </>;
 }

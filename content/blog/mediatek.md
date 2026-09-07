@@ -4,6 +4,7 @@ date: "2023-01"
 tags: ["MediaTek"]
 description: "IC Layout Engineer Intern at MediaTek (Jan 2023 - Sep 2023)."
 image: "/blog/2023-01/Join.jpeg"
+checkpoint: true
 ---
 
 IC Layout Engineer Intern at MediaTek (Jan 2023 - Sep 2023).

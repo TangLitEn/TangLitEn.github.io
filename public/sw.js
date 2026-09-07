@@ -1,4 +1,4 @@
-const CACHE_NAME = "pwa-cache-v4";
+const CACHE_NAME = "pwa-cache-v5-notebook";
 const CORE_ASSETS = [
   "/",
   "/manifest.json?v=20260211-v4",
@@ -22,7 +22,7 @@ self.addEventListener("activate", (event) => {
     caches
       .keys()
       .then((keys) =>
-        Promise.all(keys.filter((key) => key !== CACHE_NAME).map(caches.delete)),
+        Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))),
       ),
   );
   self.clients.claim();

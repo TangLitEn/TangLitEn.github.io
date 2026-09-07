@@ -4,6 +4,7 @@ date: "2026-01"
 tags: ["Tinkrr"]
 description: "Designing a life OS that turns personal tracking into a coherent, gamified system: time, health, habits, and progress."
 image: "/images/sample-banner.jpg"
+checkpoint: true
 ---
 
 Designing a life OS that turns personal tracking into a coherent, gamified system: time, health, habits, and progress.

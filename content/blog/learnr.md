@@ -4,6 +4,7 @@ date: "2023-03"
 tags: ["Learnr"]
 description: "Exploring how to deliver better learning experiences via interactive content, discussion, and structured knowledge pathways."
 image: "/blog/2023-03/poster.jpg"
+checkpoint: true
 ---
 
 Started this project in March of 2023 together with my friends. Exploring how to deliver better learning experiences via interactive content, discussion, and structured knowledge pathways.

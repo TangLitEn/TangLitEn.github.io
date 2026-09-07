@@ -1,55 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-export default function Lightbox({
-  src,
-  alt,
-  onClose
-}: {
-  src: string | null;
-  alt?: string;
-  onClose: () => void;
-}) {
+export default function Lightbox({ src, alt, onClose }: { src: string | null; alt?: string; onClose: () => void }) {
+  const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    if (!src) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [src, onClose]);
+    const element = dialog.current;
+    if (!src || !element) return;
+    const previousOverflow = document.body.style.overflow;
+    element.showModal();
+    document.body.style.overflow = "hidden";
+    return () => { element.close(); document.body.style.overflow = previousOverflow; };
+  }, [src]);
 
-  if (!src) return null;
-
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      onClick={onClose}
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 1000,
-        background: "rgba(0,0,0,0.7)",
-        display: "grid",
-        placeItems: "center",
-        padding: 20
-      }}
-    >
-      <img
-        src={src}
-        alt={alt ?? ""}
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          maxWidth: "92vw",
-          maxHeight: "88vh",
-          borderRadius: 12,
-          border: "1px solid rgba(255,255,255,0.12)",
-          background: "rgba(0,0,0,0.2)"
-        }}
-      />
-    </div>
-  );
+  return <dialog ref={dialog} className="image-dialog" aria-label={alt ? `Enlarged image: ${alt}` : "Enlarged image"}
+    onCancel={(event) => { event.preventDefault(); onClose(); }}
+    onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+    <button type="button" onClick={onClose} className="image-dialog-close" aria-label="Close image">Close ×</button>
+    {src && <img src={src} alt={alt ?? ""} />}
+  </dialog>;
 }

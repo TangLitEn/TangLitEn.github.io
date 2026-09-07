@@ -4,6 +4,7 @@ date: "2022-08"
 tags: ["Garage@EEE", "NTU"]
 description: "The place where I call home in NTU"
 image: "/blog/2022-08/DirectorInRed.jpg"
+checkpoint: true
 ---
 
 Garage@EEE, a wonderful place to spark ideas with my fellow friends and learn. The place that we all dream of. Best memories I have in NTU.

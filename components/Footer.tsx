@@ -1,15 +1,10 @@
+import MusicPlayer from "./MusicPlayer";
+import { CONTACT } from "../data/contact";
+
 export default function Footer() {
-  return (
-    <footer
-      style={{
-        borderTop: "1px solid rgba(255,255,255,0.10)",
-        padding: "22px 0",
-        color: "rgba(255,255,255,0.55)"
-      }}
-    >
-      <div style={{ maxWidth: 980, margin: "0 auto", padding: "0 18px", fontSize: 13 }}>
-        © {new Date().getFullYear()} Lit En
-      </div>
-    </footer>
-  );
+  return <footer className="site-footer">
+    <div><span>© {new Date().getFullYear()} Lit En</span><span className="footer-note">Always a work in progress.</span></div>
+    <div className="footer-music"><MusicPlayer /></div>
+    <div><a href={`mailto:${CONTACT.email}`}>Email ↗</a>{CONTACT.links.map((link) => <a key={link.label} href={link.href} target="_blank" rel="noreferrer noopener">{link.label} ↗</a>)}</div>
+  </footer>;
 }

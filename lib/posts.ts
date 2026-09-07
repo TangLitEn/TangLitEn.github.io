@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { marked, Renderer } from "marked";
+import { Marked, Renderer } from "marked";
 
 const POSTS_DIR = path.join(process.cwd(), "content", "blog");
 const VALID_SLUG_REGEX = /^[a-z0-9-]+$/;
@@ -14,7 +14,12 @@ export type PostMeta = {
   tags: string[];
   description: string;
   image?: string;
+  checkpoint: boolean;
+  readingMinutes: number;
 };
+
+export type SearchEntry = PostMeta & { searchText: string };
+export type Heading = { id: string; text: string; depth: number };
 
 const isSafeYouTubeEmbed = (value: string): boolean => {
   if (!value) return false;
@@ -75,7 +80,7 @@ const isSafeUrl = (value: string): boolean => {
   const input = value.trim();
   if (!input) return false;
 
-  if (input.startsWith("/")) return true;
+  if (input.startsWith("/") || input.startsWith("#")) return true;
 
   try {
     const url = new URL(input);
@@ -130,7 +135,7 @@ const getYouTubeIdFromEmbed = (embedUrl: string): string | null => {
 };
 
 const normalizeDate = (value: unknown): string => {
-  const input = typeof value === "string" ? value.trim() : "";
+  const input = value instanceof Date ? value.toISOString().slice(0, 10) : typeof value === "string" ? value.trim() : "";
   if (!VALID_DATE_REGEX.test(input)) return "1970-01-01";
 
   const [year, month = "01", day = "01"] = input.split("-");
@@ -164,8 +169,6 @@ const resolveMarkedArg = (
   };
 };
 
-let markedConfigured = false;
-
 export function getAllPostSlugs(): string[] {
   const files = fs.readdirSync(POSTS_DIR).filter((file) => file.endsWith(".md"));
 
@@ -176,7 +179,7 @@ export function getAllPostSlugs(): string[] {
         console.warn(`[posts] Skipping invalid slug from filename: "${slug}"`);
         return false;
       }
-      return true;
+      return matter(fs.readFileSync(path.join(POSTS_DIR, `${slug}.md`), "utf8")).data.draft !== true;
     });
 }
 
@@ -186,7 +189,14 @@ export function getAllPostsMeta(): PostMeta[] {
   return all.sort((a, b) => normalizeDate(b.date).localeCompare(normalizeDate(a.date)));
 }
 
-export function getPostBySlug(slug: string): { meta: PostMeta; html: string } {
+export function getSearchIndex(): SearchEntry[] {
+  return getAllPostsMeta().map((meta) => {
+    const { html } = getPostBySlug(meta.slug);
+    return { ...meta, searchText: `${meta.title} ${meta.description} ${meta.tags.join(" ")} ${html.replace(/<[^>]*>/g, " ")}`.toLowerCase() };
+  });
+}
+
+export function getPostBySlug(slug: string): { meta: PostMeta; html: string; headings: Heading[] } {
   assertValidSlug(slug);
 
   const fullPath = path.join(POSTS_DIR, `${slug}.md`);
@@ -208,12 +218,33 @@ export function getPostBySlug(slug: string): { meta: PostMeta; html: string } {
     date: normalizeDate(data.date),
     tags,
     description: String(data.description ?? "").trim(),
-    image
+    image,
+    checkpoint: data.checkpoint === true,
+    readingMinutes: Math.max(1, Math.ceil(content.split(/\s+/).length / 220))
   };
 
-  if (!markedConfigured) {
+  return { meta, ...renderMarkdown(content) };
+}
+
+export function renderMarkdown(content: string): { html: string; headings: Heading[] } {
+  const marked = new Marked();
+  const headings: Heading[] = [];
+  const headingIds = new Set<string>();
+  const notes = new Map<string, string>();
+  const noteNumbers = new Map<string, number>();
+  const noteReferences = new Map<string, number>();
+  {
     const renderer = new Renderer();
     renderer.html = () => "";
+    renderer.heading = (text, depth, raw) => {
+      const base = raw.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || "section";
+      let id = base;
+      let suffix = 2;
+      while (headingIds.has(id)) id = `${base}-${suffix++}`;
+      headingIds.add(id);
+      if (depth === 2 || depth === 3) headings.push({ id, text: raw.replace(/[*_`]/g, ""), depth });
+      return `<h${depth} id="${id}">${text}</h${depth}>`;
+    };
     renderer.link = (href, title, text) => {
       const resolved = resolveMarkedArg(href, title, text);
       if (!resolved.href || !isSafeUrl(resolved.href)) return escapeAttr(resolved.text);
@@ -224,9 +255,7 @@ export function getPostBySlug(slug: string): { meta: PostMeta; html: string } {
       const relAttr = isExternal ? ' rel="noreferrer noopener"' : "";
       const targetAttr = isExternal ? ' target="_blank"' : "";
 
-      return `<a href="${safeHref}"${safeTitle}${targetAttr}${relAttr}>${escapeAttr(
-        resolved.text
-      )}</a>`;
+      return `<a href="${safeHref}"${safeTitle}${targetAttr}${relAttr}>${resolved.text}</a>`;
     };
     renderer.image = (href, title, text) => {
       const resolved = resolveMarkedArg(href, title, text);
@@ -307,6 +336,41 @@ export function getPostBySlug(slug: string): { meta: PostMeta; html: string } {
     marked.use({
       renderer,
       extensions: [
+        {
+          name: "sidenoteDefinition",
+          level: "block",
+          start(src: string) { return src.match(/^\[\^[a-zA-Z0-9_-]+\]:/m)?.index; },
+          tokenizer(src: string) {
+            const match = /^\[\^([a-zA-Z0-9_-]+)\]:[ \t]+([^\n]*(?:\n(?: {4}|\t)[^\n]*)*)(?:\n|$)/.exec(src);
+            if (!match) return;
+            notes.set(match[1], match[2].replace(/\n(?: {4}|\t)/g, " "));
+            return { type: "sidenoteDefinition", raw: match[0] };
+          },
+          renderer() { return ""; },
+        },
+        {
+          name: "sidenoteReference",
+          level: "inline",
+          start(src: string) { return src.indexOf("[^"); },
+          tokenizer(src: string) {
+            const match = /^\[\^([a-zA-Z0-9_-]+)\]/.exec(src);
+            if (match) return { type: "sidenoteReference", raw: match[0], label: match[1] };
+          },
+          renderer(token: unknown) {
+            const { label } = token as { label: string };
+            const body = notes.get(label);
+            if (body === undefined) return escapeHtml(`[^${label}]`);
+            if (!noteNumbers.has(label)) noteNumbers.set(label, noteNumbers.size + 1);
+            const number = noteNumbers.get(label);
+            const occurrence = (noteReferences.get(label) ?? 0) + 1;
+            noteReferences.set(label, occurrence);
+            const reference = `<sup class="sidenote-ref" id="snref-${label}-${occurrence}"><a href="#sn-${label}" aria-label="Read note ${number}">${number}</a></sup>`;
+            if (occurrence > 1) return reference;
+            // Definitions are inline Markdown; disable recursive note references.
+            const noteHtml = marked.parseInline(body.replace(/\[\^([a-zA-Z0-9_-]+)\]/g, "($1)")) as string;
+            return `${reference}<span class="sidenote" id="sn-${label}" role="note" tabindex="-1" aria-label="Note ${number}"><span class="sidenote-number">${number}</span><span>${noteHtml} <a class="sidenote-back" href="#snref-${label}-1" aria-label="Back to reference ${number}">↩</a></span></span>`;
+          },
+        },
         {
           name: "chipLink",
           level: "inline",
@@ -413,9 +477,8 @@ export function getPostBySlug(slug: string): { meta: PostMeta; html: string } {
         },
       ],
     });
-    markedConfigured = true;
   }
 
   const html = sanitizeHtml(marked.parse(content) as string);
-  return { meta, html };
+  return { html, headings };
 }

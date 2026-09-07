@@ -4,6 +4,7 @@ date: "2021-08"
 tags: ["NTU"]
 description: "Event Director at NTU Buddhist Society (Aug 2021 - Jul 2022)."
 image: "/blog/2021-08/Team.jpeg"
+checkpoint: true
 ---
 
 Event Director at NTU Buddhist Society (Aug 2021 - Jul 2022).

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export default function SWRegister() {
   useEffect(() => {
-    if (!("serviceWorker" in navigator)) return;
+    if (process.env.NODE_ENV !== "production" || !("serviceWorker" in navigator)) return;
 
     const onLoad = () => {
       navigator.serviceWorker
@@ -14,7 +14,8 @@ export default function SWRegister() {
         });
     };
 
-    window.addEventListener("load", onLoad);
+    if (document.readyState === "complete") onLoad();
+    else window.addEventListener("load", onLoad, { once: true });
     return () => window.removeEventListener("load", onLoad);
   }, []);
 

@@ -4,6 +4,7 @@ date: "2022-11"
 tags: ["NTU"]
 description: "Competition Project at UKSAEI (Nov 2022 - Dec 2022)."
 image: "/blog/2022-11/uksaei1.jpg"
+checkpoint: true
 ---
 
 Contributed to standout project which featured “Empowering Education Program” - an initiative to equip consumers with knowledge, skills, and ability to grow their own food: 

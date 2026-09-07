@@ -1,13 +1,4 @@
 import Link from "next/link";
-
 export default function NotFound() {
-  return (
-    <main style={{ padding: "28px 0 52px" }}>
-      <h1 style={{ margin: 0 }}>404</h1>
-      <p style={{ color: "rgba(255,255,255,0.65)" }}>
-        Page not found.
-      </p>
-      <Link href="/">Go home →</Link>
-    </main>
-  );
+  return <main id="main-content" className="page narrow-page"><div className="page-heading"><p className="eyebrow">404 · A LOOSE LEAF</p><h1>This page is missing.</h1><p>Let’s find your way back to the notebook.</p><Link className="underlined-link" href="/">All posts →</Link></div></main>;
 }
