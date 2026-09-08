@@ -1,6 +1,7 @@
 import Image from "next/image";
 import LifeCheckpoints from "../../components/LifeCheckpoints";
 import { CONTACT } from "../../data/contact";
+import { ORGANISATION_CHIPS } from "../../data/organisations";
 import { renderMarkdown } from "../../lib/posts";
 
 export const metadata = { title: "About" };
@@ -37,7 +38,11 @@ export default function AboutPage() {
         <div>
           <p className="eyebrow">THE PERSON BEHIND THE NOTES</p>
           <h1>Hello, I’m Lit En<span className="accent">.</span></h1>
-          <p>Analyse problems. Design solutions. Keep learning.</p>
+          <p className="about-tagline">Analyse problems. Design solutions. Keep learning.</p>
+          <section className="about-organisations" aria-labelledby="organisations-heading">
+            <h2 id="organisations-heading" className="eyebrow">THINGS I’M PART OF</h2>
+            <div>{ORGANISATION_CHIPS.map((org) => <a className="organisation-link" key={org.name} href={org.href} target="_blank" rel="noreferrer noopener"><span>{org.name}</span><span aria-hidden="true">↗</span></a>)}</div>
+          </section>
         </div>
         <Image src="/avatar.png" alt="Lit En" width={104} height={104} />
       </div>

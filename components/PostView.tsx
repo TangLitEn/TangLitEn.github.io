@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Lightbox from "./Lightbox";
 import type { Heading, PostMeta } from "../lib/posts";
-import { formatDate, tagSlug } from "../lib/format";
+import { formatDate, timelineHref } from "../lib/format";
 
 type Post = { meta: PostMeta; html: string; headings: Heading[] };
 
@@ -19,7 +19,7 @@ export default function PostView({ post }: { post: Post }) {
       <div className="entry-meta"><time dateTime={post.meta.date}>{formatDate(post.meta.date)}</time><span>·</span><span>{post.meta.readingMinutes} min read</span><span>·</span><span>Lit En</span></div>
       <h1>{post.meta.title}</h1>
       {post.meta.description && <p className="article-description">{post.meta.description}</p>}
-      <div className="tag-links">{post.meta.tags.map((tag) => <Link key={tag} href={`/tags/${tagSlug(tag)}/`}>{tag}</Link>)}</div>
+      <div className="tag-links">{post.meta.tags.map((tag) => <Link key={tag} href={timelineHref(tag, post.meta.checkpoint)}>{tag}</Link>)}</div>
     </header>
     {post.headings.length > 1 && <details className="contents"><summary>On this page</summary><ol>{post.headings.map((heading) => <li key={heading.id} className={heading.depth === 3 ? "subheading" : ""}><a href={`#${heading.id}`}>{heading.text}</a></li>)}</ol></details>}
     {post.meta.image && <button type="button" className="article-cover" onClick={() => openImage(post.meta.image!, post.meta.title)} aria-label="Enlarge cover image"><Image src={post.meta.image} alt={post.meta.title} width={960} height={540} priority /></button>}

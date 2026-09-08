@@ -1,13 +1,15 @@
-const CACHE_NAME = "pwa-cache-v5-notebook";
+const CACHE_NAME = "pwa-cache-v6-lien";
 const CORE_ASSETS = [
   "/",
-  "/manifest.json?v=20260211-v4",
-  "/icon.png?v=20260211-v4",
-  "/apple-icon.png?v=20260211-v4",
-  "/icon-192.png?v=20260211-v4",
-  "/icon-512.png?v=20260211-v4",
-  "/icon-512-maskable.png?v=20260211-v4",
-  "/icon-180.png?v=20260211-v4"
+  "/lien-logo.png",
+  "/favicon.ico",
+  "/manifest.json?v=20260908-lien",
+  "/icon.png?v=20260908-lien",
+  "/apple-icon.png?v=20260908-lien",
+  "/icon-192.png?v=20260908-lien",
+  "/icon-512.png?v=20260908-lien",
+  "/icon-512-maskable.png?v=20260908-lien",
+  "/icon-180.png?v=20260908-lien"
 ];
 
 self.addEventListener("install", (event) => {

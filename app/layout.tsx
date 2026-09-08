@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import BackToTop from "../components/BackToTop";
 import Container from "../components/Container";
 import SWRegister from "./sw-register";
 import { getSearchIndex } from "../lib/posts";
 
-const ICON_VERSION = "20260211-v4";
+const ICON_VERSION = "20260908-lien";
 export const metadata: Metadata = {
   metadataBase: new URL("https://tangliten.github.io"),
   title: { default: "Lit En — A personal notebook", template: "%s — Lit En" },
@@ -17,5 +18,5 @@ export const metadata: Metadata = {
   icons: { icon: `/icon.png?v=${ICON_VERSION}`, shortcut: `/icon.png?v=${ICON_VERSION}`, apple: `/apple-icon.png?v=${ICON_VERSION}` }
 };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="en"><body><a className="skip-link" href="#main-content">Skip to content</a><NavBar entries={getSearchIndex()} /><Container>{children}</Container><Footer /><SWRegister /></body></html>;
+  return <html lang="en"><body><a className="skip-link" href="#main-content">Skip to content</a><NavBar entries={getSearchIndex()} /><Container>{children}</Container><Footer /><BackToTop /><SWRegister /></body></html>;
 }

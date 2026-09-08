@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { SearchEntry } from "../lib/posts";
@@ -71,7 +72,9 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
   return (
     <header ref={header} className="site-header">
       <div className="header-inner">
-        <Link href="/" className="wordmark" aria-label="Lit En home">Lit En<span className="wordmark-dot">.</span></Link>
+        <Link href="/" className="wordmark" aria-label="Lit En home">
+          <Image src="/lien-logo.png" alt="LIEN" width={70} height={51} priority className="wordmark-logo" />
+        </Link>
         <nav className="main-nav" aria-label="Main navigation">
           {links.map(({ href, label, current }) => <Link key={href} href={href} aria-current={current ? "page" : undefined}>{label}</Link>)}
         </nav>
@@ -80,7 +83,7 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
         }}>
           <div className="search-input-wrap">
             <span className="search-icon" aria-hidden="true" />
-            <input ref={input} type="search" placeholder="Search notes…" aria-label="Search posts and checkpoints"
+            <input ref={input} type="search" placeholder="Search everything…" aria-label="Search posts and checkpoints"
               role="combobox" aria-expanded={open && words.length > 0} aria-controls={open && words.length > 0 ? "search-results" : undefined} aria-autocomplete="list"
               aria-activedescendant={open && active >= 0 ? `search-result-${active}` : undefined}
               value={query} onFocus={() => setOpen(true)} onChange={(event) => { setQuery(event.target.value); setOpen(true); setActive(-1); }}

@@ -88,13 +88,14 @@ img {
   align-items:center;
   gap:46px}
 .wordmark {
-  font-family:var(--serif);
-  font-size:32px;
-  font-weight:bold;
-  letter-spacing:-1.5px;
-  white-space:nowrap}
-.wordmark-dot {
-  color:var(--accent)}
+  display:flex;
+  flex-shrink:0;
+  align-items:center}
+.wordmark-logo {
+  display:block;
+  width:70px;
+  height:auto;
+  mix-blend-mode:multiply}
 .main-nav {
   display:flex;
   align-items:center;
@@ -466,7 +467,7 @@ img {
   line-height:1.15;
   letter-spacing:-1.4px;
   overflow-wrap:anywhere}
-.page-heading>p:last-child,.page-heading>div>p:last-child {
+.page-heading>p:last-child,.page-heading>div>p:last-child,.about-tagline {
   font-size:15px;
   color:var(--muted);
   margin-top:20px;
@@ -963,8 +964,9 @@ img {
   min-height:120px;
   padding:17px 22px 0}
 .wordmark {
-  font-size:28px;
   align-self:start}
+.wordmark-logo {
+  width:60px}
 .header-search {
   width:100%;
   max-width:220px;
@@ -1063,7 +1065,7 @@ img {
   font-size:13px}
 .page-heading h1 {
   font-size:39px}
-.page-heading>p:last-child,.page-heading>div>p:last-child {
+.page-heading>p:last-child,.page-heading>div>p:last-child,.about-tagline {
   font-size:14px}
 .page-heading br {
   display:none}
@@ -1176,7 +1178,7 @@ img {
   background:#292d28;
   font-size:13px}
 
-/* Optional subscriptions and background music, retained from the original site. */
+/* Optional subscriptions, retained from the original site. */
 .ml-card { border-top: 1px solid var(--border); padding-top: 24px; }
 .ml-title { font-family: var(--serif); font-size: 23px; margin-bottom: 9px; }
 .ml-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
@@ -1189,7 +1191,7 @@ img {
 .ml-status.is-success { color: var(--accent); }
 .lp-slider-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 2px; border: 0; background: transparent; font-size: 11px; color: var(--muted); }
 .lp-slider-btn-icon, .lp-slider-btn-icon svg { display: block; width: 14px; height: 14px; }
-@media (max-width: 680px) { .ml-card { grid-column: 1 / -1; } .footer-music { order: 3; } }
+@media (max-width: 680px) { .ml-card { grid-column: 1 / -1; } }
 
 @media (max-width: 420px) {
   .notebook-sidebar { grid-template-columns: minmax(0, 1fr); }
@@ -1220,3 +1222,23 @@ img {
 
 .tag-collection + .tag-collection { margin-top: 48px; }
 .tag-collection > h2 { font-family: var(--serif); font-size: 26px; margin-bottom: 22px; }
+
+.about-organisations { margin-top: 28px; }
+.about-organisations .eyebrow { font-size: 10px; margin-bottom: 10px; }
+.about-organisations > div { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.about-organisations .organisation-link { gap: 12px; }
+.timeline-heading { font-family: var(--serif); font-size: 26px; padding-bottom: 14px; }
+.timeline-jumps { border-top: 0; margin: 12px 0 0; padding: 8px 0; }
+.tag-collection-description { font-size: 13px; color: var(--muted); margin: -10px 0 22px; }
+.research-timeline .checkpoint-year { grid-template-columns: 65px minmax(0, 1fr); gap: 18px; }
+.research-timeline .checkpoint-year > div { padding-left: 22px; }
+.research-timeline .checkpoint:before { left: -26px; }
+.research-timeline .checkpoint { flex-wrap: wrap; }
+.research-timeline .checkpoint-copy { flex-basis: 100%; }
+.back-to-top { position: fixed; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); z-index: 30; display: grid; place-items: center; width: 56px; height: 56px; padding: 0; border: 2px solid var(--bg); border-radius: 50%; color: #fff; background: var(--accent); box-shadow: 0 4px 16px #222b1940; cursor: pointer; }
+.back-to-top:hover { background: #435536; }
+@media (max-width: 680px) {
+  .research-timeline .checkpoint-year { grid-template-columns: 1fr; gap: 20px; }
+  .timeline-heading { font-size: 24px; }
+  .site-footer { padding-bottom: 85px; }
+}

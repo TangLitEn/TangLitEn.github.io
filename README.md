@@ -81,10 +81,10 @@ The settings at the top are YAML **front matter**. These are all the fields curr
 | `title` | `title: "Learning in public"` | Uses the filename without `.md`. Set this for every post. |
 | `date` | `date: "2026-09-07"` | Falls back to `1970-01-01`. Set this for every post. |
 | `description` | `description: "A short introduction to this note."` | No summary text. Used in post listings, the article introduction, and page metadata. |
-| `tags` | `tags: ["Learning", "Research"]` | No tags. Tags create their own pages automatically. |
+| `tags` | `tags: ["Learning", "Research"]` | No tags. Tags link to their collection’s filtered timeline. |
 | `image` | `image: "/blog/my-note/cover.jpg"` | No cover image. Used above the article and on its checkpoint entry. |
 | `draft` | `draft: true` | Defaults to `false`: the post is included in the website. |
-| `checkpoint` | `checkpoint: true` | Defaults to `false`: the post appears in Posts/Archive but not Life checkpoints. |
+| `checkpoint` | `checkpoint: true` | Defaults to `false`: the post appears in the Posts timeline but not Life checkpoints. |
 
 Use real YAML booleans, `true` and `false`, **without quotes**. `draft: "true"` is a string and will not hide a post.
 
@@ -112,10 +112,10 @@ Keep tag spelling and capitalization consistent. Repeated identical tags on one 
 
 The two collections are separate:
 
-- `checkpoint: false` (or omitted): a notebook post, shown in Posts and Archive.
+- `checkpoint: false` (or omitted): a notebook post, shown in the Posts timeline.
 - `checkpoint: true`: a life checkpoint, shown in About’s timeline and excluded from the notebook.
 
-Both use the same Markdown format and keep their `/blog/filename/` article URLs. Search covers both and labels each result. Tags are shared, with notebook posts and life checkpoints shown in separate groups on each tag page. All 15 original entries are life checkpoints; `protein-basics.md` is the notebook’s initial filler note.
+Both use the same Markdown format and keep their `/blog/filename/` article URLs. Search covers both and labels each result. The Tags page has separate Posts and Life checkpoints sections. Each tag opens its collection’s timeline with the tag filter applied. Both timelines group entries by year and support tag and year filters. Filters are saved in the URL and work with browser Back/Forward. All 15 original entries are life checkpoints; `protein-basics.md` is the notebook’s initial filler note.
 
 Extra front-matter fields such as `author`, `slug`, `category`, `published`, `hidden`, or `readingTime` currently have no effect. Use `draft` to control inclusion and the filename to control the URL.
 
@@ -310,7 +310,7 @@ Set:
 draft: true
 ```
 
-This excludes the post from Posts, Archive, Life checkpoints, tag pages, header search, and generated article routes. It is excluded in both development and production. There is no separate unlisted-but-accessible mode.
+This excludes the post from Posts, Life checkpoints, tag pages, header search, and generated article routes. It is excluded in both development and production. There is no separate unlisted-but-accessible mode.
 
 To preview a draft as a webpage, temporarily set `draft: false` and visit its route locally. Change it back to `true` before publishing if it should stay hidden. You can always read a draft in your editor without changing the flag.
 
@@ -342,10 +342,10 @@ Future dates do not schedule publication: a post with `draft: false` is included
 | Feature | Where its information comes from |
 | --- | --- |
 | Post URL | Markdown filename |
-| Posts and Archive | Non-draft notebook posts (`checkpoint: false` or omitted), newest first |
-| Archive year | The post's `date` |
+| Posts timeline | Non-draft notebook posts (`checkpoint: false` or omitted), grouped by year, newest first |
+| Timeline year | The post's `date` |
 | Life checkpoints on About | Non-draft posts with `checkpoint: true` |
-| Topic filters and tag pages | The `tags` arrays; notebook filters use only notebook posts, tag pages group both collections separately |
+| Tag filters and directory | The `tags` arrays; each collection has its own filters and Tags section, linking to its filtered timeline |
 | Header search | Titles, descriptions, tags, and rendered post text |
 | Reading time | Approximate source word count divided by 220, rounded up; at least one minute |
 | Author label | Currently fixed to Lit En |
@@ -388,6 +388,9 @@ For equations or diagrams today, include an image and a text explanation.
 | Welcome and notebook sidebar | `app/page.tsx` |
 | About biography, side notes, and page layout | `app/about/page.tsx` |
 | Life checkpoints section on About | `components/LifeCheckpoints.tsx` |
+| Shared year-grouped timelines and URL filters | `components/PostIndex.tsx` |
+| Tag destination links | `lib/format.ts` |
+| Floating back-to-top button | `components/BackToTop.tsx` |
 | Email and social links | `data/contact.ts` |
 | Organization links | `data/organisations.ts` |
 | Header navigation and search | `components/NavBar.tsx` |
@@ -396,3 +399,5 @@ For equations or diagrams today, include an image and a text explanation.
 | Site title, description, and share metadata | `app/layout.tsx` |
 
 The old `/checkpoints/` and `/timeline/` routes forward older bookmarks to `/about/#checkpoints`. The header has one About tab for both the biography and life checkpoints.
+
+Tag links use `/?tag=Research#posts` for research notes and `/about/?tag=NTU#checkpoints` for life checkpoints. An optional `year` parameter combines with the tag filter. Existing `/tags/name/` bookmarks offer links to the matching timelines.
