@@ -130,7 +130,6 @@ export default function TagCloud({ tags, label }: { tags: CloudTag[]; label: str
 
   return <div className="tag-cloud">
     <div className="tag-cloud-toolbar">
-      <p>Drag a bubble · Watch them gather · Click to explore</p>
       <button className="tag-cloud-reset" type="button" onClick={reset} disabled={!rearranged} aria-label={`Reset ${label.toLowerCase()} bubble positions`}>Reset positions <span aria-hidden="true">↺</span></button>
     </div>
     <div ref={stage} className={`tag-cloud-stage${layout ? " is-positioned" : ""}`} style={layout ? { height: layout.height } : undefined} role="group" aria-label={`${label} tags`}>
