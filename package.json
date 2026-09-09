@@ -8,7 +8,8 @@
     "export": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:content": "node scripts/test-content.mjs"
+    "test:content": "node scripts/test-content.mjs",
+    "test:tag-cloud": "node scripts/test-tag-cloud.mjs"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

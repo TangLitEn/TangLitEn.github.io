@@ -16,7 +16,6 @@ export default function HomePage() {
     <div className="notebook-layout">
       <PostIndex posts={posts} />
       <aside className="notebook-sidebar" aria-label="Notebook margin">
-        <section className="margin-section"><p className="eyebrow">IN THE MARGINS</p><p className="margin-thought">“I thrive in places where ideas move fast, ownership matters, and systems can be continuously improved.”</p><Link href="/about/" className="small-link">A note about me ↗</Link></section>
         <MailingList compact />
       </aside>
     </div>
