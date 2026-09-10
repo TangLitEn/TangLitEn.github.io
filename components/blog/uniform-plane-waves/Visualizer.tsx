@@ -2,7 +2,9 @@
 
 import styles from "./styles.module.css";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
+import type { SimulationProps } from "../../../lib/simulations";
+import { createExperimentUrl, readExperimentInput } from "../../../lib/uniform-plane-waves/sharing";
 import {
   calculateWave,
   DEFAULT_INPUT,
@@ -35,7 +37,9 @@ const presets: { label: string; input: WaveInput }[] = [
 const angleText = (value: number | null) =>
   value === null ? "—" : `${value.toFixed(2)}°`;
 
-export default function Visualizer() {
+export default function Visualizer({ instanceId, acceptLegacyQuery }: SimulationProps) {
+  const titleId = useId();
+  const polarizationId = useId();
   const [input, setInput] = useState<WaveInput>(DEFAULT_INPUT);
   const [playing, setPlaying] = useState(false);
   const [shared, setShared] = useState("");
@@ -44,54 +48,30 @@ export default function Visualizer() {
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     // Initial browser preferences and query parameters are unavailable during static rendering.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Hydrate external browser state after the static first render.
     setPlaying(!preference.matches);
     const change = () => setPlaying(!preference.matches);
     preference.addEventListener("change", change);
-    const query = new URLSearchParams(window.location.search);
-    if (
-      query.has("angle") ||
-      query.has("n1") ||
-      query.has("n2") ||
-      query.has("polarization")
-    ) {
-      const parsed: WaveInput = {
-        angle: Number(query.get("angle") ?? 45),
-        n1: Number(query.get("n1") ?? 1),
-        n2: Number(query.get("n2") ?? 1.5),
-        polarization: (query.get("polarization") ?? "s") as Polarization,
-      };
-      try {
-        calculateWave(parsed);
-        if (parsed.angle > 89.9 || parsed.n1 < 0.1 || parsed.n2 < 0.1)
-          throw new Error("Outside control range");
-        setInput(parsed);
-      } catch {
-        setShared(
-          "That link contained invalid parameters. The default example is shown.",
-        );
-      }
+    try {
+      const parsed = readExperimentInput(window.location.search, instanceId, acceptLegacyQuery);
+      if (parsed) setInput(parsed);
+    } catch {
+      setShared("That link contained invalid parameters. The default example is shown.");
     }
     return () => preference.removeEventListener("change", change);
-  }, []);
+  }, [instanceId, acceptLegacyQuery]);
   function update(next: WaveInput) {
     setInput(next);
     setShared("");
     setShareUrl("");
   }
   async function share() {
-    const url = new URL(window.location.href);
-    url.search = new URLSearchParams({
-      angle: String(input.angle),
-      n1: String(input.n1),
-      n2: String(input.n2),
-      polarization: input.polarization,
-    }).toString();
-    url.hash = "explore";
+    const url = createExperimentUrl(window.location.href, input, instanceId);
     try {
-      await navigator.clipboard.writeText(url.href);
+      await navigator.clipboard.writeText(url);
       setShared("Link copied. It opens with these parameters.");
     } catch {
-      setShareUrl(url.href);
+      setShareUrl(url);
       setShared("Copy the link below to share these parameters.");
     }
   }
@@ -105,10 +85,10 @@ export default function Visualizer() {
           ? "At Brewster’s angle"
           : "Reflection & refraction";
   return (
-    <section className={styles["explorer"]} id="explore" aria-labelledby="explore-title">
+    <section className={styles["explorer"]} id={instanceId} aria-labelledby={titleId}>
       <noscript><p className={styles["notice"]}>Enable JavaScript to change parameters and view the diagram. The equations and notes below remain available.</p></noscript>
       <div className={styles["section-heading"]}>
-        <h2 id="explore-title">Explore the boundary</h2>
+        <h2 id={titleId}>Explore the boundary</h2>
         <span className={styles["section-kicker"]}>
           CHANGE A PARAMETER. FOLLOW THE WAVE.
         </span>
@@ -247,11 +227,11 @@ export default function Visualizer() {
               onChange={(n2) => update({ ...input, n2 })}
             />
           </div>
-          <label className={styles["select-label"]} htmlFor="polarization">
+          <label className={styles["select-label"]} htmlFor={polarizationId}>
             Polarization
           </label>
           <select
-            id="polarization"
+            id={polarizationId}
             value={input.polarization}
             onChange={(e) =>
               update({ ...input, polarization: e.target.value as Polarization })

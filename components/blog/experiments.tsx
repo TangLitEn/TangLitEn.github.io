@@ -1,18 +1,13 @@
 import type { ComponentType } from "react";
-import type { Heading } from "../../lib/posts";
+import type { SimulationName, SimulationProps } from "../../lib/simulations";
 import UniformPlaneWaves from "./uniform-plane-waves/Visualizer";
 
-type PostExperiment = { Component: ComponentType; heading: Heading };
-
-// Register trusted React components here. Markdown remains content-only and
-// cannot execute code. Each project owns its components and scoped stylesheet.
-const experiments: Readonly<Record<string, PostExperiment>> = {
-  "uniform-plane-waves": {
-    Component: UniformPlaneWaves,
-    heading: { id: "explore", text: "Explore the boundary", depth: 2 },
-  },
+// Names refer to simulations, not post slugs. Any post can reuse any entry.
+// This allowlist is deliberately explicit: Markdown cannot execute code.
+const experiments: Record<SimulationName, ComponentType<SimulationProps>> = {
+  "uniform-plane-waves": UniformPlaneWaves,
 };
 
-export function getPostExperiment(slug: string): PostExperiment | undefined {
-  return Object.hasOwn(experiments, slug) ? experiments[slug] : undefined;
+export function getSimulationComponent(name: SimulationName) {
+  return experiments[name];
 }

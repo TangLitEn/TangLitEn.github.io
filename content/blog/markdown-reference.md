@@ -16,6 +16,29 @@ Copy this file to a new lowercase, hyphenated `.md` filename when starting a pos
 
 ## Text and structure
 
+### Inline simulations
+
+Put this marker between paragraphs wherever the interactive wave simulator
+should appear. Repeat it for multiple independent simulations:
+
+```md
+An explanation before the first experiment.
+
+::: simulation uniform-plane-waves
+:::
+
+Compare a second setup.
+
+::: simulation uniform-plane-waves
+:::
+```
+
+The marker stays literal inside this code example. In a post, use it outside
+the code fence, lists, and quotes. `uniform-plane-waves` is the currently
+registered simulation; other simulation names need a registered component first.
+
+### Paragraphs
+
 A paragraph with **bold text**, *italic text*, ~~strikethrough~~, and `inline code`. Leave a blank line before the next paragraph.
 
 A deliberate line break uses a trailing backslash.\

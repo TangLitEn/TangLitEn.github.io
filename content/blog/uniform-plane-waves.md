@@ -7,7 +7,10 @@ draft: false
 checkpoint: false
 ---
 
-This visualizer began as a C++ terminal project for Engineering Electromagnetics (EE3001) at NTU in 2022. The experiment above brings that sketch into this notebook, with live reflection, refraction, and power calculations.
+This visualizer began as a C++ terminal project for Engineering Electromagnetics (EE3001) at NTU in 2022. The experiment below brings that sketch into this notebook, with live reflection, refraction, and power calculations.
+
+::: simulation uniform-plane-waves
+:::
 
 ## Things to try
 

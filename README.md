@@ -391,9 +391,10 @@ deployment, iframe, or running backend.
 
 - `content/blog/uniform-plane-waves.md` owns the title, date, tags, and explanatory
   notes. It participates in the notebook, search, and tag listings like any post.
-- `components/blog/experiments.tsx` maps post slugs to trusted React components
-  and their table-of-contents entries. To add another interactive post, create
-  its Markdown file and register its component here.
+- `lib/simulations.ts` lists supported simulation names, titles, and anchor
+  bases. `components/blog/experiments.tsx` maps those names to trusted React
+  components. Register a new simulation in both files; it can then be reused
+  in any post without registering individual post slugs.
 - `components/blog/uniform-plane-waves/` owns the controls, numeric input,
   animated canvas, scoped CSS module, and upstream MIT license. Styles inherit
   the notebook's theme variables without changing global selectors.
@@ -401,10 +402,43 @@ deployment, iframe, or running backend.
 - `tests/uniform-plane-waves/` preserves the source project's physics regression
   tests. Run them with `npm run test:upw`; the Pages workflow also runs them.
 
-`PostView` provides a children slot between the shared article heading and the
-Markdown notes. The route supplies the registered experiment there, keeping
-project-specific code out of the shared post renderer. Query parameters on the
-blog URL restore shared experiments, and `#explore` links directly to the controls.
+Place a marker on its own lines wherever you want a simulation between
+paragraphs. You can repeat it as many times as needed in the same post:
+
+```md
+An introduction to the boundary.
+
+::: simulation uniform-plane-waves
+:::
+
+Compare another setup below.
+
+::: simulation uniform-plane-waves
+:::
+
+Your conclusions.
+```
+
+Currently `uniform-plane-waves` is the available simulation name. A name refers
+to the registered component, not the Markdown filename. Repeated instances
+have independent controls, anchors, and share links. New share links restore
+the selected instance; older links without an instance parameter still restore
+the first wave simulator. They share that instance's settings, not the entire
+page's experiment state.
+
+Markers must be top-level blocks, outside lists and quotes. Inside fenced or
+indented code examples they remain literal text. An unknown simulation name
+produces a descriptive build error. A post without markers has no simulations.
+
+`lib/posts.ts` parses the whole document before splitting it into ordered text
+and simulation blocks, so headings, reference links, and side notes work across
+the insertions. `components/blog/PostBody.tsx` renders these blocks in order,
+using the normal article width for prose and the full available width for
+simulations. `PostView` retains the shared article header, contents, and image
+lightbox. The contents list follows document order, with unique anchors for
+repeated simulations (`#explore`, `#explore-2`, and so on, avoiding heading
+collisions). New simulation components receive `instanceId` and
+`acceptLegacyQuery` props and must keep their controls' IDs and state independent.
 
 Copied from [UPW_Visualization](https://github.com/TangLitEn/UPW_Visualization).
 Future changes in that repository are not synchronized automatically.

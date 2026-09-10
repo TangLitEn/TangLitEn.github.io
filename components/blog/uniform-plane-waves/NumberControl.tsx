@@ -2,7 +2,7 @@
 
 import styles from "./styles.module.css";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 
 export default function NumberControl({
   label,
@@ -28,11 +28,7 @@ export default function NumberControl({
     setDraft(String(Number(value.toFixed(6))));
     setError(false);
   }
-  const id = label.startsWith("Incident")
-    ? "angle"
-    : label.includes("n₁")
-      ? "n1"
-      : "n2";
+  const id = useId();
   return (
     <div className={styles["number-control"]}>
       <label htmlFor={id}>{label}</label>
@@ -73,4 +69,3 @@ export default function NumberControl({
     </div>
   );
 }
-

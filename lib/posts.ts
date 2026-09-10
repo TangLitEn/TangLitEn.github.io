@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { Marked, Renderer } from "marked";
+import { isSimulationName, simulations, type SimulationName } from "./simulations";
 
 const POSTS_DIR = path.join(process.cwd(), "content", "blog");
 const VALID_SLUG_REGEX = /^[a-z0-9-]+$/;
@@ -20,6 +21,10 @@ export type PostMeta = {
 
 export type SearchEntry = PostMeta & { searchText: string };
 export type Heading = { id: string; text: string; depth: number };
+export type PostBlock =
+  | { type: "html"; html: string }
+  | { type: "simulation"; name: SimulationName; id: string; acceptLegacyQuery: boolean };
+export type RenderedPost = { html: string; headings: Heading[]; blocks: PostBlock[] };
 
 const isSafeYouTubeEmbed = (value: string): boolean => {
   if (!value) return false;
@@ -204,7 +209,7 @@ export function getSearchIndex(): SearchEntry[] {
   });
 }
 
-export function getPostBySlug(slug: string): { meta: PostMeta; html: string; headings: Heading[] } {
+export function getPostBySlug(slug: string): RenderedPost & { meta: PostMeta } {
   assertValidSlug(slug);
 
   const fullPath = path.join(POSTS_DIR, `${slug}.md`);
@@ -234,10 +239,17 @@ export function getPostBySlug(slug: string): { meta: PostMeta; html: string; hea
   return { meta, ...renderMarkdown(content) };
 }
 
-export function renderMarkdown(content: string): { html: string; headings: Heading[] } {
+export function renderMarkdown(content: string): RenderedPost {
   const marked = new Marked();
   const headings: Heading[] = [];
   const headingIds = new Set<string>();
+  function uniqueId(base: string) {
+    let id = base;
+    let suffix = 2;
+    while (headingIds.has(id)) id = `${base}-${suffix++}`;
+    headingIds.add(id);
+    return id;
+  }
   const notes = new Map<string, string>();
   const noteNumbers = new Map<string, number>();
   const noteReferences = new Map<string, number>();
@@ -246,10 +258,7 @@ export function renderMarkdown(content: string): { html: string; headings: Headi
     renderer.html = () => "";
     renderer.heading = (text, depth, raw) => {
       const base = raw.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || "section";
-      let id = base;
-      let suffix = 2;
-      while (headingIds.has(id)) id = `${base}-${suffix++}`;
-      headingIds.add(id);
+      const id = uniqueId(base);
       if (depth === 2 || depth === 3) headings.push({ id, text: raw.replace(/[*_`]/g, ""), depth });
       return `<h${depth} id="${id}">${text}</h${depth}>`;
     };
@@ -344,6 +353,19 @@ export function renderMarkdown(content: string): { html: string; headings: Headi
     marked.use({
       renderer,
       extensions: [
+        {
+          name: "simulationBlock",
+          level: "block",
+          start(src: string) { return src.match(/^::: simulation\b/m)?.index; },
+          tokenizer(src: string) {
+            const match = /^::: simulation[ \t]+([a-z0-9-]+)[ \t]*\n:::[ \t]*(?:\n|$)/.exec(src);
+            if (!match) return;
+            return { type: "simulationBlock", raw: match[0], name: match[1] };
+          },
+          renderer() {
+            throw new Error("Place simulation blocks between paragraphs, outside lists, quotes, and other containers.");
+          },
+        },
         {
           name: "sidenoteDefinition",
           level: "block",
@@ -487,6 +509,36 @@ export function renderMarkdown(content: string): { html: string; headings: Headi
     });
   }
 
-  const html = sanitizeHtml(marked.parse(content) as string);
-  return { html, headings };
+  // Lex the whole document once so reference links and note definitions work
+  // across simulations. Split only at top-level tokens, never inside HTML.
+  const tokens = marked.lexer(content);
+  const blocks: PostBlock[] = [];
+  const occurrences = new Map<SimulationName, number>();
+  let pending: typeof tokens = Object.assign([], { links: tokens.links });
+  function flushMarkdown() {
+    if (!pending.length) return;
+    const html = sanitizeHtml(marked.parser(pending));
+    if (html.trim()) blocks.push({ type: "html", html });
+    pending = Object.assign([], { links: tokens.links });
+  }
+  for (const token of tokens) {
+    if (token.type !== "simulationBlock") {
+      pending.push(token);
+      continue;
+    }
+    flushMarkdown();
+    const name = token.name as string;
+    if (!isSimulationName(name)) {
+      throw new Error(`Unknown simulation "${name}". Available simulations: ${Object.keys(simulations).join(", ")}.`);
+    }
+    const occurrence = (occurrences.get(name) ?? 0) + 1;
+    occurrences.set(name, occurrence);
+    const definition = simulations[name];
+    const id = uniqueId(definition.anchor);
+    blocks.push({ type: "simulation", name, id, acceptLegacyQuery: occurrence === 1 });
+    headings.push({ id, text: definition.title, depth: 2 });
+  }
+  flushMarkdown();
+  const html = blocks.map((block) => block.type === "html" ? block.html : `<h2 id="${block.id}">${escapeHtml(simulations[block.name].title)}</h2>`).join("\n");
+  return { html, headings, blocks };
 }
