@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Lightbox from "./Lightbox";
 import type { Heading, PostMeta } from "../lib/posts";
 import { formatDate, timelineHref } from "../lib/format";
 
 type Post = { meta: PostMeta; html: string; headings: Heading[] };
 
-export default function PostView({ post }: { post: Post }) {
+export default function PostView({ post, children }: { post: Post; children?: ReactNode }) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [lightboxAlt, setLightboxAlt] = useState<string | undefined>(undefined);
   const openImage = (src: string, alt?: string) => { setLightboxSrc(src); setLightboxAlt(alt); };
@@ -23,6 +23,7 @@ export default function PostView({ post }: { post: Post }) {
     </header>
     {post.headings.length > 1 && <details className="contents"><summary>On this page</summary><ol>{post.headings.map((heading) => <li key={heading.id} className={heading.depth === 3 ? "subheading" : ""}><a href={`#${heading.id}`}>{heading.text}</a></li>)}</ol></details>}
     {post.meta.image && <button type="button" className="article-cover" onClick={() => openImage(post.meta.image!, post.meta.title)} aria-label="Enlarge cover image"><Image src={post.meta.image} alt={post.meta.title} width={960} height={540} priority /></button>}
+    {children}
     <div className="article-layout"><article className="post-content" onClick={(event) => {
       const target = event.target as HTMLElement;
       if (target.tagName === "IMG" && !target.closest("a")) {

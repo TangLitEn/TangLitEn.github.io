@@ -383,6 +383,34 @@ For equations or diagrams today, include an image and a text explanation.
 
 ## Where to edit other content
 
+### Interactive blog projects
+
+The uniform plane wave project is embedded at `/blog/uniform-plane-waves/` and
+published by this site's existing GitHub Pages workflow. It needs no separate
+deployment, iframe, or running backend.
+
+- `content/blog/uniform-plane-waves.md` owns the title, date, tags, and explanatory
+  notes. It participates in the notebook, search, and tag listings like any post.
+- `components/blog/experiments.tsx` maps post slugs to trusted React components
+  and their table-of-contents entries. To add another interactive post, create
+  its Markdown file and register its component here.
+- `components/blog/uniform-plane-waves/` owns the controls, numeric input,
+  animated canvas, scoped CSS module, and upstream MIT license. Styles inherit
+  the notebook's theme variables without changing global selectors.
+- `lib/uniform-plane-waves/physics.ts` holds the independent calculations.
+- `tests/uniform-plane-waves/` preserves the source project's physics regression
+  tests. Run them with `npm run test:upw`; the Pages workflow also runs them.
+
+`PostView` provides a children slot between the shared article heading and the
+Markdown notes. The route supplies the registered experiment there, keeping
+project-specific code out of the shared post renderer. Query parameters on the
+blog URL restore shared experiments, and `#explore` links directly to the controls.
+
+Copied from [UPW_Visualization](https://github.com/TangLitEn/UPW_Visualization).
+Future changes in that repository are not synchronized automatically.
+
+### Site-wide content
+
 | Content | File |
 | --- | --- |
 | Welcome and notebook sidebar | `app/page.tsx` |
