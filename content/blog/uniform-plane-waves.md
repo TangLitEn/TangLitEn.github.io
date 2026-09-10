@@ -67,6 +67,4 @@ The model assumes two homogeneous, isotropic, lossless, nonmagnetic media with p
 
 The original terminal sketch used C++ and an ASCII grid. This browser edition adds Snell’s law, Fresnel power calculations, and a responsive canvas. The interactive experiment runs here in the blog, entirely in your browser.
 
-- [Original UPW Visualization project](https://github.com/TangLitEn/UPW_Visualization)
-- [Original C++ experiment](https://github.com/TangLitEn/UPW_Visualization/blob/main/MAIN.cpp)
 - [Physics of Light and Optics, chapter 3 — BYU](https://optics.byu.edu/docs/OpticsBook.pdf)
