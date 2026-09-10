@@ -3,7 +3,7 @@ title: "Protein: a few basics worth understanding"
 date: "2026-09-07"
 tags: ["Nutrition", "Learning"]
 description: "A starter note on amino acids, what proteins do, and where dietary protein comes from. Filler content for the new notebook."
-draft: false
+draft: true
 checkpoint: false
 ---
 
