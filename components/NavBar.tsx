@@ -11,12 +11,37 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
+  const [returnPages, setReturnPages] = useState<Record<string, string>>({});
   const header = useRef<HTMLElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const search = useRef<HTMLDivElement>(null);
   const words = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
   const matches = words.length ? entries.filter((entry) => words.every((word) => entry.searchText.includes(word))) : [];
   const results = matches.slice(0, 8);
+  const post = entries.find((entry) => pathname.replace(/\/$/, "") === `/blog/${entry.slug}`);
+  const returnHref = returnPages[pathname.replace(/\/$/, "")] ?? (post?.checkpoint ? "/about/#checkpoints" : "/");
+  const returnLabel = returnHref.startsWith("/about") ? "Back to about"
+    : returnHref.startsWith("/tags") ? "Back to tags"
+    : returnHref.startsWith("/blog/") ? "Back to previous post"
+    : "Back to the notebook";
+
+  useEffect(() => {
+    // Remember the complete source URL before Next handles a post link.
+    // Linking to it explicitly also works after following anchors within a post.
+    const rememberSource = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
+      if (!(link instanceof HTMLAnchorElement) || link.target === "_blank" || link.hasAttribute("download") || link.classList.contains("post-header-back")) return;
+      const destination = new URL(link.href);
+      if (destination.origin !== window.location.origin || !destination.pathname.startsWith("/blog/")) return;
+      const key = destination.pathname.replace(/\/$/, "");
+      if (key === window.location.pathname.replace(/\/$/, "")) return;
+      const source = window.location.pathname + window.location.search + window.location.hash;
+      setReturnPages((pages) => ({ ...pages, [key]: source }));
+    };
+    document.addEventListener("click", rememberSource, true);
+    return () => document.removeEventListener("click", rememberSource, true);
+  }, []);
 
   useEffect(() => {
     const element = header.current;
@@ -38,6 +63,7 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
     const onKey = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement;
       const editing = /INPUT|TEXTAREA|SELECT/.test(target.tagName) || target.isContentEditable;
+      if (!input.current) return;
       if (((event.metaKey || event.ctrlKey) && event.key === "k") || (event.key === "/" && !editing)) {
         event.preventDefault();
         input.current?.focus();
@@ -70,12 +96,17 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
   ];
 
   return (
-    <header ref={header} className="site-header">
+    <header ref={header} className={`site-header${post ? " post-header" : ""}`}>
       <div className="header-inner">
         <Link href="/" className="wordmark" aria-label="Lit En home">
           <Image src="/lien-logo.png" alt="LIEN" width={70} height={51} priority className="wordmark-logo" />
         </Link>
-        <nav className="main-nav" aria-label="Main navigation">
+        {post ? <>
+          <p className="post-header-title">{post.title}</p>
+          <Link href={returnHref} className="post-header-back">
+            {returnLabel} <span aria-hidden="true">↗</span>
+          </Link>
+        </> : <><nav className="main-nav" aria-label="Main navigation">
           {links.map(({ href, label, current }) => <Link key={href} href={href} aria-current={current ? "page" : undefined}>{label}</Link>)}
         </nav>
         <div className="header-search" ref={search} onBlur={(event) => {
@@ -111,7 +142,7 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
             </ul>
             {!matches.length && <p className="search-hint">Try a topic, project, or a word from a post.</p>}
           </div>}
-        </div>
+        </div></>}
       </div>
     </header>
   );

@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { getAllPostSlugs, getPostBySlug } from "../../../lib/posts";
 import PostView from "../../../components/PostView";
 
@@ -15,5 +14,5 @@ export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   if (!getAllPostSlugs().includes(slug)) notFound();
   const post = getPostBySlug(slug);
-  return <main id="main-content" className="page article-page"><Link href={post.meta.checkpoint ? "/about/#checkpoints" : "/"} className="back-link">{post.meta.checkpoint ? "← Life checkpoints" : "← All posts"}</Link><PostView post={post} /></main>;
+  return <main id="main-content" className="page article-page"><PostView post={post} /></main>;
 }
