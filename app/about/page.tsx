@@ -1,4 +1,5 @@
 import Image from "next/image";
+import styles from "./about.module.css";
 import BadgeCollection from "../../components/BadgeCollection";
 import { getBadges } from "../../lib/badges";
 import LifeCheckpoints from "../../components/LifeCheckpoints";
@@ -37,7 +38,7 @@ export default function AboutPage() {
   const badges = getBadges(getCheckpointPostsMeta());
   return (
     <main id="main-content" className="page about-page">
-      <div className="page-heading about-heading">
+      <div className={`page-heading about-heading ${styles.heading}`}>
         <div>
           <p className="eyebrow">THE PERSON BEHIND THE NOTES</p>
           <h1>Hello, I’m Lit En<span className="accent">.</span></h1>

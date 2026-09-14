@@ -807,7 +807,7 @@ img {
   align-items:center;
   justify-content:space-between;
   gap:25px;
-  margin-bottom:50px}
+  margin-bottom:0}
 .about-heading img {
   border-radius:50%;
   width:104px;
@@ -1318,7 +1318,7 @@ img {
 }
 
 /* Personal honours and their supporting checkpoint stories. */
-.honours { margin: 12px 0 20px; }
+.honours { margin: 8px 0 20px; }
 .honours > .eyebrow { margin-bottom: 12px; }
 .honours-intro { color: var(--muted); max-width: 650px; margin: 12px 0 26px; }
 .badge-shelf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }

@@ -1,0 +1,3 @@
+/* Keep the organisation links and the honours strip together. */
+.heading.heading { margin-bottom: 0; }
+.heading + section { margin-top: 8px; }
