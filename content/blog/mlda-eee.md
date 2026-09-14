@@ -5,6 +5,7 @@ tags: ["NTU"]
 description: "President at Machine Learning and Data Analytics Lab at NTU EEE (Jul 2023 - May 2024)."
 image: "/blog/2023-07/EXCO.jpeg"
 checkpoint: true
+badges: ["student-leader.svg"]
 ---
 
 President at Machine Learning and Data Analytics Lab at NTU EEE (Jul 2023 - May 2024).

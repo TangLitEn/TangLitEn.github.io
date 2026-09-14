@@ -1,0 +1,53 @@
+.exhibit {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dce0d3;
+  border-radius: 10px;
+  background: linear-gradient(#e1e6e2, #eff0e9);
+}
+.stage {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  isolation: isolate;
+  contain: layout paint;
+}
+.exhibit :global(.flag-canvas) { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.exhibit :global(.flag-strip-toolbar) { display: flex; justify-content: flex-end; padding: 4px 10px 0; }
+.exhibit :global(.flag-expand) { display: inline-flex; align-items: center; gap: 8px; border: 0; background: transparent; font-size: 11px; padding: 5px 6px; color: var(--accent); }
+.exhibit :global(.flag-chevron) { display: inline-block; font-size: 18px; line-height: 1; }
+.exhibit :global(.flag-expand[aria-expanded="true"] .flag-chevron) { transform: rotate(180deg); }
+.exhibit :global(.flag-card) { display: flex; flex-direction: column; min-width: 0; border-radius: 8px; margin: 0; padding: 0; }
+.exhibit :global(a.flag-card:hover) { background: #ffffff40; }
+.exhibit :global(.flag-slot) { height: 190px; position: relative; }
+.exhibit :global(.flag-fallback) { position: absolute; inset: 12px 4px; display: flex; align-items: center; justify-content: center; }
+.exhibit :global(.flag-fallback img) { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(3px 6px 5px #28392018); }
+.exhibit :global(.flag-loaded .flag-fallback) { visibility: hidden; }
+.exhibit :global(.flag-wip .flag-fallback) { filter: grayscale(1); opacity: .65; }
+.exhibit :global(.flag-shelf) { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0; padding: 6px; }
+.exhibit :global(.flag-marquee) { overflow: hidden; }
+.exhibit :global(.flag-marquee-track) { display: flex; width: max-content; min-width: 200%; animation: marquee 32s linear infinite; }
+.exhibit :global(.flag-marquee-copy) { display: flex; flex: 1 0 auto; justify-content: space-around; }
+.exhibit :global(.flag-marquee .flag-card) { flex: 0 0 74px; }
+.exhibit :global(.flag-marquee .flag-slot) { height: 105px; }
+.exhibit :global(.flag-marquee .flag-fallback) { inset: 6px 3px; }
+.exhibit :global(.flag-marquee:hover .flag-marquee-track) { animation-play-state: paused; }
+.exhibit:has(:global(.flag-expand:focus-visible)) :global(.flag-marquee-track) { animation-play-state: paused; }
+.exhibit :global(.flag-expanded-groups) { padding: 4px 12px 10px; }
+.exhibit :global(.flag-status-group > h2) { padding: 6px 6px 0; font-size: 10px; }
+.exhibit :global(.flag-status-group + .flag-status-group) { border-top: 1px solid #c9d1c6; margin-top: 6px; padding-top: 8px; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@media (max-width: 850px) { .exhibit :global(.flag-shelf) { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+  .exhibit :global(.flag-shelf) { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 4px; }
+  .exhibit :global(.flag-slot) { height: 155px; }
+  .exhibit :global(.flag-marquee .flag-card) { flex-basis: 64px; }
+  .exhibit :global(.flag-marquee .flag-slot) { height: 90px; }
+}
+@media (max-width: 380px) { .exhibit :global(.flag-shelf) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: reduce) {
+  .exhibit :global(.flag-marquee-track) { animation: none; min-width: 100%; }
+  .exhibit :global(.flag-marquee-copy + .flag-marquee-copy) { display: none; }
+}

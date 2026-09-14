@@ -32,11 +32,6 @@ const ORGANISATION_CHIPS_DATA: OrganisationChip[] = [
     href: "https://ember.learnr.sg/",
     logo: "/organisation/Tinkrr_logo.png"
   },
-  {
-    name: "Tinkrr",
-    href: "https://www.tinkrr.org/",
-    logo: "/organisation/Tinkrr_logo.png"
-  }
 ];
 
 for (const org of ORGANISATION_CHIPS_DATA) {

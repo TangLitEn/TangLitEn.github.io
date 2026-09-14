@@ -1,8 +1,10 @@
 import Image from "next/image";
+import BadgeCollection from "../../components/BadgeCollection";
+import { getBadges } from "../../lib/badges";
 import LifeCheckpoints from "../../components/LifeCheckpoints";
 import { CONTACT } from "../../data/contact";
 import { ORGANISATION_CHIPS } from "../../data/organisations";
-import { renderMarkdown } from "../../lib/posts";
+import { getCheckpointPostsMeta, renderMarkdown } from "../../lib/posts";
 
 export const metadata = { title: "About" };
 const biography = `## A little about me
@@ -32,6 +34,7 @@ Here are some of the moments behind that story, from student reporting and unive
 `;
 export default function AboutPage() {
   const { html } = renderMarkdown(biography);
+  const badges = getBadges(getCheckpointPostsMeta());
   return (
     <main id="main-content" className="page about-page">
       <div className="page-heading about-heading">
@@ -46,6 +49,7 @@ export default function AboutPage() {
         </div>
         <Image src="/avatar.png" alt="Lit En" width={104} height={104} />
       </div>
+      <BadgeCollection badges={badges} />
       <nav className="year-jumps about-sections" aria-label="About sections">
         <a href="#biography">About me</a>
         <a href="#checkpoints">Life checkpoints</a>

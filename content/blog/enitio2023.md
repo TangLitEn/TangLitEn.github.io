@@ -5,6 +5,7 @@ tags: ["NTU", "Garage@EEE", "Enitio"]
 description: "President for Enitio 2023 at Garage@EEE (Sep 2022 - Jun 2023)."
 image: "/blog/2023-08/DSC00848.JPG"
 checkpoint: true
+badges: ["student-leader.svg"]
 ---
 
 Enitio is a freshmen orientation program held by Garage@EEE, aimed at redefining orientation by infusing elements of technology with traditional university orientation games

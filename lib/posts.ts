@@ -16,6 +16,7 @@ export type PostMeta = {
   description: string;
   image?: string;
   checkpoint: boolean;
+  badges: string[];
   readingMinutes: number;
 };
 
@@ -233,6 +234,9 @@ export function getPostBySlug(slug: string): RenderedPost & { meta: PostMeta } {
     description: String(data.description ?? "").trim(),
     image,
     checkpoint: data.checkpoint === true,
+    badges: data.checkpoint === true
+      ? [...new Set((Array.isArray(data.badges) ? data.badges : typeof data.badges === "string" ? [data.badges] : []).map((badge: unknown) => String(badge).trim()).filter(Boolean))]
+      : [],
     readingMinutes: Math.max(1, Math.ceil(content.split(/\s+/).length / 220))
   };
 

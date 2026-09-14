@@ -5,6 +5,7 @@ tags: ["NTU"]
 description: "Laos 2023 Overseas Community Involvement Project"
 image: "/blog/2023-05/team.jpeg"
 checkpoint: true
+badges: ["community-builder.svg"]
 ---
 
 Electrical team! We arrived in remote Pong Song village, some 80 km north of Vientiane, the capital of Laos.

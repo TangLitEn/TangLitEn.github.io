@@ -84,6 +84,7 @@ The settings at the top are YAML **front matter**. These are all the fields curr
 | `tags` | `tags: ["Learning", "Research"]` | No tags. Tags link to their collection’s filtered timeline. |
 | `image` | `image: "/blog/my-note/cover.jpg"` | No cover image. Used above the article and on its checkpoint entry. |
 | `draft` | `draft: true` | Defaults to `false`: the post is included in the website. |
+| `badges` | `badges: ["student-leader.svg"]` | Optional badge image filenames from `public/badges/`; only published checkpoints count. |
 | `checkpoint` | `checkpoint: true` | Defaults to `false`: the post appears in the Posts timeline but not Life checkpoints. |
 
 Use real YAML booleans, `true` and `false`, **without quotes**. `draft: "true"` is a string and will not hide a post.
@@ -463,3 +464,38 @@ Future changes in that repository are not synchronized automatically.
 The old `/checkpoints/` and `/timeline/` routes forward older bookmarks to `/about/#checkpoints`. The header has one About tab for both the biography and life checkpoints.
 
 Tag links use `/?tag=Research#posts` for research notes and `/about/?tag=NTU#checkpoints` for life checkpoints. An optional `year` parameter combines with the tag filter. Existing `/tags/name/` bookmarks offer links to the matching timelines.
+
+### Personal honours and badges
+
+Place badge images in `public/badges/` (PNG, JPG, WebP, GIF, SVG, or AVIF). Each image automatically becomes a badge; its filename supplies its display name. For example, `student-leader.png` becomes **Student Leader**. Names come only from image filenames; there are no separate descriptions or flag Markdown files.
+
+In a checkpoint post’s Markdown frontmatter, reference the exact image filenames:
+
+```yaml
+checkpoint: true
+badges: ["student-leader.svg", "community-builder.svg"]
+```
+
+- A badge linked to at least one published checkpoint is **earned**.
+- An image with no published checkpoint linking to it is automatically **WIP**, greyed out on About.
+- Draft posts and ordinary posts (`checkpoint: false` or omitted) do not count.
+- Omit `badges` or use `badges: []` to leave a checkpoint unassigned.
+- One checkpoint can reference multiple images; checkpoints referencing the same image are grouped together.
+- A single filename string, such as `badges: "valedictorian.svg"`, also works.
+
+
+The existing starter SVG banners can be replaced with your own artwork. If you change an image’s filename or extension, update the corresponding post headers. Filenames must be unique even across extensions; subfolders are not scanned. Missing image references in published checkpoints fail the build with a message identifying the post and filename.
+
+The About timeline supports `?view=badges#checkpoints` and the default chronological checkpoint view. Tag and year filters work in both views without changing earned/WIP status. Unassigned checkpoints remain under “More life checkpoints” in badge view. Changes to images or post headers take effect on the next build and deployment.
+
+Run `npm run test:content` to check badge discovery, checkpoint links, automatic WIP status, and content rules.
+
+### Honours banners
+
+The About honours collection displays vertical hanging banners with no ground poles. Each SVG or image is the complete fabric artwork, including its silhouette and transparent cutouts, mapped directly onto the Three.js cloth. The top edge stays fixed while the lower fabric ripples. Images in `public/badges/` define the honours; checkpoint links still determine earned/WIP status. WIP flags use grey fabric. The timeline shows compact versions of the same banner artwork beside checkpoint stories.
+
+The collection always uses a cloudy background and the fixed strong-wind animation in `lib/flag-motion.ts`. There are no location settings, weather selectors, or external weather requests. Each banner has independent ripple timing.
+
+A compact marquee sits below “Things I’m part of” and above the About section navigation. **Show all flags** expands it into an image-only grid, with WIP flags above a divider and collected flags below. The same button collapses it. There are no per-flag captions or counts. Earned flags link to their checkpoints; names and WIP status are available to screen readers in the expanded view. The collapsed marquee is decorative for keyboard and screen-reader users; the expand button provides access to every flag. The marquee pauses on hover and respects reduced-motion preferences. Reduced-motion preferences disable animation. The 3D scene loads near the collection and stops rendering offscreen or in a hidden tab. One WebGL context is shared across all flags. Static banners and links remain available without WebGL or JavaScript.
+
+Run `npm run test:flags` for strong-wind and cloth displacement checks.

@@ -90,3 +90,52 @@ try {
   assert.doesNotMatch(search[0].searchText, /draft-only/);
 } finally { fs.rmSync(fixture, { recursive: true, force: true }); }
 console.log("Content checks passed: Markdown, notes, links, media, all 15 existing entries, drafts, dates, collection separation, and search indexing.");
+
+const badgeModule = { exports: {} };
+const badgeSource = fs.readFileSync(new URL("../lib/badges.ts", import.meta.url), "utf8");
+vm.runInNewContext(ts.transpileModule(badgeSource, { compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true } }).outputText, { exports: badgeModule.exports, require, process });
+const { getBadges } = badgeModule.exports;
+const badges = getBadges(posts);
+assert.ok(badges.find((badge) => badge.id === "student-leader").checkpoints.length > 1);
+assert.equal(badges.filter((badge) => badge.checkpoints.includes("event-director-ntu-buddhist-society")).length, 2);
+assert.equal(badges.find((badge) => badge.id === "life-os").status, "wip");
+const badgeFixture = fs.mkdtempSync(path.join(os.tmpdir(), "badge-content-"));
+try {
+  fs.mkdirSync(path.join(badgeFixture, "public/badges"), { recursive: true });
+  fs.mkdirSync(path.join(badgeFixture, "content/blog"), { recursive: true });
+  const imageDir = path.join(badgeFixture, "public/badges");
+  fs.writeFileSync(path.join(imageDir, "test-badge.svg"), '<svg xmlns="http://www.w3.org/2000/svg"/>');
+  fs.writeFileSync(path.join(imageDir, "README.md"), "Ignored");
+  fs.mkdirSync(path.join(imageDir, "ignored.png"));
+  const writePost = (name, header) => fs.writeFileSync(path.join(badgeFixture, `content/blog/${name}.md`), `---\ntitle: Test\n${header}\n---\nTest`);
+  writePost("draft", 'draft: true\ncheckpoint: true\nbadges: ["test-badge.svg"]');
+  writePost("note", 'badges: ["test-badge.svg"]');
+  let fixturePosts = loadPosts(badgeFixture).getAllPostsMeta();
+  assert.equal(fixturePosts.length, 1, "Drafts are excluded");
+  assert.equal(fixturePosts[0].badges.length, 0, "Notebook posts cannot earn badges");
+  assert.equal(getBadges(fixturePosts, imageDir)[0].status, "wip");
+  writePost("checkpoint", 'checkpoint: true\nbadges: ["test-badge.svg", "test-badge.svg"]');
+  fixturePosts = loadPosts(badgeFixture).getAllPostsMeta();
+  assert.equal(fixturePosts.find((post) => post.slug === "checkpoint").badges.length, 1, "Duplicate references are normalized");
+  let discovered = getBadges(fixturePosts, imageDir);
+  assert.equal(discovered.length, 1, "Only image files count");
+  assert.equal(discovered[0].name, "Test Badge");
+  fs.writeFileSync(path.join(imageDir, "test-badge.md"), '---\nname: Ignored custom name\n---\nIgnored description.');
+  discovered = getBadges(fixturePosts, imageDir);
+  assert.equal(discovered[0].name, "Test Badge", "Only the image filename defines the name");
+  assert.equal(discovered[0].status, "earned");
+  assert.equal(discovered[0].checkpoints.join(), "checkpoint");
+  writePost("second", 'checkpoint: true\nbadges: "test-badge.svg"');
+  assert.equal(getBadges(loadPosts(badgeFixture).getAllPostsMeta(), imageDir)[0].checkpoints.length, 2, "Scalar references and shared badges work");
+  writePost("second", 'checkpoint: true');
+  writePost("checkpoint", 'checkpoint: true\nbadges: []');
+  assert.equal(getBadges(loadPosts(badgeFixture).getAllPostsMeta(), imageDir)[0].status, "wip", "Removing all links restores WIP");
+  writePost("checkpoint", 'checkpoint: true\nbadges: ["missing.png"]');
+  assert.throws(() => getBadges(loadPosts(badgeFixture).getAllPostsMeta(), imageDir), /checkpoint.*missing badge image.*missing.png/);
+  fs.writeFileSync(path.join(imageDir, "test-badge.png"), "test");
+  assert.throws(() => getBadges([], imageDir), /unique name/);
+  assert.equal(getBadges([], path.join(badgeFixture, "absent")).length, 0, "An absent badge folder yields an empty collection");
+} finally {
+  fs.rmSync(badgeFixture, { recursive: true, force: true });
+}
+console.log("Folder-based badges, frontmatter links, and automatic WIP checks passed.");

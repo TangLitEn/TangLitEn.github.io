@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="400" viewBox="0 0 240 400">
+  <title>Learning Builder</title>
+  <defs>
+    <path id="banner" d="M10 8H230V325L193 388L156 335L120 398L84 335L47 388L10 325Z"/>
+    <clipPath id="fabric"><use href="#banner"/></clipPath>
+    <pattern id="weave" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 0H6M0 0V6" stroke="#f0dfb4" stroke-opacity=".09" stroke-width=".6"/></pattern>
+  </defs>
+  <use href="#banner" fill="#816043"/>
+  <g clip-path="url(#fabric)">
+    <path d="M120 8H230V400H120Z" fill="#000" opacity=".12"/>
+    <path d="M18 16H222V322L193 372L155 318L120 381L85 318L47 372L18 322Z" fill="none" stroke="#f0dfb4" stroke-width="3"/>
+    <path d="M25 23H215V317" fill="none" stroke="#f0dfb4" stroke-opacity=".5"/>
+    <path d="M25 317V23" fill="none" stroke="#f0dfb4" stroke-opacity=".5"/>
+    <path d="M32 45H208M32 63H208M32 274H208M32 292H208" stroke="#f0dfb4" stroke-width="2"/>
+    <path d="M46 54L52 48L58 54L52 60ZM81 54L87 48L93 54L87 60ZM116 54L122 48L128 54L122 60ZM151 54L157 48L163 54L157 60ZM186 54L192 48L198 54L192 60Z" fill="#f0dfb4"/>
+    <path d="M120 83L187 160L120 242L53 160Z" fill="none" stroke="#f0dfb4" stroke-width="1.5" opacity=".55"/>
+    <path d="M120 97L174 160L120 227L66 160Z" fill="#f0dfb4" opacity=".08"/>
+    <text x="120" y="165" text-anchor="middle" dominant-baseline="middle" font-family="Georgia,serif" font-size="98" fill="#f0dfb4">◈</text>
+    <path d="M59 248L67 244L120 251L173 244L181 248L173 252L120 260L67 252Z" fill="#f0dfb4"/>
+    <path d="M40 283H200" stroke="#f0dfb4" stroke-dasharray="3 7" stroke-width="3"/>
+    <path d="M47 316L56 328L47 346L38 328ZM120 326L131 342L120 362L109 342ZM193 316L202 328L193 346L184 328Z" fill="#f0dfb4"/>
+    <path d="M0 0H240V400H0Z" fill="url(#weave)"/>
+  </g>
+  <use href="#banner" fill="none" stroke="#f0dfb4" stroke-width="2"/>
+</svg>
