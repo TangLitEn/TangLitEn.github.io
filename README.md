@@ -467,7 +467,21 @@ Tag links use `/?tag=Research#posts` for research notes and `/about/?tag=NTU#che
 
 ### Personal honours and badges
 
-Place badge images in `public/badges/` (PNG, JPG, WebP, GIF, SVG, or AVIF). Each image automatically becomes a badge; its filename supplies its display name. For example, `student-leader.png` becomes **Student Leader**. Names come only from image filenames; there are no separate descriptions or flag Markdown files.
+Place badge images in `public/badges/` (PNG, JPG, WebP, GIF, SVG, or AVIF). Each image automatically becomes a badge; its filename supplies its display name. For example, `student-leader.png` becomes **Student Leader**. Edit all flag names and achievement months in the single `public/badges/flags.md` file, keyed by exact image filename:
+
+```yaml
+---
+flags:
+  student-leader.svg:
+    name: "Student Leader"
+    achieved: "2023-08"
+  community-builder.svg:
+    name: "Community Builder"
+    achieved: ""
+---
+```
+
+`name` overrides the filename-derived name. `achieved` is the achievement month in quoted `YYYY-MM` format, displayed as **Aug 2023** beneath an earned flag. Leave it empty (`achieved: ""`) to use the earliest linked published checkpoint month. Set it explicitly to override that month. If no linked checkpoint has a month, the date stays hidden. Both fields and entries are optional; images without an entry use the filename-derived name and checkpoint month. Markdown body text is not displayed. Checkpoint links still determine earned/WIP status; setting a month does not earn a flag.
 
 In a checkpoint post’s Markdown frontmatter, reference the exact image filenames:
 
@@ -484,7 +498,7 @@ badges: ["student-leader.svg", "community-builder.svg"]
 - A single filename string, such as `badges: "valedictorian.svg"`, also works.
 
 
-The existing starter SVG banners can be replaced with your own artwork. If you change an image’s filename or extension, update the corresponding post headers. Filenames must be unique even across extensions; subfolders are not scanned. Missing image references in published checkpoints fail the build with a message identifying the post and filename.
+The existing starter SVG banners can be replaced with your own artwork. If you change an image’s filename or extension, update its key in `public/badges/flags.md` and the corresponding post headers. Filenames must be unique even across extensions; subfolders are not scanned. Missing image references in published checkpoints fail the build with a message identifying the post and filename.
 
 The About timeline supports `?view=badges#checkpoints` and the default chronological checkpoint view. Tag and year filters work in both views without changing earned/WIP status. Unassigned checkpoints remain under “More life checkpoints” in badge view. Changes to images or post headers take effect on the next build and deployment.
 
@@ -496,6 +510,6 @@ The About honours collection displays vertical hanging banners with no ground po
 
 The collection always uses a cloudy background and the fixed strong-wind animation in `lib/flag-motion.ts`. There are no location settings, weather selectors, or external weather requests. Each banner has independent ripple timing.
 
-A compact marquee sits below “Things I’m part of” and above the About section navigation. **Show all flags** expands it into an image-only grid, with WIP flags above a divider and collected flags below. The same button collapses it. There are no per-flag captions or counts. Earned flags link to their checkpoints; names and WIP status are available to screen readers in the expanded view. The collapsed marquee is decorative for keyboard and screen-reader users; the expand button provides access to every flag. The marquee pauses on hover and respects reduced-motion preferences. Reduced-motion preferences disable animation. The 3D scene loads near the collection and stops rendering offscreen or in a hidden tab. One WebGL context is shared across all flags. Static banners and links remain available without WebGL or JavaScript.
+A compact marquee sits below “Things I’m part of” and above the About section navigation. **Show all flags** expands it into a captioned grid, with WIP flags above a divider and collected flags below. The same button collapses it. Collected flags show their names and achievement months, sorted newest first with undated flags last and ties sorted by name. WIP flags show only their names. Earned flags link to their checkpoints; names, achievement months, and WIP status are available to screen readers in the expanded view. The collapsed marquee is decorative for keyboard and screen-reader users; the expand button provides access to every flag. The marquee pauses on hover and respects reduced-motion preferences. Reduced-motion preferences disable animation. The 3D scene loads near the collection and stops rendering offscreen or in a hidden tab. One WebGL context is shared across all flags. Static banners and links remain available without WebGL or JavaScript.
 
 Run `npm run test:flags` for strong-wind and cloth displacement checks.

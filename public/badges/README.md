@@ -17,7 +17,10 @@ automatically WIP. No manual status or badge registry is needed. Omit `badges`
 or use `badges: []` for a checkpoint without a badge. Files in subfolders are
 not scanned. Use unique names even across file extensions.
 
-Names come from image filenames. There are no per-flag Markdown files or descriptions.
+Edit every flag's name and achievement month in [flags.md](flags.md).
+That single file contains entries keyed by exact image filenames, plus field
+instructions. Update its keys and post references when renaming images.
+No individual flag Markdown files are needed.
 
 Images are the entire hanging fabric, not icons placed on another flag. Prefer
 portrait artwork (the starters are 240 × 400) with transparent areas outside

@@ -30,9 +30,18 @@ export default function FlagCollection({ badges }: { badges: Badge[] }) {
   }, [badges, expanded]);
 
   function renderFlag(badge: Badge, marquee = false) {
-    const content = <div className={`flag-slot ${badge.status === "wip" ? "flag-wip" : ""}`} data-flag-slot data-flag-id={badge.id} aria-hidden="true"><div className="flag-fallback"><Image src={badge.image} alt="" width={240} height={400} /></div></div>;
+    const month = badge.achieved ? new Intl.DateTimeFormat("en", { month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(`${badge.achieved}-01T00:00:00Z`)) : null;
+    const content = <>
+      <div className={`flag-slot ${badge.status === "wip" ? "flag-wip" : ""}`} data-flag-slot data-flag-id={badge.id} aria-hidden="true">
+        <div className="flag-fallback"><Image src={badge.image} alt="" width={240} height={400} /></div>
+      </div>
+      {!marquee && <div className="flag-caption">
+        <span className="flag-name">{badge.name}</span>
+        {badge.status === "earned" && month && <time className="flag-date" dateTime={badge.achieved!}>{month}</time>}
+      </div>}
+    </>;
     return badge.status === "earned"
-      ? <Link className="flag-card" href={`/about/?view=badges#badge-${badge.id}`} tabIndex={marquee ? -1 : undefined} aria-label={`${badge.name}: view ${badge.checkpoints.length} ${badge.checkpoints.length === 1 ? "checkpoint" : "checkpoints"}`} key={badge.id}>{content}</Link>
+      ? <Link className="flag-card" href={`/about/?view=badges#badge-${badge.id}`} tabIndex={marquee ? -1 : undefined} aria-label={`${badge.name}${month ? `, achieved ${month}` : ""}: view ${badge.checkpoints.length} ${badge.checkpoints.length === 1 ? "checkpoint" : "checkpoints"}`} key={badge.id}>{content}</Link>
       : <article className="flag-card flag-card-wip" aria-label={`${badge.name}: work in progress`} key={badge.id}>{content}</article>;
   }
 

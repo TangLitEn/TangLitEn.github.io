@@ -120,9 +120,45 @@ try {
   let discovered = getBadges(fixturePosts, imageDir);
   assert.equal(discovered.length, 1, "Only image files count");
   assert.equal(discovered[0].name, "Test Badge");
-  fs.writeFileSync(path.join(imageDir, "test-badge.md"), '---\nname: Ignored custom name\n---\nIgnored description.');
+  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    name: Custom flag name\n    achieved: "2024-05"\n---\nIgnored description.');
   discovered = getBadges(fixturePosts, imageDir);
-  assert.equal(discovered[0].name, "Test Badge", "Only the image filename defines the name");
+  assert.equal(discovered[0].name, "Custom flag name", "Markdown overrides the filename caption");
+  assert.equal(discovered[0].achieved, "2024-05");
+  for (const invalid of ['"2024-13"', '"May 2024"', '202405', '2024-05-01']) {
+    fs.writeFileSync(path.join(imageDir, "flags.md"), `---\nflags:\n  test-badge.svg:\n    name: Test\n    achieved: ${invalid}\n---`);
+    assert.throws(() => getBadges(fixturePosts, imageDir), /achieved must be/);
+  }
+  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    name: Test\n    achieved: ""\n---');
+  assert.equal(getBadges([{ slug: "year-only", checkpoint: true, badges: ["test-badge.svg"], date: "2020" }], imageDir)[0].achieved, null, "Year-only dates do not invent a month");
+  const datedPosts = [
+    { slug: "later", checkpoint: true, badges: ["test-badge.svg"], date: "2025-08-15" },
+    { slug: "earlier", checkpoint: true, badges: ["test-badge.svg"], date: "2023-02" },
+  ];
+  assert.equal(getBadges(datedPosts, imageDir)[0].achieved, "2023-02", "Blank metadata uses the earliest linked checkpoint month");
+  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    achieved: "2024-05"\n---');
+  assert.equal(getBadges(datedPosts, imageDir)[0].achieved, "2024-05", "Explicit months override checkpoint dates");
+  assert.equal(getBadges([], imageDir)[0].achieved, null, "WIP flags have no achievement month");
+  fs.writeFileSync(path.join(imageDir, "newest.svg"), '<svg/>');
+  fs.writeFileSync(path.join(imageDir, "undated.svg"), '<svg/>');
+  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    achieved: "2024-05"\n  newest.svg:\n    name: Most recent flag\n---');
+  const sorted = getBadges([...datedPosts,
+    { slug: "newest", checkpoint: true, badges: ["newest.svg"], date: "2026-01" },
+    { slug: "undated", checkpoint: true, badges: ["undated.svg"], date: "2020" },
+  ], imageDir);
+  assert.equal(sorted.map((badge) => badge.id).join(), "newest,test-badge,undated", "Newest months first, undated last");
+  assert.equal(sorted[0].name, "Most recent flag", "One Markdown file supplies independent entries for multiple images");
+  for (const [header, error] of [
+    ['flags: []', /mapping/],
+    ['flags:\n  missing.svg: {}', /missing badge image/],
+    ['flags:\n  newest.svg: text', /must contain/],
+    ['flags:\n  newest.svg:\n    name: ""', /name must be/],
+  ]) {
+    fs.writeFileSync(path.join(imageDir, "flags.md"), `---\n${header}\n---`);
+    assert.throws(() => getBadges(datedPosts, imageDir), error);
+  }
+  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    achieved: "2024-05"\n---');
+  fs.unlinkSync(path.join(imageDir, "newest.svg"));
+  fs.unlinkSync(path.join(imageDir, "undated.svg"));
   assert.equal(discovered[0].status, "earned");
   assert.equal(discovered[0].checkpoints.join(), "checkpoint");
   writePost("second", 'checkpoint: true\nbadges: "test-badge.svg"');

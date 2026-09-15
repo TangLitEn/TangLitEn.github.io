@@ -21,16 +21,20 @@
 .exhibit :global(.flag-expand[aria-expanded="true"] .flag-chevron) { transform: rotate(180deg); }
 .exhibit :global(.flag-card) { display: flex; flex-direction: column; min-width: 0; border-radius: 8px; margin: 0; padding: 0; }
 .exhibit :global(a.flag-card:hover) { background: #ffffff40; }
+.exhibit :global(.flag-caption) { position: relative; z-index: 2; padding: 4px 6px 16px; text-align: center; line-height: 1.4; }
+.exhibit :global(.flag-name) { display: block; color: var(--accent); font-size: 13px; overflow-wrap: anywhere; }
+.exhibit :global(.flag-date) { display: block; min-height: 1.4em; margin-top: 5px; color: #4d594c; font-size: 11px; }
 .exhibit :global(.flag-slot) { height: 190px; position: relative; }
 .exhibit :global(.flag-fallback) { position: absolute; inset: 12px 4px; display: flex; align-items: center; justify-content: center; }
 .exhibit :global(.flag-fallback img) { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(3px 6px 5px #28392018); }
 .exhibit :global(.flag-loaded .flag-fallback) { visibility: hidden; }
 .exhibit :global(.flag-wip .flag-fallback) { filter: grayscale(1); opacity: .65; }
-.exhibit :global(.flag-shelf) { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0; padding: 6px; }
+.exhibit :global(.flag-shelf) { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 6px; }
 .exhibit :global(.flag-marquee) { overflow: hidden; }
 .exhibit :global(.flag-marquee-track) { display: flex; width: max-content; min-width: 200%; animation: marquee 32s linear infinite; }
-.exhibit :global(.flag-marquee-copy) { display: flex; flex: 1 0 auto; justify-content: space-around; }
-.exhibit :global(.flag-marquee .flag-card) { flex: 0 0 74px; }
+/* Intrinsic widths must include every flag so the repeated groups never overlap. */
+.exhibit :global(.flag-marquee-copy) { display: flex; flex: 1 0 auto; min-width: max-content; justify-content: space-around; }
+.exhibit :global(.flag-marquee .flag-card) { flex: 0 0 auto; width: 74px; }
 .exhibit :global(.flag-marquee .flag-slot) { height: 105px; }
 .exhibit :global(.flag-marquee .flag-fallback) { inset: 6px 3px; }
 .exhibit :global(.flag-marquee:hover .flag-marquee-track) { animation-play-state: paused; }
@@ -39,14 +43,13 @@
 .exhibit :global(.flag-status-group > h2) { padding: 6px 6px 0; font-size: 10px; }
 .exhibit :global(.flag-status-group + .flag-status-group) { border-top: 1px solid #c9d1c6; margin-top: 6px; padding-top: 8px; }
 @keyframes marquee { to { transform: translateX(-50%); } }
-@media (max-width: 850px) { .exhibit :global(.flag-shelf) { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 850px) { .exhibit :global(.flag-shelf) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 600px) {
-  .exhibit :global(.flag-shelf) { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 4px; }
+  .exhibit :global(.flag-shelf) { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 4px; }
   .exhibit :global(.flag-slot) { height: 155px; }
-  .exhibit :global(.flag-marquee .flag-card) { flex-basis: 64px; }
+  .exhibit :global(.flag-marquee .flag-card) { width: 64px; }
   .exhibit :global(.flag-marquee .flag-slot) { height: 90px; }
 }
-@media (max-width: 380px) { .exhibit :global(.flag-shelf) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) {
   .exhibit :global(.flag-marquee-track) { animation: none; min-width: 100%; }
   .exhibit :global(.flag-marquee-copy + .flag-marquee-copy) { display: none; }
