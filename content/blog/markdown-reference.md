@@ -5,14 +5,13 @@ tags: ["Reference"]
 description: "A copyable example of the Markdown features supported by this notebook."
 image: "/images/graduation.jpg"
 draft: true
-checkpoint: false
 ---
 
 This is a non-confidential authoring reference, hidden from the website by `draft: true`. Read it in your editor or on GitHub. The full authoring manual is in the repository's `README.md`.
 
 To see this page in the local preview, temporarily set `draft: false` and open `/blog/markdown-reference/`. Restore `draft: true` before publishing the site. Drafts have no website route while hidden, including in local development. A draft committed to this public repository is not private.
 
-Copy this file to a new lowercase, hyphenated `.md` filename when starting a post. Replace the title, date, tags, description, cover image, and example content. Set `checkpoint: false` for a notebook post, or `checkpoint: true` to place it in About’s Life checkpoints instead of the notebook.
+Copy this file to a new lowercase, hyphenated `.md` filename when starting a post. Replace the title, date, tags, description, cover image, and example content. Save blogs in `content/blog/` and life checkpoint stories in `content/checkpoints/`. The folder determines the type; no `checkpoint` field is needed. Only checkpoint files use the optional `badges` field to link their badge artwork.
 
 ## Text and structure
 
@@ -136,7 +135,6 @@ The language label is optional. Code formatting is supported; syntax coloring is
 | Setting | Value | Effect |
 | --- | --- | --- |
 | draft | true | Excluded from the website |
-| checkpoint | true | Appears in About’s Life checkpoints instead of the notebook |
 | tags | An array of topic names | Creates topic links and filters |
 
 Wide tables and code blocks scroll within the article on narrow screens.

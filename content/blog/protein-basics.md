@@ -4,7 +4,6 @@ date: "2026-09-07"
 tags: ["Nutrition", "Learning"]
 description: "A starter note on amino acids, what proteins do, and where dietary protein comes from. Filler content for the new notebook."
 draft: true
-checkpoint: false
 ---
 
 > Filler note — a starting point for the notebook, to be replaced or expanded later.

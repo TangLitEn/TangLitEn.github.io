@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { Marked, Renderer } from "marked";
 import { isSimulationName, simulations, type SimulationName } from "./simulations";
 
-const POSTS_DIR = path.join(process.cwd(), "content", "blog");
+const CONTENT_DIR = path.join(process.cwd(), "content");
 const VALID_SLUG_REGEX = /^[a-z0-9-]+$/;
 const VALID_DATE_REGEX = /^\d{4}(?:-\d{2}){0,2}$/;
 
@@ -175,18 +175,31 @@ const resolveMarkedArg = (
   };
 };
 
-export function getAllPostSlugs(): string[] {
-  const files = fs.readdirSync(POSTS_DIR).filter((file) => file.endsWith(".md"));
-
-  return files
-    .map((file) => file.replace(/\.md$/, ""))
-    .filter((slug) => {
+function getPostSources() {
+  const seen = new Set<string>();
+  return ["blog", "checkpoints"].flatMap((collection) => {
+    const directory = path.join(CONTENT_DIR, collection);
+    if (!fs.existsSync(directory)) return [];
+    return fs.readdirSync(directory, { withFileTypes: true }).flatMap((file) => {
+      if (!file.isFile() || !file.name.endsWith(".md")) return [];
+      const slug = file.name.replace(/\.md$/, "");
       if (!VALID_SLUG_REGEX.test(slug)) {
         console.warn(`[posts] Skipping invalid slug from filename: "${slug}"`);
-        return false;
+        return [];
       }
-      return matter(fs.readFileSync(path.join(POSTS_DIR, `${slug}.md`), "utf8")).data.draft !== true;
+      if (seen.has(slug)) {
+        throw new Error(`Duplicate post slug "${slug}" in content/blog and content/checkpoints. Filenames must be unique across both folders.`);
+      }
+      seen.add(slug);
+      return [{ slug, fullPath: path.join(directory, file.name), checkpoint: collection === "checkpoints" }];
     });
+  });
+}
+
+export function getAllPostSlugs(): string[] {
+  return getPostSources()
+    .filter(({ fullPath }) => matter(fs.readFileSync(fullPath, "utf8")).data.draft !== true)
+    .map(({ slug }) => slug);
 }
 
 export function getAllPostsMeta(): PostMeta[] {
@@ -213,11 +226,11 @@ export function getSearchIndex(): SearchEntry[] {
 export function getPostBySlug(slug: string): RenderedPost & { meta: PostMeta } {
   assertValidSlug(slug);
 
-  const fullPath = path.join(POSTS_DIR, `${slug}.md`);
-  if (!fs.existsSync(fullPath)) {
+  const source = getPostSources().find((post) => post.slug === slug);
+  if (!source) {
     throw new Error(`Post not found for slug "${slug}"`);
   }
-  const raw = fs.readFileSync(fullPath, "utf8");
+  const raw = fs.readFileSync(source.fullPath, "utf8");
   const { data, content } = matter(raw);
 
   const tags =
@@ -233,8 +246,8 @@ export function getPostBySlug(slug: string): RenderedPost & { meta: PostMeta } {
     tags,
     description: String(data.description ?? "").trim(),
     image,
-    checkpoint: data.checkpoint === true,
-    badges: data.checkpoint === true
+    checkpoint: source.checkpoint,
+    badges: source.checkpoint
       ? [...new Set((Array.isArray(data.badges) ? data.badges : typeof data.badges === "string" ? [data.badges] : []).map((badge: unknown) => String(badge).trim()).filter(Boolean))]
       : [],
     readingMinutes: Math.max(1, Math.ceil(content.split(/\s+/).length / 220))

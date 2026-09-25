@@ -1,6 +1,6 @@
 # Lit En’s personal notebook
 
-This site turns files in `content/blog/` into posts. You write Markdown, preview locally, then publish through the existing GitHub Pages workflow. No CMS or database is needed.
+This site turns Markdown files in `content/blog/` into blog posts and files in `content/checkpoints/` into life checkpoint stories. You write Markdown, preview locally, then publish through the existing GitHub Pages workflow. No CMS or database is needed.
 
 This README is the authoring manual. [markdown-reference.md](content/blog/markdown-reference.md) is a copyable example post with `draft: true`. Read it in your editor or on GitHub; drafts do not have a page on the website, even in local development.
 
@@ -49,7 +49,6 @@ date: "2026-09-07"
 tags: ["Learning", "Research"]
 description: "A short summary of the question, experiment, or idea."
 draft: false
-checkpoint: false
 ---
 
 ## The question
@@ -68,24 +67,22 @@ Explain the idea in my own words.[^reflection]
 [^reflection]: My personal comment, uncertainty, or source goes here.
 ```
 
-The filename determines the URL: `my-first-note.md` becomes `/blog/my-first-note/`. Use lowercase letters, numbers, and hyphens, with the `.md` extension. Put files directly in `content/blog/`; nested folders are not scanned. Titles and body text can contain other languages, including Chinese.
+The filename determines the URL: `my-first-note.md` becomes `/blog/my-first-note/`. Use lowercase letters, numbers, and hyphens, with the `.md` extension. Put blog files directly in `content/blog/` and life checkpoint files directly in `content/checkpoints/`; nested folders are not scanned. Filenames must be unique across both folders, including drafts. Both collections retain `/blog/<filename>/` article URLs, so moving an existing post between folders preserves its links. Titles and body text can contain other languages, including Chinese.
 
 Renaming a file changes its URL and can break old links. Editing its title does not change its URL.
 
 ## All post options
 
-The settings at the top are YAML **front matter**. These are all the fields currently supported:
+The settings at the top are YAML **front matter**. These fields are supported by both blogs and checkpoints:
 
 | Field | Example | Behavior when omitted |
 | --- | --- | --- |
 | `title` | `title: "Learning in public"` | Uses the filename without `.md`. Set this for every post. |
 | `date` | `date: "2026-09-07"` | Falls back to `1970-01-01`. Set this for every post. |
 | `description` | `description: "A short introduction to this note."` | No summary text. Used in post listings, the article introduction, and page metadata. |
-| `tags` | `tags: ["Learning", "Research"]` | No tags. Tags link to their collection’s filtered timeline. |
+| `tags` | `tags: ["Learning", "Research"]` | No tags. Blog tags link to the filtered Posts timeline; checkpoint tags are labels. |
 | `image` | `image: "/blog/my-note/cover.jpg"` | No cover image. Used above the article and on its checkpoint entry. |
 | `draft` | `draft: true` | Defaults to `false`: the post is included in the website. |
-| `badges` | `badges: ["student-leader.svg"]` | Optional badge image filenames from `public/badges/`; only published checkpoints count. |
-| `checkpoint` | `checkpoint: true` | Defaults to `false`: the post appears in the Posts timeline but not Life checkpoints. |
 
 Use real YAML booleans, `true` and `false`, **without quotes**. `draft: "true"` is a string and will not hide a post.
 
@@ -113,10 +110,12 @@ Keep tag spelling and capitalization consistent. Repeated identical tags on one 
 
 The two collections are separate:
 
-- `checkpoint: false` (or omitted): a notebook post, shown in the Posts timeline.
-- `checkpoint: true`: a life checkpoint, shown in About’s timeline and excluded from the notebook.
+- `content/blog/`: blog posts, shown in the Posts timeline.
+- `content/checkpoints/`: life checkpoint stories, linked from their badges and excluded from the notebook.
 
-Both use the same Markdown format and keep their `/blog/filename/` article URLs. Search covers both and labels each result. The Tags page has separate Posts and Life checkpoints sections. Each tag opens its collection’s timeline with the tag filter applied. Both timelines group entries by year and support tag and year filters. Filters are saved in the URL and work with browser Back/Forward. All 15 original entries are life checkpoints; `protein-basics.md` is the notebook’s initial filler note.
+The folder determines the collection; no `checkpoint` frontmatter field is needed. Only checkpoint files support `badges`, an optional array of image paths such as `badges: ["Brains/NTU.png"]`. Omit it when a checkpoint is not yet assigned to a badge. Blog files do not use `checkpoint` or `badges`.
+
+Both use the same Markdown format and keep their `/blog/filename/` article URLs. Search covers both and labels each result. Notebook tag links open the Posts timeline with tag and year filters saved in the URL. The Checkpoint page also groups badges into Brains and Brawls, with each badge linking to its nested stories. TINKRR, Learnr, and MediaTek are retained as drafts and excluded from the published site.
 
 Extra front-matter fields such as `author`, `slug`, `category`, `published`, `hidden`, or `readingTime` currently have no effect. Use `draft` to control inclusion and the filename to control the URL.
 
@@ -170,7 +169,7 @@ Task-list boxes show their saved state; they are not an interactive task tracker
 ```markdown
 [External source](https://example.com)
 [Another post](/blog/learnr/)
-[Life checkpoints](/about/#checkpoints)
+[Life checkpoints](/checkpoints/)
 [A section below](#what-i-learned)
 [Download my PDF](/files/my-paper.pdf)
 ```
@@ -185,7 +184,7 @@ For a small button-style link, use the site's custom syntax:
 
 ```markdown
 [[Visit Learnr|https://www.learnr.sg/]]
-[[Back to checkpoints|/about/#checkpoints]]
+[[Back to checkpoints|/checkpoints/]]
 ```
 
 This requires both a label and a URL separated by `|`. It is not wiki-link syntax; `[[A post title]]` alone does not link to another post.
@@ -343,10 +342,10 @@ Future dates do not schedule publication: a post with `draft: false` is included
 | Feature | Where its information comes from |
 | --- | --- |
 | Post URL | Markdown filename |
-| Posts timeline | Non-draft notebook posts (`checkpoint: false` or omitted), grouped by year, newest first |
+| Posts timeline | Non-draft files in `content/blog/`, grouped by year, newest first |
 | Timeline year | The post's `date` |
-| Life checkpoints on About | Non-draft posts with `checkpoint: true` |
-| Tag filters and directory | The `tags` arrays; each collection has its own filters and Tags section, linking to its filtered timeline |
+| Life checkpoint stories | Non-draft files in `content/checkpoints/`, nested under their linked badges |
+| Blog tag filters | The `tags` arrays in `content/blog/` |
 | Header search | Titles, descriptions, tags, and rendered post text |
 | Reading time | Approximate source word count divided by 220, rounded up; at least one minute |
 | Author label | Currently fixed to Lit En |
@@ -370,10 +369,10 @@ For equations or diagrams today, include an image and a text explanation.
 
 | Symptom | Check |
 | --- | --- |
-| New post is missing or returns 404 | Check `draft`, filename spelling, `.md` extension, and that the file is directly in `content/blog/`. Refresh or restart the preview after adding a new file. |
+| New post is missing or returns 404 | Check `draft`, filename spelling, `.md` extension, and that the file is directly in `content/blog/` or `content/checkpoints/`. Refresh or restart the preview after adding a new file. |
 | Post unexpectedly appears on the website | Use `draft: true`, not `draft: "true"`, `hidden: true`, or `published: false`. |
-| Post is missing from the notebook | Check that `checkpoint` is `false` or omitted, and `draft` is not `true`. |
-| Post does not appear in Life checkpoints | Add `checkpoint: true` and ensure it is not a draft. |
+| Post is missing from the notebook | Place it in `content/blog/` and ensure `draft` is not `true`. |
+| Post does not appear in Life checkpoints | Place it in `content/checkpoints/`, set its `badges` image path, and ensure it is not a draft. |
 | Date shows 1970 | Supply a quoted, valid date in the supported format. |
 | Front matter causes an error | Check the opening/closing `---`, quote strings containing colons, and use spaces instead of tabs for YAML indentation. |
 | Image is missing | Check that it exists under `public/`, that the URL omits `public`, and that capitalization matches. |
@@ -450,7 +449,7 @@ Future changes in that repository are not synchronized automatically.
 | --- | --- |
 | Welcome and notebook sidebar | `app/page.tsx` |
 | About biography, side notes, and page layout | `app/about/page.tsx` |
-| Life checkpoints section on About | `components/LifeCheckpoints.tsx` |
+| Checkpoint page and Brains/Brawls categories | `app/checkpoints/page.tsx` |
 | Shared year-grouped timelines and URL filters | `components/PostIndex.tsx` |
 | Tag destination links | `lib/format.ts` |
 | Floating back-to-top button | `components/BackToTop.tsx` |
@@ -461,55 +460,40 @@ Future changes in that repository are not synchronized automatically.
 | Markdown rendering and custom syntax | `lib/posts.ts` |
 | Site title, description, and share metadata | `app/layout.tsx` |
 
-The old `/checkpoints/` and `/timeline/` routes forward older bookmarks to `/about/#checkpoints`. The header has one About tab for both the biography and life checkpoints.
+The `/checkpoints/` page contains the Brains and Brawls badge categories, with stories available through each badge. The old `/timeline/` route forwards to `/checkpoints/`. The header has separate Checkpoint and About tabs.
 
-Tag links use `/?tag=Research#posts` for research notes and `/about/?tag=NTU#checkpoints` for life checkpoints. An optional `year` parameter combines with the tag filter. Existing `/tags/name/` bookmarks offer links to the matching timelines.
+Notebook tag links use `/?tag=Research#posts`; an optional `year` parameter combines with the tag filter. Checkpoint stories display their tags as labels.
 
-### Personal honours and badges
+### Checkpoint badges
 
-Place badge images in `public/badges/` (PNG, JPG, WebP, GIF, SVG, or AVIF). Each image automatically becomes a badge; its filename supplies its display name. For example, `student-leader.png` becomes **Student Leader**. Edit all flag names and achievement months in the single `public/badges/flags.md` file, keyed by exact image filename:
+Place artwork in `public/Badges R1/Brains/` or `public/Badges R1/Brawls/`. Edit names and achievement dates in `public/Badges R1/badges.md`, using image paths relative to that folder:
 
 ```yaml
 ---
-flags:
-  student-leader.svg:
-    name: "Student Leader"
-    achieved: "2023-08"
-  community-builder.svg:
-    name: "Community Builder"
-    achieved: ""
+badges:
+  Brains/NTU.png:
+    name: "NTU EEE Valedictorian"
+    achieved: "2024"
+  Brawls/FBS_400kg.png:
+    name: "FBS_400kg"
+    achieved: "2025-08-23"
 ---
 ```
 
-`name` overrides the filename-derived name. `achieved` is the achievement month in quoted `YYYY-MM` format, displayed as **Aug 2023** beneath an earned flag. Leave it empty (`achieved: ""`) to use the earliest linked published checkpoint month. Set it explicitly to override that month. If no linked checkpoint has a month, the date stays hidden. Both fields and entries are optional; images without an entry use the filename-derived name and checkpoint month. Markdown body text is not displayed. Checkpoint links still determine earned/WIP status; setting a month does not earn a flag.
+The folder determines the category. Dates accept quoted years (`YYYY`), months (`YYYY-MM`), or full dates (`YYYY-MM-DD`) and preserve that precision on the page. Each category sorts newest first; year-only dates sort after more precise dates in the same year. Undated badges sort last, with ties sorted by name.
 
-In a checkpoint post’s Markdown frontmatter, reference the exact image filenames:
+An achievement date marks a badge as earned even before stories are added. A badge with neither an achievement date nor a published story is WIP. Story publication dates never substitute for an achievement date.
+
+To nest a story beneath a badge, create its Markdown file in `content/checkpoints/` and reference the image path in its frontmatter:
 
 ```yaml
-checkpoint: true
-badges: ["student-leader.svg", "community-builder.svg"]
+badges: ["Brains/NTU.png"]
 ```
 
-- A badge linked to at least one published checkpoint is **earned**.
-- An image with no published checkpoint linking to it is automatically **WIP**, greyed out on About.
-- Draft posts and ordinary posts (`checkpoint: false` or omitted) do not count.
-- Omit `badges` or use `badges: []` to leave a checkpoint unassigned.
-- One checkpoint can reference multiple images; checkpoints referencing the same image are grouped together.
-- A single filename string, such as `badges: "valedictorian.svg"`, also works.
+Only published life checkpoints are linked. One badge can collect several stories; a story can reference multiple badges. The 12 current stories are grouped under NTU EEE Valedictorian (9), Sin Chew Daily Student Reporter (2), and Micron Junior Engineer (1).
 
+Each badge opens its own `/checkpoints/<badge-id>/` page with its achievement date and related stories, newest first. Badges without written stories show “Story coming soon”. Badge IDs come from image filenames without extensions; filenames must produce unique IDs across both folders. Missing image references or invalid dates fail the build with a descriptive error.
 
-The existing starter SVG banners can be replaced with your own artwork. If you change an image’s filename or extension, update its key in `public/badges/flags.md` and the corresponding post headers. Filenames must be unique even across extensions; subfolders are not scanned. Missing image references in published checkpoints fail the build with a message identifying the post and filename.
+The Checkpoint page ends after the badge categories. There is no separate life checkpoint timeline or filter bar. About contains the biography and no badge or flag display.
 
-The About timeline supports `?view=badges#checkpoints` and the default chronological checkpoint view. Tag and year filters work in both views without changing earned/WIP status. Unassigned checkpoints remain under “More life checkpoints” in badge view. Changes to images or post headers take effect on the next build and deployment.
-
-Run `npm run test:content` to check badge discovery, checkpoint links, automatic WIP status, and content rules.
-
-### Honours banners
-
-The About honours collection displays vertical hanging banners with no ground poles. Each SVG or image is the complete fabric artwork, including its silhouette and transparent cutouts, mapped directly onto the Three.js cloth. The top edge stays fixed while the lower fabric ripples. Images in `public/badges/` define the honours; checkpoint links still determine earned/WIP status. WIP flags use grey fabric. The timeline shows compact versions of the same banner artwork beside checkpoint stories.
-
-The collection always uses a cloudy background and the fixed strong-wind animation in `lib/flag-motion.ts`. There are no location settings, weather selectors, or external weather requests. Each banner has independent ripple timing.
-
-A compact marquee sits below “Things I’m part of” and above the About section navigation. **Show all flags** expands it into a captioned grid, with WIP flags above a divider and collected flags below. The same button collapses it. Collected flags show their names and achievement months, sorted newest first with undated flags last and ties sorted by name. WIP flags show only their names. Earned flags link to their checkpoints; names, achievement months, and WIP status are available to screen readers in the expanded view. The collapsed marquee is decorative for keyboard and screen-reader users; the expand button provides access to every flag. The marquee pauses on hover and respects reduced-motion preferences. Reduced-motion preferences disable animation. The 3D scene loads near the collection and stops rendering offscreen or in a hidden tab. One WebGL context is shared across all flags. Static banners and links remain available without WebGL or JavaScript.
-
-Run `npm run test:flags` for strong-wind and cloth displacement checks.
+Run `npm run test:content` to check badge dates, ordering, artwork paths, all story assignments, archived posts, and content rules.

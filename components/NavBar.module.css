@@ -1,0 +1,56 @@
+.tools {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 16px;
+  margin-left: auto;
+  min-width: 0;
+}
+
+.tools :global(.header-search) {
+  flex: 0 1 205px;
+  width: 205px;
+  min-width: 0;
+  margin-left: 0;
+}
+
+.dragon {
+  display: block;
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+@media (max-width: 900px) {
+  .tools :global(.header-search) {
+    flex-basis: 180px;
+    width: 180px;
+  }
+}
+
+@media (max-width: 680px) {
+  .tools {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    justify-self: end;
+    width: 100%;
+    max-width: 280px;
+    gap: 8px;
+  }
+
+  .tools :global(.header-search) {
+    flex: 1 1 0;
+    width: auto;
+    max-width: 220px;
+  }
+
+  .dragon {
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
+  }
+}

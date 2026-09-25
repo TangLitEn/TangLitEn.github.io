@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import type { Badge } from "../lib/badges";
-import { Medal } from "./BadgeCollection";
+import BadgeImage from "./BadgeImage";
 import type { PostMeta } from "../lib/posts";
 import { formatDate, timelineHref } from "../lib/format";
 
@@ -25,8 +25,7 @@ function TimelineContent({ posts, badges = [], collection = "posts", tag = "", y
 
   const badgeGroups = badges.filter((badge) => badge.status === "earned")
     .map((badge) => ({ badge, entries: filtered.filter((post) => badge.checkpoints.includes(post.slug)) }))
-    .filter((group) => group.entries.length)
-    .sort((a, b) => b.entries[0].date.localeCompare(a.entries[0].date));
+    .filter((group) => group.entries.length);
   const unbadged = filtered.filter((post) => !badges.filter((badge) => badge.checkpoints.includes(post.slug)).length);
 
   return <section id={collection} className={`post-index ${checkpoints ? "about-checkpoints" : "research-timeline"}`} aria-labelledby={`${collection}-heading`}>
@@ -55,7 +54,7 @@ function TimelineContent({ posts, badges = [], collection = "posts", tag = "", y
     {!filtered.length && <div className="empty-state"><h3>No entries here yet.</h3><p>Try a different tag or year.</p></div>}
     {checkpoints && view === "badges" ? <div className="badge-groups">
       {badgeGroups.map(({ badge, entries }) => <section id={`badge-${badge.id}`} className="badge-group" key={badge.id} aria-labelledby={`badge-heading-${badge.id}`}>
-        <div className="badge-group-heading"><Medal badge={badge} /><div><p className="eyebrow">EARNED · {entries.length} {entries.length === 1 ? "CHECKPOINT" : "CHECKPOINTS"}{tag || year ? " MATCHING FILTERS" : ""}</p><h3 id={`badge-heading-${badge.id}`}>{badge.name}</h3></div></div>
+        <div className="badge-group-heading"><BadgeImage badge={badge} /><div><p className="eyebrow">EARNED · {entries.length} {entries.length === 1 ? "CHECKPOINT" : "CHECKPOINTS"}{tag || year ? " MATCHING FILTERS" : ""}</p><h3 id={`badge-heading-${badge.id}`}>{badge.name}</h3></div></div>
         <ul className="badge-checkpoints">{entries.map((post) => <li key={post.slug}><time dateTime={post.date}>{formatDate(post.date, true)}</time><Link href={`/blog/${post.slug}/`}>{post.title}<span aria-hidden="true"> ↗</span></Link></li>)}</ul>
       </section>)}
       {!!unbadged.length && <section className="badge-group"><h3>More life checkpoints</h3><p>Stories that aren’t part of an earned badge yet.</p><ul className="badge-checkpoints">{unbadged.map((post) => <li key={post.slug}><time dateTime={post.date}>{formatDate(post.date, true)}</time><Link href={`/blog/${post.slug}/`}>{post.title} ↗</Link></li>)}</ul></section>}
@@ -68,7 +67,7 @@ function TimelineContent({ posts, badges = [], collection = "posts", tag = "", y
           {post.description && <p>{post.description}</p>}
           <div className="tag-links">{post.tags.map((item) => <Link key={item} href={timelineHref(item, checkpoints)}>{item}</Link>)}</div>
         </div>
-        {checkpoints && badges.filter((badge) => badge.checkpoints.includes(post.slug)).length > 0 && <aside className="checkpoint-badges" aria-label="Earned badges">{badges.filter((badge) => badge.checkpoints.includes(post.slug)).map((badge) => <Link key={badge.id} href={`/about/?view=badges#badge-${badge.id}`}><Medal badge={badge} /><span>{badge.name}</span></Link>)}</aside>}
+        {checkpoints && badges.filter((badge) => badge.checkpoints.includes(post.slug)).length > 0 && <aside className="checkpoint-badges" aria-label="Earned badges">{badges.filter((badge) => badge.checkpoints.includes(post.slug)).map((badge) => <Link key={badge.id} href={`/checkpoints/${badge.id}/`}><BadgeImage badge={badge} /><span>{badge.name}</span></Link>)}</aside>}
         {post.image && <Link className="checkpoint-image" href={`/blog/${post.slug}/`} aria-label={`View ${post.title}`}><Image src={post.image} alt={post.title} width={220} height={160} /></Link>}
       </article>)}</div>
     </section>)}</div>}

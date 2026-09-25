@@ -1,11 +1,8 @@
 import Image from "next/image";
 import styles from "./about.module.css";
-import BadgeCollection from "../../components/BadgeCollection";
-import { getBadges } from "../../lib/badges";
-import LifeCheckpoints from "../../components/LifeCheckpoints";
 import { CONTACT } from "../../data/contact";
 import { ORGANISATION_CHIPS } from "../../data/organisations";
-import { getCheckpointPostsMeta, renderMarkdown } from "../../lib/posts";
+import { renderMarkdown } from "../../lib/posts";
 
 export const metadata = { title: "About" };
 const biography = `## A little about me
@@ -28,14 +25,13 @@ Garage@EEE was a place to spark ideas with my friends and learn.[^garage] My uni
 
 Before university, I was a Sin Chew Daily cadet reporter, organising camps and learning to lead a team.
 
-Here are some of the moments behind that story, from student reporting and university life to engineering and the projects I’m building now.
+Read the stories behind these moments on my [Checkpoint page](/checkpoints/), from student reporting and university life to engineering and the projects I’m building now.
 
 [^ntu]: I graduated as valedictorian with Highest Distinction (CGPA 4.79/5.00). [The checkpoint](/blog/ntu-valedictorian/).
 [^garage]: “The place where I call home in NTU.” Some of my best memories are from [Garage@EEE](/blog/garage-eee/).
 `;
 export default function AboutPage() {
   const { html } = renderMarkdown(biography);
-  const badges = getBadges(getCheckpointPostsMeta());
   return (
     <main id="main-content" className="page about-page">
       <div className={`page-heading about-heading ${styles.heading}`}>
@@ -50,15 +46,9 @@ export default function AboutPage() {
         </div>
         <Image src="/avatar.png" alt="Lit En" width={104} height={104} />
       </div>
-      <BadgeCollection badges={badges} />
-      <nav className="year-jumps about-sections" aria-label="About sections">
-        <a href="#biography">About me</a>
-        <a href="#checkpoints">Life checkpoints</a>
-      </nav>
       <div id="biography" className="article-layout">
         <article className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
       </div>
-      <LifeCheckpoints />
       <div className="about-connect">
         <a className="underlined-link" href={`mailto:${CONTACT.email}`}>Get in touch ↗</a>
       </div>

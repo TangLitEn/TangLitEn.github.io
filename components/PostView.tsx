@@ -19,7 +19,7 @@ export default function PostView({ post, children }: { post: Post; children: Rea
       <div className="entry-meta"><time dateTime={post.meta.date}>{formatDate(post.meta.date)}</time><span>·</span><span>{post.meta.readingMinutes} min read</span><span>·</span><span>Lit En</span></div>
       <h1>{post.meta.title}</h1>
       {post.meta.description && <p className="article-description">{post.meta.description}</p>}
-      <div className="tag-links">{post.meta.tags.map((tag) => <Link key={tag} href={timelineHref(tag, post.meta.checkpoint)}>{tag}</Link>)}</div>
+      <div className="tag-links">{post.meta.tags.map((tag) => post.meta.checkpoint ? <span key={tag}>{tag}</span> : <Link key={tag} href={timelineHref(tag)}>{tag}</Link>)}</div>
     </header>
     {post.headings.length > 1 && <details className="contents"><summary>On this page</summary><ol>{post.headings.map((heading) => <li key={heading.id} className={heading.depth === 3 ? "subheading" : ""}><a href={`#${heading.id}`}>{heading.text}</a></li>)}</ol></details>}
     {post.meta.image && <button type="button" className="article-cover" onClick={() => openImage(post.meta.image!, post.meta.title)} aria-label="Enlarge cover image"><Image src={post.meta.image} alt={post.meta.title} width={960} height={540} priority /></button>}
@@ -29,7 +29,7 @@ export default function PostView({ post, children }: { post: Post; children: Rea
         const img = target as HTMLImageElement; openImage(img.src, img.alt);
       }
     }}>{children}</article>
-    <div className="article-end"><span>Thanks for reading.</span><Link href={post.meta.checkpoint ? "/about/#checkpoints" : "/"}>{post.meta.checkpoint ? "More life checkpoints ↗" : "More from the notebook ↗"}</Link></div>
+    <div className="article-end"><span>Thanks for reading.</span><Link href={post.meta.checkpoint ? "/checkpoints/" : "/"}>{post.meta.checkpoint ? "More life checkpoints ↗" : "More from the notebook ↗"}</Link></div>
     <Lightbox src={lightboxSrc} alt={lightboxAlt} onClose={() => setLightboxSrc(null)} />
   </>;
 }

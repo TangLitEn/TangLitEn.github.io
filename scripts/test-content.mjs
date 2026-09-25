@@ -51,8 +51,13 @@ assert.throws(() => renderMarkdown("> ::: simulation uniform-plane-waves\n> :::"
 assert.equal(renderMarkdown(`## Explore\n\n${simulationMarker}\n\n## Explore`).headings.map((heading) => heading.id).join(","), "explore,explore-2,explore-3", "Markdown and simulation anchors cannot collide");
 assert.equal(renderMarkdown("Plain post.").blocks.length, 1, "Ordinary posts retain one Markdown block");
 const posts = getAllPostsMeta();
-const originalSlugs = ["29th-cohort-cadet-reporter-training-camp", "enitio2021", "enitio2023", "event-director-ntu-buddhist-society", "garage-eee", "johor-segamat-division-29th-cohort-camp", "learnr", "mediatek", "micron-problem-solving", "mlda-eee", "ntu-eee-lead-laos", "ntu-valedictorian", "project-design-and-optimization-of-radio-frequency-circuits-ntu", "tinkrr-life-optimization", "uksaei-2022-foreign-foragers-learn-grow-local"];
+const originalSlugs = ["29th-cohort-cadet-reporter-training-camp", "enitio2021", "enitio2023", "event-director-ntu-buddhist-society", "garage-eee", "johor-segamat-division-29th-cohort-camp", "micron-problem-solving", "mlda-eee", "ntu-eee-lead-laos", "ntu-valedictorian", "project-design-and-optimization-of-radio-frequency-circuits-ntu", "uksaei-2022-foreign-foragers-learn-grow-local"];
 for (const slug of originalSlugs) assert.ok(posts.find((post) => post.slug === slug)?.checkpoint, `${slug} remains a published checkpoint`);
+for (const slug of ["learnr", "mediatek", "tinkrr-life-optimization"]) {
+  assert.ok(!posts.some((post) => post.slug === slug), `${slug} is unpublished`);
+  assert.ok(fs.existsSync(path.join(process.cwd(), "content/checkpoints", `${slug}.md`)), `${slug} source is preserved`);
+  assert.ok(!loadPosts().getSearchIndex().some((post) => post.slug === slug), `${slug} is absent from search`);
+}
 const notebookPosts = getNotebookPostsMeta();
 const wavePost = notebookPosts.find((post) => post.slug === "uniform-plane-waves");
 assert.ok(wavePost, "The interactive wave post appears in the notebook");
@@ -79,7 +84,8 @@ try {
   assert.equal(published[0].date, "2026-09-07", "Unquoted YAML dates retain their value");
   assert.equal(published[0].checkpoint, false, "New notes are not automatically life checkpoints");
   assert.equal(published[0].tags.length, 1, "Tags are deduplicated");
-  fs.writeFileSync(path.join(fixture, "content/blog/milestone.md"), '---\ntitle: A milestone\ndate: "2020-01-01"\ncheckpoint: true\ntags: [Research]\n---\nA life checkpoint');
+  fs.mkdirSync(path.join(fixture, "content/checkpoints"));
+  fs.writeFileSync(path.join(fixture, "content/checkpoints/milestone.md"), '---\ntitle: A milestone\ndate: "2020-01-01"\nbadges: ["Brains/NTU.png", "Brains/NTU.png"]\ntags: [Research]\n---\nA life checkpoint');
   assert.equal(fixturePosts.getNotebookPostsMeta().length, 1);
   assert.equal(fixturePosts.getCheckpointPostsMeta().length, 1);
   assert.equal(fixturePosts.getNotebookPostsMeta()[0].slug, "published");
@@ -88,90 +94,116 @@ try {
   assert.equal(search.length, 2, "Search includes both collections");
   assert.match(search[0].searchText, /body-only searchable phrase/);
   assert.doesNotMatch(search[0].searchText, /draft-only/);
+  assert.equal(fixturePosts.getPostBySlug("milestone").meta.badges.join(), "Brains/NTU.png", "Checkpoint badge references are preserved and deduplicated");
+  fs.writeFileSync(path.join(fixture, "content/checkpoints/hidden.md"), '---\ndraft: true\n---\nHidden checkpoint');
+  assert.equal(fixturePosts.getAllPostSlugs().length, 2, "Drafts in either folder stay unpublished");
+  fs.writeFileSync(path.join(fixture, "content/blog/published.md"), '---\ncheckpoint: true\nbadges: ["Brains/NTU.png"]\n---\nA blog');
+  assert.equal(fixturePosts.getPostBySlug("published").meta.checkpoint, false, "Legacy frontmatter cannot turn a blog into a checkpoint");
+  assert.equal(fixturePosts.getPostBySlug("published").meta.badges.length, 0, "Blogs ignore checkpoint-only badge fields");
+  fs.writeFileSync(path.join(fixture, "content/checkpoints/milestone.md"), '---\ncheckpoint: false\nbadges: "Brains/NTU.png"\n---\nA checkpoint');
+  assert.equal(fixturePosts.getPostBySlug("milestone").meta.checkpoint, true, "Checkpoint folder determines the collection regardless of legacy flags");
+  assert.equal(fixturePosts.getPostBySlug("milestone").meta.badges.join(), "Brains/NTU.png", "Scalar badge references work in checkpoint files");
+  fs.mkdirSync(path.join(fixture, "content/blog/nested.md"));
+  fs.writeFileSync(path.join(fixture, "content/blog/nested.md/ignored.md"), "Nested");
+  assert.equal(fixturePosts.getAllPostSlugs().length, 2, "Only direct Markdown files are scanned");
+  fs.writeFileSync(path.join(fixture, "content/blog/milestone.md"), '---\ndraft: true\n---\nDuplicate');
+  assert.throws(() => fixturePosts.getAllPostSlugs(), /Duplicate post slug "milestone"/, "Duplicate filenames across folders cannot shadow existing URLs, even for drafts");
+  assert.throws(() => fixturePosts.getPostBySlug("milestone"), /Duplicate post slug/);
+  fs.rmSync(path.join(fixture, "content/blog"), { recursive: true });
+  assert.equal(fixturePosts.getAllPostSlugs().join(), "milestone", "Checkpoint-only sites work without a blog folder");
+  fs.rmSync(path.join(fixture, "content/checkpoints"), { recursive: true });
+  assert.equal(fixturePosts.getAllPostSlugs().length, 0, "Missing content folders are empty collections");
+
 } finally { fs.rmSync(fixture, { recursive: true, force: true }); }
-console.log("Content checks passed: Markdown, notes, links, media, all 15 existing entries, drafts, dates, collection separation, and search indexing.");
+console.log("Content checks passed: Markdown, notes, links, media, published checkpoint entries, drafts, dates, collection separation, and search indexing.");
 
 const badgeModule = { exports: {} };
 const badgeSource = fs.readFileSync(new URL("../lib/badges.ts", import.meta.url), "utf8");
 vm.runInNewContext(ts.transpileModule(badgeSource, { compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true } }).outputText, { exports: badgeModule.exports, require, process });
 const { getBadges } = badgeModule.exports;
 const badges = getBadges(posts);
-assert.ok(badges.find((badge) => badge.id === "student-leader").checkpoints.length > 1);
-assert.equal(badges.filter((badge) => badge.checkpoints.includes("event-director-ntu-buddhist-society")).length, 2);
-assert.equal(badges.find((badge) => badge.id === "life-os").status, "wip");
+const expected = {
+  brains: [
+    ["SGD 100K saving", "2026-04-05"],
+    ["Micron Junior Engineer", "2024-08-19"],
+    ["NTU EEE Valedictorian", "2024"],
+    ["STPM 4.00", "2019"],
+    ["SPM 10A", "2017"],
+    ["Sin Chew Daily Student Reporter", "2015"],
+    ["UPSR 7A", "2012"],
+  ],
+  brawls: [
+    ["Gunung Ledang", "2025-10-19"],
+    ["FBS_400kg", "2025-08-23"],
+    ["Singapore Coast to Coast trail 40km", "2025-08-09"],
+    ["Ironman Bangsean", "2020-02-23"],
+  ],
+};
+assert.equal(badges.length, 11);
+for (const [category, entries] of Object.entries(expected)) {
+  assert.equal(JSON.stringify(badges.filter((badge) => badge.category === category).map((badge) => [badge.name, badge.achieved])), JSON.stringify(entries), `${category} dates and newest-first order match the supplied list`);
+}
+const expectedLinks = {
+  micronjuniorengineer: ["micron-problem-solving"],
+  ntu: ["ntu-valedictorian", "mlda-eee", "ntu-eee-lead-laos", "uksaei-2022-foreign-foragers-learn-grow-local", "enitio2023", "garage-eee", "project-design-and-optimization-of-radio-frequency-circuits-ntu", "event-director-ntu-buddhist-society", "enitio2021"],
+  xj: ["29th-cohort-cadet-reporter-training-camp", "johor-segamat-division-29th-cohort-camp"],
+};
+for (const badge of badges) {
+  assert.equal(badge.status, "earned", "All supplied badges are achieved, including those awaiting stories");
+  assert.ok(fs.existsSync(path.join(process.cwd(), "public", decodeURIComponent(badge.image))), `${badge.name} artwork exists`);
+  assert.equal(JSON.stringify([...badge.checkpoints].sort()), JSON.stringify((expectedLinks[badge.id] ?? []).sort()), `${badge.name} has exactly the requested nested stories`);
+}
+assert.equal(badges.flatMap((badge) => badge.checkpoints).length, checkpointPosts.length);
+
+const formatModule = { exports: {} };
+vm.runInNewContext(ts.transpileModule(fs.readFileSync(new URL("../lib/format.ts", import.meta.url), "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText, { exports: formatModule.exports });
+const { formatAchievementDate, timelineHref } = formatModule.exports;
+assert.equal(formatAchievementDate("2024"), "2024", "Year-only dates do not invent a month");
+assert.equal(formatAchievementDate("2025-08-09"), "9 Aug 2025");
+assert.equal(formatAchievementDate("2026-04-05"), "5 Apr 2026");
+assert.equal(formatAchievementDate("2020-02"), "Feb 2020");
+assert.equal(timelineHref("NTU", true), "/checkpoints/");
+
 const badgeFixture = fs.mkdtempSync(path.join(os.tmpdir(), "badge-content-"));
 try {
-  fs.mkdirSync(path.join(badgeFixture, "public/badges"), { recursive: true });
-  fs.mkdirSync(path.join(badgeFixture, "content/blog"), { recursive: true });
-  const imageDir = path.join(badgeFixture, "public/badges");
-  fs.writeFileSync(path.join(imageDir, "test-badge.svg"), '<svg xmlns="http://www.w3.org/2000/svg"/>');
-  fs.writeFileSync(path.join(imageDir, "README.md"), "Ignored");
-  fs.mkdirSync(path.join(imageDir, "ignored.png"));
-  const writePost = (name, header) => fs.writeFileSync(path.join(badgeFixture, `content/blog/${name}.md`), `---\ntitle: Test\n${header}\n---\nTest`);
-  writePost("draft", 'draft: true\ncheckpoint: true\nbadges: ["test-badge.svg"]');
-  writePost("note", 'badges: ["test-badge.svg"]');
-  let fixturePosts = loadPosts(badgeFixture).getAllPostsMeta();
-  assert.equal(fixturePosts.length, 1, "Drafts are excluded");
-  assert.equal(fixturePosts[0].badges.length, 0, "Notebook posts cannot earn badges");
-  assert.equal(getBadges(fixturePosts, imageDir)[0].status, "wip");
-  writePost("checkpoint", 'checkpoint: true\nbadges: ["test-badge.svg", "test-badge.svg"]');
-  fixturePosts = loadPosts(badgeFixture).getAllPostsMeta();
-  assert.equal(fixturePosts.find((post) => post.slug === "checkpoint").badges.length, 1, "Duplicate references are normalized");
-  let discovered = getBadges(fixturePosts, imageDir);
-  assert.equal(discovered.length, 1, "Only image files count");
-  assert.equal(discovered[0].name, "Test Badge");
-  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    name: Custom flag name\n    achieved: "2024-05"\n---\nIgnored description.');
-  discovered = getBadges(fixturePosts, imageDir);
-  assert.equal(discovered[0].name, "Custom flag name", "Markdown overrides the filename caption");
-  assert.equal(discovered[0].achieved, "2024-05");
-  for (const invalid of ['"2024-13"', '"May 2024"', '202405', '2024-05-01']) {
-    fs.writeFileSync(path.join(imageDir, "flags.md"), `---\nflags:\n  test-badge.svg:\n    name: Test\n    achieved: ${invalid}\n---`);
-    assert.throws(() => getBadges(fixturePosts, imageDir), /achieved must be/);
+  fs.mkdirSync(path.join(badgeFixture, "Brains"));
+  fs.mkdirSync(path.join(badgeFixture, "Brawls"));
+  fs.writeFileSync(path.join(badgeFixture, "Brains/test.png"), "test image");
+  fs.writeFileSync(path.join(badgeFixture, "Brawls/other.png"), "test image");
+  const writeMetadata = (header) => fs.writeFileSync(path.join(badgeFixture, "badges.md"), `---\n${header}\n---`);
+  const entry = (date) => `badges:\n  Brains/test.png:\n    name: Test Badge\n    achieved: ${date}`;
+  for (const date of ['"2012"', '"2024-08"', '"2024-02-29"']) {
+    writeMetadata(entry(date));
+    const badge = getBadges([], badgeFixture).find((badge) => badge.id === "test");
+    assert.equal(badge.achieved, JSON.parse(date));
+    assert.equal(badge.status, "earned", "Achievement date is independent of published stories");
+    assert.equal(badge.category, "brains");
   }
-  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    name: Test\n    achieved: ""\n---');
-  assert.equal(getBadges([{ slug: "year-only", checkpoint: true, badges: ["test-badge.svg"], date: "2020" }], imageDir)[0].achieved, null, "Year-only dates do not invent a month");
-  const datedPosts = [
-    { slug: "later", checkpoint: true, badges: ["test-badge.svg"], date: "2025-08-15" },
-    { slug: "earlier", checkpoint: true, badges: ["test-badge.svg"], date: "2023-02" },
-  ];
-  assert.equal(getBadges(datedPosts, imageDir)[0].achieved, "2023-02", "Blank metadata uses the earliest linked checkpoint month");
-  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    achieved: "2024-05"\n---');
-  assert.equal(getBadges(datedPosts, imageDir)[0].achieved, "2024-05", "Explicit months override checkpoint dates");
-  assert.equal(getBadges([], imageDir)[0].achieved, null, "WIP flags have no achievement month");
-  fs.writeFileSync(path.join(imageDir, "newest.svg"), '<svg/>');
-  fs.writeFileSync(path.join(imageDir, "undated.svg"), '<svg/>');
-  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    achieved: "2024-05"\n  newest.svg:\n    name: Most recent flag\n---');
-  const sorted = getBadges([...datedPosts,
-    { slug: "newest", checkpoint: true, badges: ["newest.svg"], date: "2026-01" },
-    { slug: "undated", checkpoint: true, badges: ["undated.svg"], date: "2020" },
-  ], imageDir);
-  assert.equal(sorted.map((badge) => badge.id).join(), "newest,test-badge,undated", "Newest months first, undated last");
-  assert.equal(sorted[0].name, "Most recent flag", "One Markdown file supplies independent entries for multiple images");
+  for (const invalid of ['"2024-13"', '"2025-02-29"', '"2024-04-31"', '"2024-01-00"', '"May 2024"', '2012', '2024-05-01']) {
+    writeMetadata(entry(invalid));
+    assert.throws(() => getBadges([], badgeFixture), /achieved must be/);
+  }
   for (const [header, error] of [
-    ['flags: []', /mapping/],
-    ['flags:\n  missing.svg: {}', /missing badge image/],
-    ['flags:\n  newest.svg: text', /must contain/],
-    ['flags:\n  newest.svg:\n    name: ""', /name must be/],
+    ['badges: []', /mapping/],
+    ['badges:\n  missing.png: {}', /missing badge image/],
+    ['badges:\n  Brains/test.png: text', /must contain/],
+    ['badges:\n  Brains/test.png:\n    name: ""', /name must be/],
   ]) {
-    fs.writeFileSync(path.join(imageDir, "flags.md"), `---\n${header}\n---`);
-    assert.throws(() => getBadges(datedPosts, imageDir), error);
+    writeMetadata(header);
+    assert.throws(() => getBadges([], badgeFixture), error);
   }
-  fs.writeFileSync(path.join(imageDir, "flags.md"), '---\nflags:\n  test-badge.svg:\n    achieved: "2024-05"\n---');
-  fs.unlinkSync(path.join(imageDir, "newest.svg"));
-  fs.unlinkSync(path.join(imageDir, "undated.svg"));
-  assert.equal(discovered[0].status, "earned");
-  assert.equal(discovered[0].checkpoints.join(), "checkpoint");
-  writePost("second", 'checkpoint: true\nbadges: "test-badge.svg"');
-  assert.equal(getBadges(loadPosts(badgeFixture).getAllPostsMeta(), imageDir)[0].checkpoints.length, 2, "Scalar references and shared badges work");
-  writePost("second", 'checkpoint: true');
-  writePost("checkpoint", 'checkpoint: true\nbadges: []');
-  assert.equal(getBadges(loadPosts(badgeFixture).getAllPostsMeta(), imageDir)[0].status, "wip", "Removing all links restores WIP");
-  writePost("checkpoint", 'checkpoint: true\nbadges: ["missing.png"]');
-  assert.throws(() => getBadges(loadPosts(badgeFixture).getAllPostsMeta(), imageDir), /checkpoint.*missing badge image.*missing.png/);
-  fs.writeFileSync(path.join(imageDir, "test-badge.png"), "test");
-  assert.throws(() => getBadges([], imageDir), /unique name/);
-  assert.equal(getBadges([], path.join(badgeFixture, "absent")).length, 0, "An absent badge folder yields an empty collection");
+  writeMetadata('badges: {}');
+  const unlinked = getBadges([], badgeFixture);
+  assert.equal(unlinked.find((badge) => badge.id === "other").category, "brawls");
+  assert.equal(unlinked[0].status, "wip");
+  const linked = getBadges([{ slug: "story", date: "2024-08", checkpoint: true, badges: ["Brains/test.png"] }], badgeFixture).find((badge) => badge.id === "test");
+  assert.equal(linked.checkpoints.join(), "story");
+  assert.equal(linked.achieved, null, "Story dates do not invent achievement dates");
+  assert.throws(() => getBadges([{ slug: "story", checkpoint: true, badges: ["Brains/missing.png"] }], badgeFixture), /story.*missing badge image/);
+  fs.writeFileSync(path.join(badgeFixture, "Brawls/test.png"), "duplicate id");
+  assert.throws(() => getBadges([], badgeFixture), /unique name/);
+  assert.equal(getBadges([], path.join(badgeFixture, "absent")).length, 0);
 } finally {
   fs.rmSync(badgeFixture, { recursive: true, force: true });
 }
-console.log("Folder-based badges, frontmatter links, and automatic WIP checks passed.");
+console.log("Badge artwork, dates, chronological order, and all 12 nested story links passed.");

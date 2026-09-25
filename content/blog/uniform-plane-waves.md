@@ -4,7 +4,6 @@ date: "2026-09-10"
 tags: ["Engineering", "Learning"]
 description: "What happens when a wave meets a boundary? Change the angle, materials, and polarization to explore reflection and refraction."
 draft: false
-checkpoint: false
 ---
 
 This visualizer began as a C++ terminal project for Engineering Electromagnetics (EE3001) at NTU in 2022. The experiment below brings that sketch into this notebook, with live reflection, refraction, and power calculations.
