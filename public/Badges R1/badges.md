@@ -30,9 +30,6 @@ badges:
   Brains/MicronJuniorEngineer.png:
     name: "Micron Junior Engineer"
     achieved: "2024-08-19"
-  Brains/SGD100K.png:
-    name: "SGD 100K saving"
-    achieved: "2026-04-05"
 ---
 
 # Checkpoint badges
