@@ -1,7 +1,7 @@
 ---
-title: "SMJK Seg Hwa - SPM"
-date: "2017-12"
-description: "A memorable secondary school"
+title: "SMJK Seg Hwa - STPM"
+date: "2019-12"
+description: "Malaysian Higher School Certificate"
 badges: ["Brains/STPM.png"]
 ---
 
