@@ -1,7 +1,6 @@
 ---
 title: "29th Cohort Cadet Reporter Training Camp"
 date: "2016-12"
-tags: ["XJ13179"]
 description: "Chief Camp Coordinator for 29th Cohort State-level Cadet Reporter Training Camp at Sin Chew Daily."
 image: "/blog/2016-12/1625671699455.jpeg"
 badges: ["Brains/XJ.png"]

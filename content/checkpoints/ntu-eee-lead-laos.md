@@ -1,7 +1,6 @@
 ---
 title: "NTU EEE Lead OCIP - Laos 2023"
 date: "2023-05"
-tags: ["NTU"]
 description: "Laos 2023 Overseas Community Involvement Project"
 image: "/blog/2023-05/team.jpeg"
 badges: ["Brains/NTU.png"]

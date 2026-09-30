@@ -1,7 +1,6 @@
 ---
 title: "SMJK Seg Hwa - SPM"
 date: "2017-12"
-tags: ["NTU", "Garage@EEE", "Enitio"]
 description: "A memorable secondary school"
 badges: ["Brains/SPM.png"]
 ---

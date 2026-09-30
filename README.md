@@ -73,14 +73,14 @@ Renaming a file changes its URL and can break old links. Editing its title does 
 
 ## All post options
 
-The settings at the top are YAML **front matter**. These fields are supported by both blogs and checkpoints:
+The settings at the top are YAML **front matter**. These fields are supported by blogs and checkpoints as indicated:
 
 | Field | Example | Behavior when omitted |
 | --- | --- | --- |
 | `title` | `title: "Learning in public"` | Uses the filename without `.md`. Set this for every post. |
 | `date` | `date: "2026-09-07"` | Falls back to `1970-01-01`. Set this for every post. |
 | `description` | `description: "A short introduction to this note."` | No summary text. Used in post listings, the article introduction, and page metadata. |
-| `tags` | `tags: ["Learning", "Research"]` | No tags. Blog tags link to the filtered Posts timeline; checkpoint tags are labels. |
+| `tags` | `tags: ["Learning", "Research"]` | Blog only. No tags by default; tags link to the filtered Posts timeline. Ignored for checkpoints. |
 | `image` | `image: "/blog/my-note/cover.jpg"` | No cover image. Used above the article and on its checkpoint entry. |
 | `draft` | `draft: true` | Defaults to `false`: the post is included in the website. |
 
@@ -98,7 +98,7 @@ Field names start at the left edge. The text below `>-` is indented by two space
 
 Dates accept `"2026"`, `"2026-09"`, or `"2026-09-07"`. Missing month/day values become January/the first day for sorting. Displayed dates currently show the month and year, even when a full date is supplied. Use valid calendar dates. Posts sort newest first.
 
-Tags are an array. You can also write:
+Blog tags are an array. Life checkpoints do not use tags. You can also write:
 
 ```yaml
 tags:
@@ -462,7 +462,7 @@ Future changes in that repository are not synchronized automatically.
 
 The `/checkpoints/` page contains the Brains and Brawls badge categories, with stories available through each badge. The old `/timeline/` route forwards to `/checkpoints/`. The header has separate Checkpoint and About tabs.
 
-Notebook tag links use `/?tag=Research#posts`; an optional `year` parameter combines with the tag filter. Checkpoint stories display their tags as labels.
+Notebook tag links use `/?tag=Research#posts`; an optional `year` parameter combines with the tag filter. Checkpoint stories do not use tags.
 
 ### Checkpoint badges
 

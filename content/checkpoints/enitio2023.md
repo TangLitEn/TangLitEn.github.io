@@ -1,7 +1,6 @@
 ---
 title: "Enitio 2023: INSURGENCE"
 date: "2022-09"
-tags: ["NTU", "Garage@EEE", "Enitio"]
 description: "President for Enitio 2023 at Garage@EEE (Sep 2022 - Jun 2023)."
 image: "/blog/2023-08/DSC00848.JPG"
 badges: ["Brains/NTU.png"]

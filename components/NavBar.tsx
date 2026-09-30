@@ -120,7 +120,7 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
               <ul id="search-results" role="listbox" aria-label="Search results">
                 {results.map((entry, index) => <li id={`search-result-${index}`} key={entry.slug} role="option" aria-selected={active === index}>
                   <Link href={`/blog/${entry.slug}/`} onClick={() => { setOpen(false); input.current?.blur(); }}>
-                    <strong>{entry.title}</strong><span>{entry.checkpoint ? "Life checkpoint" : "Notebook"} · {entry.date.slice(0, 4)} · {entry.tags.join(" / ")}</span>
+                    <strong>{entry.title}</strong><span>{entry.checkpoint ? "Life checkpoint" : "Notebook"} · {entry.date.slice(0, 4)}{entry.tags.length > 0 && ` · ${entry.tags.join(" / ")}`}</span>
                   </Link>
                 </li>)}
               </ul>

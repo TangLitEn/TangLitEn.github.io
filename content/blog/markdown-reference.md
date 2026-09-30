@@ -11,7 +11,7 @@ This is a non-confidential authoring reference, hidden from the website by `draf
 
 To see this page in the local preview, temporarily set `draft: false` and open `/blog/markdown-reference/`. Restore `draft: true` before publishing the site. Drafts have no website route while hidden, including in local development. A draft committed to this public repository is not private.
 
-Copy this file to a new lowercase, hyphenated `.md` filename when starting a post. Replace the title, date, tags, description, cover image, and example content. Save blogs in `content/blog/` and life checkpoint stories in `content/checkpoints/`. The folder determines the type; no `checkpoint` field is needed. Only checkpoint files use the optional `badges` field to link their badge artwork.
+Copy this file to a new lowercase, hyphenated `.md` filename when starting a post. Replace the title, date, tags, description, cover image, and example content. Save blogs in `content/blog/` and life checkpoint stories in `content/checkpoints/`. The folder determines the type; no `checkpoint` field is needed. Only blog files use `tags`; omit them for life checkpoints. Only checkpoint files use the optional `badges` field to link their badge artwork.
 
 ## Text and structure
 
@@ -135,7 +135,7 @@ The language label is optional. Code formatting is supported; syntax coloring is
 | Setting | Value | Effect |
 | --- | --- | --- |
 | draft | true | Excluded from the website |
-| tags | An array of topic names | Creates topic links and filters |
+| tags | An array of topic names (blogs only) | Creates topic links and filters; ignored for checkpoints |
 
 Wide tables and code blocks scroll within the article on narrow screens.
 

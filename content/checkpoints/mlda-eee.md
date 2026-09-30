@@ -1,7 +1,6 @@
 ---
 title: "Machine Learning and Data Analytics Lab at NTU EEE"
 date: "2023-07"
-tags: ["NTU"]
 description: "President at Machine Learning and Data Analytics Lab at NTU EEE (Jul 2023 - May 2024)."
 image: "/blog/2023-07/EXCO.jpeg"
 badges: ["Brains/NTU.png"]

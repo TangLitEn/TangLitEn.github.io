@@ -1,7 +1,6 @@
 ---
 title: "Garage@EEE"
 date: "2022-08"
-tags: ["Garage@EEE", "NTU"]
 description: "The place where I call home in NTU"
 image: "/blog/2022-08/DirectorInRed.jpg"
 badges: ["Brains/NTU.png"]

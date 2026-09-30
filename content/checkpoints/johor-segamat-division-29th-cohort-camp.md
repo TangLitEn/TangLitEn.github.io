@@ -1,7 +1,6 @@
 ---
 title: "Johor-Segamat Division 29th Cohort Camp"
 date: "2016-07"
-tags: ["XJ13179"]
 description: "29届昔加末学生记者队一日营：异界重生."
 image: "/blog/2016-07/1625671920420.jpeg"
 badges: ["Brains/XJ.png"]

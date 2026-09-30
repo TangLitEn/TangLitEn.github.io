@@ -234,7 +234,7 @@ export function getPostBySlug(slug: string): RenderedPost & { meta: PostMeta } {
   const { data, content } = matter(raw);
 
   const tags =
-    Array.isArray(data.tags) && data.tags.length
+    !source.checkpoint && Array.isArray(data.tags) && data.tags.length
       ? [...new Set(data.tags.map((tag) => String(tag).trim()).filter(Boolean))]
       : [];
   const image = typeof data.image === "string" && isSafeUrl(data.image) ? data.image : undefined;
