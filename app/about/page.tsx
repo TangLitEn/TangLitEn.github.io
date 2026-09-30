@@ -1,9 +1,38 @@
 import Image from "next/image";
+import ProfileSignature from "../../components/ProfileSignature";
+import profileStyles from "../../components/ProfileSignature.module.css";
 import styles from "./about.module.css";
 import { CONTACT } from "../../data/contact";
 import { renderMarkdown } from "../../lib/posts";
 
 export const metadata = { title: "About" };
+
+const travelFlags = [
+  { code: "la", name: "Laos" },
+  { code: "th", name: "Thailand" },
+  { code: "tw", name: "Taiwan" },
+  { code: "id", name: "Indonesia" },
+  { code: "fr", name: "France" },
+  { code: "be", name: "Belgium" },
+  { code: "de", name: "Germany" },
+  { code: "it", name: "Italy" },
+  { code: "ch", name: "Switzerland" },
+  { code: "cn", name: "China" },
+  { code: "vn", name: "Vietnam" },
+  { code: "kr", name: "South Korea" },
+];
+
+function WavingFlag({ code, name }: { code: string; name: string }) {
+  const height = ({ my: 150, be: 260, ch: 300, de: 180 } as Record<string, number>)[code] ?? 200;
+  return (
+    <span className={styles.flagMount}>
+      <span className={styles.flagFabric}>
+        <Image src={`/flags/${code}.svg`} alt={`Flag of ${name}`} width={300} height={height} />
+      </span>
+    </span>
+  );
+}
+
 const biography = `## A little about me
 
 I’m a graduate of Nanyang Technological University (NTU) in Electrical & Electronic Engineering, where I was actively involved in student leadership and hands-on projects.[^ntu]
@@ -33,14 +62,47 @@ export default function AboutPage() {
   const { html } = renderMarkdown(biography);
   return (
     <main id="main-content" className="page about-page">
-      <div className={`page-heading about-heading ${styles.heading}`}>
+      <div className={`page-heading ${profileStyles.header} ${styles.heading}`}>
         <div>
           <p className="eyebrow">THE PERSON BEHIND THE NOTES</p>
           <h1>Hello, I’m Lit En<span className="accent">.</span></h1>
           <p className="about-tagline">Analyse problems. Design solutions. Keep learning.</p>
         </div>
-        <Image src="/avatar.png" alt="Lit En" width={104} height={104} />
+        <ProfileSignature />
       </div>
+      <section className={styles.places} aria-label="My travels">
+        <details className={styles.flagDetails}>
+          <summary>
+            <span className={styles.travelHeading}>Places I’ve been</span>
+            <span className={styles.toggleLabel}>
+              <span className={styles.showLabel}>See all flags</span>
+              <span className={styles.hideLabel}>Show less</span>
+              <span className={styles.chevron} aria-hidden="true">⌄</span>
+            </span>
+          </summary>
+          <ul className={styles.travelFlags} aria-label="All travel destinations">
+            {travelFlags.map((flag) => (
+              <li key={flag.code}>
+                <WavingFlag code={flag.code} name={flag.name} />
+                <span className={styles.countryName}>{flag.name}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
+        <div className={styles.marquee} tabIndex={0} role="region" aria-label="Travel flags. Expand See all flags to view the full list without scrolling.">
+          <div className={styles.marqueeTrack}>
+            {[false, true].map((duplicate) => (
+              <ul className={styles.marqueeGroup} key={String(duplicate)} aria-hidden={duplicate || undefined}>
+                {travelFlags.map((flag) => (
+                  <li key={flag.code} title={flag.name}>
+                    <WavingFlag code={flag.code} name={flag.name} />
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </div>
+      </section>
       <div id="biography" className="article-layout">
         <article className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
       </div>

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import ProfileSignature from "../../components/ProfileSignature";
+import profileStyles from "../../components/ProfileSignature.module.css";
 import BadgeImage from "../../components/BadgeImage";
 import { formatAchievementDate } from "../../lib/format";
 import { getBadges } from "../../lib/badges";
@@ -20,10 +22,13 @@ export default function CheckpointPage() {
   const badges = getBadges(getCheckpointPostsMeta());
   return (
     <main id="main-content" className="page">
-      <div className="page-heading">
-        <p className="eyebrow">MOMENTS THAT SHAPE ME</p>
-        <h1>Checkpoint<span className="accent">.</span></h1>
-        <p>A collection of milestones, with a story behind every badge.</p>
+      <div className={`page-heading ${profileStyles.header}`}>
+        <div>
+          <p className="eyebrow">MOMENTS THAT SHAPE ME</p>
+          <h1>Checkpoint<span className="accent">.</span></h1>
+          <p>A collection of milestones, with a story behind every badge.</p>
+        </div>
+        <ProfileSignature />
       </div>
       <nav className={`year-jumps ${styles.sections}`} aria-label="Checkpoint sections">
         <a href="#brains">Brains</a>

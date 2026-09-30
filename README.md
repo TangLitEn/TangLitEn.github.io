@@ -449,6 +449,7 @@ Future changes in that repository are not synchronized automatically.
 | --- | --- |
 | Welcome and notebook sidebar | `app/page.tsx` |
 | About biography, side notes, and page layout | `app/about/page.tsx` |
+| Shared portrait, Malaysia/Singapore flags, and bilingual motto on Posts, Checkpoint, and About | `components/ProfileSignature.tsx` and `components/ProfileSignature.module.css` |
 | Checkpoint page and Brains/Brawls categories | `app/checkpoints/page.tsx` |
 | Shared year-grouped timelines and URL filters | `components/PostIndex.tsx` |
 | Tag destination links | `lib/format.ts` |
@@ -494,6 +495,6 @@ Only published life checkpoints are linked. One badge can collect several storie
 
 Each badge opens its own `/checkpoints/<badge-id>/` page with its achievement date and related stories, newest first. Badges without written stories show “Story coming soon”. Badge IDs come from image filenames without extensions; filenames must produce unique IDs across both folders. Missing image references or invalid dates fail the build with a descriptive error.
 
-The Checkpoint page ends after the badge categories. There is no separate life checkpoint timeline or filter bar. About contains the biography and no badge or flag display.
+The Checkpoint page ends after the badge categories. There is no separate life checkpoint timeline or filter bar. About contains the biography, compact Singapore and Malaysia flags beneath the portrait, and an automatically scrolling strip of flags under “Places I’ve been”. Country names appear only in the expanded travel grid or as hover labels. “See all flags” expands a stationary grid; the strip pauses on hover or keyboard focus and supports manual scrolling with reduced motion enabled. Edit travel destinations in `app/about/page.tsx` and the shared profile flags and motto in `components/ProfileSignature.tsx`. Local artwork lives in `public/flags/`; travel styles are in `app/about/about.module.css`, and shared profile styles are in `components/ProfileSignature.module.css`.
 
 Run `npm run test:content` to check badge dates, ordering, artwork paths, all story assignments, archived posts, and content rules.
