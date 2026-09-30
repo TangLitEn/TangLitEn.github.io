@@ -143,6 +143,10 @@ for (const [category, entries] of Object.entries(expected)) {
   assert.equal(JSON.stringify(badges.filter((badge) => badge.category === category).map((badge) => [badge.name, badge.achieved])), JSON.stringify(entries), `${category} dates and newest-first order match the supplied list`);
 }
 const expectedLinks = {
+  gunungledang: ["gunung-ledang"],
+  "ironmanbangsean-20": ["ironman-bangsean-2020"],
+  stpm: ["form6-stpm"],
+  spm: ["form5-spm"],
   micronjuniorengineer: ["micron-problem-solving"],
   ntu: ["ntu-valedictorian", "mlda-eee", "ntu-eee-lead-laos", "uksaei-2022-foreign-foragers-learn-grow-local", "enitio2023", "garage-eee", "project-design-and-optimization-of-radio-frequency-circuits-ntu", "event-director-ntu-buddhist-society", "enitio2021"],
   xj: ["29th-cohort-cadet-reporter-training-camp", "johor-segamat-division-29th-cohort-camp"],
@@ -205,4 +209,4 @@ try {
 } finally {
   fs.rmSync(badgeFixture, { recursive: true, force: true });
 }
-console.log("Badge artwork, dates, chronological order, and all 12 nested story links passed.");
+console.log(`Badge artwork, dates, chronological order, and all ${checkpointPosts.length} nested story links passed.`);
