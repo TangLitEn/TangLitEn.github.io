@@ -39,12 +39,17 @@ export default function CheckpointPage() {
             </div>
             {collection.length ? <div className={styles.badges}>
               {collection.map((badge) =>
-                <Link className={styles.badge} href={`/checkpoints/${badge.id}/`} key={badge.id}>
+                <article className={styles.badge} key={badge.id}>
                   <BadgeImage badge={badge} />
                   <h3>{badge.name}</h3>
-                  {badge.achieved && <time dateTime={badge.achieved}>{formatAchievementDate(badge.achieved)}</time>}
-                  <span>{badge.checkpoints.length ? `Read ${badge.checkpoints.length === 1 ? "the story" : `the ${badge.checkpoints.length} stories`}` : "View checkpoint"} <span aria-hidden="true">↗</span></span>
-                </Link>
+                  <div className={styles.badgeMeta}>
+                    {badge.achieved && <time dateTime={badge.achieved}>{formatAchievementDate(badge.achieved)}</time>}
+                    {badge.checkpoints.length > 0 && <>
+                      {badge.achieved && <span aria-hidden="true">*</span>}
+                      <Link href={`/checkpoints/${badge.id}/`}>Read {badge.checkpoints.length === 1 ? "the story" : `the ${badge.checkpoints.length} stories`} <span aria-hidden="true">↗</span></Link>
+                    </>}
+                  </div>
+                </article>
               )}
             </div> : <div className={styles.empty}><p>Badges coming soon.</p><span>The stories are already taking shape.</span></div>}
           </section>;

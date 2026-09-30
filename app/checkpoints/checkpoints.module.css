@@ -10,10 +10,10 @@
 .badge { display: flex; flex-direction: column; align-items: center; padding: 22px 18px; border: 1px solid var(--border); border-radius: 8px; text-align: center; background: var(--panel); }
 .badge :global(.medal-image) { width: min(100%, 200px); height: auto; aspect-ratio: 1; border-radius: 4px; }
 .badge h3 { font-family: var(--serif); font-size: 22px; line-height: 1.3; margin-top: 20px; }
-.badge time { margin-top: 10px; color: var(--muted); font-size: 12px; }
-.badge > span { margin-top: auto; padding-top: 20px; color: var(--accent); font-size: 12px; }
-.badge:hover { border-color: var(--accent); }
-.badge:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.badgeMeta { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin-top: 10px; color: var(--muted); font-size: 12px; }
+.badgeMeta a { color: var(--accent); white-space: nowrap; }
+.badgeMeta a:hover { text-decoration: underline; }
+.badgeMeta a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .detailHeading { display: flex; gap: 40px; align-items: center; margin-bottom: 48px; }
 .detailHeading :global(.medal-image) { width: 220px; height: auto; aspect-ratio: 1; border-radius: 8px; }
 .detailHeading h1 { font-family: var(--serif); font-size: clamp(30px, 5vw, 46px); line-height: 1.15; margin-top: 12px; overflow-wrap: anywhere; }
