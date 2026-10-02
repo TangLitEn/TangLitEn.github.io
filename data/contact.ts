@@ -20,7 +20,7 @@ const isValidHttpUrl = (value: string): boolean => {
 };
 
 const CONTACT_DATA: ContactData = {
-  email: "litentang@gmail.com",
+  email: "tangliten512@gmail.com",
   links: [
     { label: "GitHub", href: "https://github.com/TangLitEn" },
     { label: "Instagram", href: "https://www.instagram.com/liten_512/" }

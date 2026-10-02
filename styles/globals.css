@@ -746,11 +746,6 @@ img {
   height:104px;
   object-fit:cover;
   margin-right:50px}
-.about-connect {
-  display:flex;
-  gap:30px;
-  flex-wrap:wrap;
-  margin-top:25px}
 
 .md-media {
   display:grid;
@@ -1182,7 +1177,6 @@ img {
 .checkpoints-heading h2 { font-family: var(--serif); font-size: 28px; line-height: 1.3; letter-spacing: -.35px; }
 .checkpoints-heading p { margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.8; }
 .about-checkpoints > .year-jumps { border-top: 0; padding-top: 0; margin-bottom: 10px; }
-.about-page > .about-connect { justify-content: center; }
 @media (max-width: 680px) {
   .about-checkpoints { margin-top: 8px; padding-top: 8px; }
   .checkpoints-heading h2 { font-size: 26px; }

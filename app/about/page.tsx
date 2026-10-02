@@ -2,7 +2,6 @@ import Image from "next/image";
 import ProfileSignature from "../../components/ProfileSignature";
 import profileStyles from "../../components/ProfileSignature.module.css";
 import styles from "./about.module.css";
-import { CONTACT } from "../../data/contact";
 import { renderMarkdown } from "../../lib/posts";
 
 export const metadata = { title: "About" };
@@ -107,9 +106,6 @@ export default function AboutPage() {
       </section>
       <div id="biography" className="article-layout">
         <article className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
-      </div>
-      <div className="about-connect">
-        <a className="underlined-link" href={`mailto:${CONTACT.email}`}>Get in touch ↗</a>
       </div>
     </main>
   );
