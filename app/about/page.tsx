@@ -18,6 +18,8 @@ const travelFlags = [
   { code: "it", name: "Italy" },
   { code: "ch", name: "Switzerland" },
   { code: "cn", name: "China" },
+  { code: "mo", name: "Macao" },
+  { code: "hk", name: "Hong Kong" },
   { code: "vn", name: "Vietnam" },
   { code: "kr", name: "South Korea" },
 ];
