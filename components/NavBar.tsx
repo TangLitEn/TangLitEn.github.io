@@ -87,7 +87,7 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
     <header ref={header} className="site-header">
       <div className="header-inner">
         <Link href="/" className="wordmark" aria-label="Lit En home">
-          <Image src="/lien-logo.png" alt="LIEN" width={70} height={51} priority className="wordmark-logo" />
+          <Image src="/lien-logo.png" alt="LIEN" width={70} height={51} priority className={`${styles.logo} wordmark-logo`} />
         </Link>
         <nav className="main-nav" aria-label="Main navigation">
           {links.map(({ href, label, current }) => <Link key={href} href={href} aria-current={current ? "page" : undefined}>{label}</Link>)}
@@ -127,7 +127,9 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
               {!matches.length && <p className="search-hint">Try a topic, project, or a word from a post.</p>}
             </div>}
           </div>
-          <Image src="/dragon.png" alt="Dragon logo" width={64} height={64} className={styles.dragon} />
+          <span className={`${styles.logo} ${styles.dragon}`}>
+            <Image src="/dragon.png" alt="Dragon logo" width={96} height={96} />
+          </span>
         </div>
       </div>
     </header>
