@@ -419,12 +419,50 @@ Compare another setup below.
 Your conclusions.
 ```
 
-Currently `uniform-plane-waves` is the available simulation name. A name refers
+Currently `uniform-plane-waves` and `markov-chain` are available simulation names. A name refers
 to the registered component, not the Markdown filename. Repeated instances
 have independent controls, anchors, and share links. New share links restore
 the selected instance; older links without an instance parameter still restore
 the first wave simulator. They share that instance's settings, not the entire
-page's experiment state.
+page's experiment state. Sharing parameters currently applies to the wave simulator.
+
+The post at `/blog/markov-chains/` embeds the Markov graph builder with
+`::: simulation markov-chain`. Its two inputs accept spreadsheet clipboard TSV
+or quoted CSV. Its default online-course example uses entirely fictional data.
+The transition table is the first input and defines every state and edge;
+optional time data is the second input. Empty or invalid time data never hides
+valid transitions. Force-directed layout combines attraction, repulsion, and
+collision spacing, then expands the canvas to contain the entire graph.
+Adjust State spacing or use Actual size to inspect larger graphs. Up to 200
+states and 2,000 distinct edges are supported. PNG resolution follows the
+expanded canvas; very large exports scale down to fit raster browser limits.
+The graph uses the full preview width; styling controls sit in a collapsed
+panel below it. Select or click a state to emphasize its incoming and outgoing
+connections. All other transitions remain visible with reduced opacity.
+Automatic labels appear on focus when there are more than 20 transitions;
+choose Show all in Graph styling for every label in the all-states overview.
+Export current view PNG preserves focus, fading, visible labels, and dragged
+positions. Select All states to export an overview. Export every state ZIP
+creates one focused PNG per graph state, with numbered filenames, using a
+snapshot of the current positions and styling. It preserves the selected view,
+reports progress, and can be cancelled without downloading a partial archive.
+The assignment table lists every graph state in its first column, including
+states without time. Choose a workflow time row from the adjacent dropdown.
+Automatic suggestions stay editable; ambiguous matches are left unassigned.
+Each time row can belong to one state; selecting it elsewhere moves it, so its
+minutes are never counted twice. Unused time rows are listed separately.
+Select supplied
+probabilities or normalization from counts, adjust graph styling, drag nodes,
+and export PNG at 1×, 2×, or 3× resolution. Matching and export run locally.
+Missing time is represented separately from zero, and incomplete outgoing
+probabilities are reported without inventing edges. Editing either input
+table resets manual name overrides. Controls and input tables are independent
+for repeated instances; reloading the page restores the example.
+
+`lib/markov-chain/` owns parsing, name matching, layout, sample data, and PNG
+export. `components/blog/markov-chain/` owns the interface, SVG graph, and scoped
+styles. Run `npm run test:markov` for regression checks; the Pages workflow also
+runs them.
 
 Markers must be top-level blocks, outside lists and quotes. Inside fenced or
 indented code examples they remain literal text. An unknown simulation name

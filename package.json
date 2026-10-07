@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "test:content": "node scripts/test-content.mjs",
-    "test:upw": "node --test tests/uniform-plane-waves/*.test.mjs"
+    "test:upw": "node --test tests/uniform-plane-waves/*.test.mjs",
+    "test:markov": "node --test tests/markov-chain/*.test.mjs"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

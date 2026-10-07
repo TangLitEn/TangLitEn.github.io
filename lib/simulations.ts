@@ -1,6 +1,7 @@
 // Content metadata stays independent of React and browser-only components.
 export const simulations = {
   "uniform-plane-waves": { title: "Explore the boundary", anchor: "explore" },
+  "markov-chain": { title: "Build your Markov chain", anchor: "markov-builder" },
 } as const;
 
 export type SimulationName = keyof typeof simulations;

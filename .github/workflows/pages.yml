@@ -33,8 +33,8 @@ jobs:
       - name: Build static site
         run: npm run build
 
-      - name: Check notebook content and wave calculations
-        run: npm run test:content && npm run test:upw
+      - name: Check notebook content and interactive tools
+        run: npm run test:content && npm run test:upw && npm run test:markov
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
