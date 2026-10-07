@@ -1,7 +1,7 @@
 ---
 title: "Markov chains: reading the paths between states"
 date: "2026-10-07"
-tags: ["Research", "Data", "Tools"]
+tags: ["Mathematics", "Tools"]
 description: "What a Markov chain reveals about a workflow—and a browser tool that turns pasted time and transition tables into a weighted graph."
 draft: false
 ---
