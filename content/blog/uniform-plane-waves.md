@@ -1,7 +1,7 @@
 ---
 title: "Uniform plane waves: an interactive exploration"
 date: "2026-09-10"
-tags: ["Engineering", "Learning"]
+tags: ["Physics"]
 description: "What happens when a wave meets a boundary? Change the angle, materials, and polarization to explore reflection and refraction."
 draft: false
 ---
