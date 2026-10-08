@@ -20,9 +20,10 @@ const categories = [
 
 export default function CheckpointPage() {
   const badges = getBadges(getCheckpointPostsMeta());
+  const earnedBadges = badges.filter((badge) => badge.status === "earned");
   return (
     <main id="main-content" className="page">
-      <div className={`page-heading ${profileStyles.header}`}>
+      <div className={`page-heading ${profileStyles.header} ${styles.pageHeading}`}>
         <div>
           <p className="eyebrow">MOMENTS THAT SHAPE ME</p>
           <h1>Checkpoint<span className="accent">.</span></h1>
@@ -30,6 +31,44 @@ export default function CheckpointPage() {
         </div>
         <ProfileSignature />
       </div>
+      {earnedBadges.length > 0 && <section className={styles.earned} aria-label="Earned badges">
+        <details className={styles.badgeDetails}>
+          <summary>
+            <span className={styles.earnedHeading}>Badges I’ve earned</span>
+            <span className={styles.toggleLabel}>
+              <span className={styles.showLabel}>See all badges</span>
+              <span className={styles.hideLabel}>Show less</span>
+              <span className={styles.chevron} aria-hidden="true">⌄</span>
+            </span>
+          </summary>
+          <ul className={styles.earnedBadges} aria-label="All earned badges">
+            {earnedBadges.map((badge) => (
+              <li key={badge.id}>
+                <Link href={`/checkpoints/${badge.id}/`}>
+                  <BadgeImage badge={badge} />
+                  <span className={styles.earnedName}>{badge.name}</span>
+                  {badge.achieved && <time dateTime={badge.achieved}>{formatAchievementDate(badge.achieved)}</time>}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </details>
+        <div className={styles.marquee} tabIndex={0} role="region" aria-label="Earned badges. Expand See all badges to view the full list without scrolling.">
+          <div className={styles.marqueeTrack}>
+            {[false, true].map((duplicate) => (
+              <ul className={styles.marqueeGroup} key={String(duplicate)} aria-hidden={duplicate || undefined}>
+                {earnedBadges.map((badge) => (
+                  <li key={badge.id}>
+                    <Link href={`/checkpoints/${badge.id}/`} title={badge.name} aria-label={badge.name} tabIndex={duplicate ? -1 : undefined}>
+                      <BadgeImage badge={badge} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </div>
+      </section>}
       <nav className={`year-jumps ${styles.sections}`} aria-label="Checkpoint sections">
         <a href="#brains">Brains</a>
         <a href="#brawls">Brawls</a>
