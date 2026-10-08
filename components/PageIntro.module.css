@@ -1,0 +1,17 @@
+:global(.page):has(> .intro) {
+  padding-top: 36px;
+}
+
+.intro.intro {
+  min-height: 0;
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+}
+
+.intro > div > :last-child { margin-bottom: 0; }
+
+@media (max-width: 680px) {
+  :global(.page):has(> .intro) { padding-top: 28px; }
+  .intro.intro { margin-bottom: 20px; }
+}

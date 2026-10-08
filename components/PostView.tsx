@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import Lightbox from "./Lightbox";
+import PostLogo from "./PostLogo";
 import type { Heading, PostMeta } from "../lib/posts";
 import { formatDate, timelineHref } from "../lib/format";
 
@@ -14,12 +15,15 @@ export default function PostView({ post, children }: { post: Post; children: Rea
   const [lightboxAlt, setLightboxAlt] = useState<string | undefined>(undefined);
   const openImage = (src: string, alt?: string) => { setLightboxSrc(src); setLightboxAlt(alt); };
   return <>
-    <header className="article-heading">
-      <p className="eyebrow">{post.meta.checkpoint ? "LIFE CHECKPOINT" : "NOTEBOOK"}</p>
-      <div className="entry-meta"><time dateTime={post.meta.date}>{formatDate(post.meta.date)}</time><span>·</span><span>{post.meta.readingMinutes} min read</span><span>·</span><span>Lit En</span></div>
-      <h1>{post.meta.title}</h1>
-      {post.meta.description && <p className="article-description">{post.meta.description}</p>}
-      {!post.meta.checkpoint && post.meta.tags.length > 0 && <div className="tag-links">{post.meta.tags.map((tag) => <Link key={tag} href={timelineHref(tag)}>{tag}</Link>)}</div>}
+    <header className={`article-heading ${post.meta.logo ? "article-heading-with-logo" : ""}`}>
+      {post.meta.logo && <div className="article-logo"><PostLogo post={post.meta} /></div>}
+      <div className="article-heading-copy">
+        <p className="eyebrow">{post.meta.checkpoint ? "LIFE CHECKPOINT" : "NOTEBOOK"}</p>
+        <div className="entry-meta"><time dateTime={post.meta.date}>{formatDate(post.meta.date)}</time><span>·</span><span>{post.meta.readingMinutes} min read</span><span>·</span><span>Lit En</span></div>
+        <h1>{post.meta.title}</h1>
+        {post.meta.description && <p className="article-description">{post.meta.description}</p>}
+        {!post.meta.checkpoint && post.meta.tags.length > 0 && <div className="tag-links">{post.meta.tags.map((tag) => <Link key={tag} href={timelineHref(tag)}>{tag}</Link>)}</div>}
+      </div>
     </header>
     {post.headings.length > 1 && <details className="contents"><summary>On this page</summary><ol>{post.headings.map((heading) => <li key={heading.id} className={heading.depth === 3 ? "subheading" : ""}><a href={`#${heading.id}`}>{heading.text}</a></li>)}</ol></details>}
     {post.meta.image && <button type="button" className="article-cover" onClick={() => openImage(post.meta.image!, post.meta.title)} aria-label="Enlarge cover image"><Image src={post.meta.image} alt={post.meta.title} width={960} height={540} priority /></button>}

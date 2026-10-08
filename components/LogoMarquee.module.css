@@ -1,0 +1,45 @@
+.marquee {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  padding: 8px 0;
+}
+.animated { mask-image: linear-gradient(to right, transparent, #000 16px, #000 calc(100% - 16px), transparent); }
+.static { overflow-x: auto; }
+
+.track {
+  display: flex;
+  flex-flow: row nowrap;
+  width: max-content;
+}
+.animated .track { animation: scroll 45s linear infinite; }
+
+.group {
+  display: flex;
+  flex-flow: row nowrap;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 28px;
+  margin: 0;
+  padding: 0 28px 0 0;
+  list-style: none;
+}
+
+.group li { flex: 0 0 64px; }
+.item { display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 12px; }
+.group a:hover { opacity: .8; }
+.item > img { display: block; width: 64px; height: 64px; object-fit: contain; }
+
+.marquee:hover .track { animation-play-state: paused; }
+
+/* Let keyboard users reach every original logo without a moving target. */
+.marquee:focus-within { overflow-x: auto; mask-image: none; }
+.marquee:focus-within .track { animation: none; }
+
+@keyframes scroll { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .animated .track { animation: none; }
+  .marquee { overflow-x: auto; mask-image: none; }
+  .group[aria-hidden="true"], .group li[aria-hidden="true"] { display: none; }
+}

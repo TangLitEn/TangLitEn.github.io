@@ -82,7 +82,10 @@ The settings at the top are YAML **front matter**. These fields are supported by
 | `description` | `description: "A short introduction to this note."` | No summary text. Used in post listings, the article introduction, and page metadata. |
 | `tags` | `tags: ["Learning", "Research"]` | Blog only. No tags by default; tags link to the filtered Posts timeline. Ignored for checkpoints. |
 | `image` | `image: "/blog/my-note/cover.jpg"` | No cover image. Used above the article and on its checkpoint entry. |
+| `logo` | `logo: "/post-logos/my-tool.svg"` | Square icon in the post list, article heading, and Posts marquee. Blog posts default to a notebook icon; checkpoint articles use their badge. |
 | `draft` | `draft: true` | Defaults to `false`: the post is included in the website. |
+
+The Posts, Checkpoint, and About pages share a full-width strip beneath their introduction. Collections with fewer than eight unique items appear once as a static row; eight or more loop through the strip. The threshold is `MIN_MARQUEE_ITEMS` in `components/LogoMarquee.tsx`. Reduced-motion preferences always disable scrolling animation.
 
 Use real YAML booleans, `true` and `false`, **without quotes**. `draft: "true"` is a string and will not hide a post.
 

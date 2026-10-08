@@ -27,7 +27,7 @@ export default async function BadgePage({ params }: Props) {
   const posts = getCheckpointPostsMeta();
   const stories = badge.checkpoints.map((slug) => posts.find((post) => post.slug === slug)!);
   return <main id="main-content" className="page">
-    <Link className="back-link" href={`/checkpoints/${badge.category ? `#${badge.category}` : ""}`}>← Back to Checkpoint</Link>
+    <Link className="back-link" href={`/checkpoints/#badge-${badge.id}`}>← Back to Checkpoint</Link>
     <header className={styles.detailHeading}>
       <BadgeImage badge={badge} />
       <div>

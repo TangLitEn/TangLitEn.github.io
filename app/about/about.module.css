@@ -1,19 +1,10 @@
-.heading.heading { margin-bottom: 28px; }
-
-.places {
-  max-width: 680px;
-  margin-bottom: 32px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
-}
-
 .flagMount {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 32px;
-  width: 32px;
-  height: 26px;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 32px;
   perspective: 700px;
 }
 .flagFabric {
@@ -25,8 +16,8 @@
   display: block;
   width: auto;
   height: auto;
-  max-width: 32px;
-  max-height: 24px;
+  max-width: 40px;
+  max-height: 30px;
   margin: 0;
   border-radius: 0;
   object-fit: contain;
@@ -34,59 +25,6 @@
   outline-offset: -1px;
 }
 
-.flagDetails summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 44px;
-  cursor: pointer;
-  list-style: none;
-}
-.flagDetails summary::-webkit-details-marker { display: none; }
-.flagDetails summary:focus-visible,
-.marquee:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
-  border-radius: 2px;
-}
-.travelHeading { font-size: 12px; }
-.toggleLabel {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  color: var(--muted);
-  font-size: 11px;
-}
-.flagDetails summary:hover .toggleLabel { color: var(--text); }
-.chevron { font-size: 16px; line-height: 1; }
-.hideLabel { display: none; }
-.flagDetails[open] .hideLabel { display: inline; }
-.flagDetails[open] .showLabel { display: none; }
-.flagDetails[open] .chevron { transform: rotate(180deg); }
-.flagDetails[open] + .marquee { display: none; }
-
-.marquee {
-  overflow: hidden;
-  padding: 8px 0;
-  mask-image: linear-gradient(to right, transparent, #000 16px, #000 calc(100% - 16px), transparent);
-}
-.marqueeTrack {
-  display: flex;
-  width: max-content;
-  animation: travelScroll 45s linear infinite;
-}
-.marqueeGroup {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  gap: 28px;
-  margin: 0;
-  padding: 0 28px 0 0;
-  list-style: none;
-}
-.marqueeGroup li,
 .travelFlags li {
   display: flex;
   align-items: center;
@@ -105,14 +43,8 @@
   padding: 0;
   list-style: none;
 }
-.marquee:hover .marqueeTrack,
-.marquee:focus-within .marqueeTrack,
-.places:hover .flagFabric,
-.places:focus-within .flagFabric { animation-play-state: paused; }
-
-@keyframes travelScroll {
-  to { transform: translateX(-50%); }
-}
+.flagMount:hover .flagFabric,
+.travelFlags:hover .flagFabric { animation-play-state: paused; }
 @keyframes flagWave {
   0%, 100% { transform: rotateY(-3deg) skewY(0.3deg); }
   50% { transform: rotateY(3deg) skewY(-0.3deg); }
@@ -123,10 +55,7 @@
 }
 @media (max-width: 440px) {
   .travelFlags { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .travelHeading { font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .flagFabric, .marqueeTrack { animation: none; }
-  .marquee { overflow-x: auto; mask-image: none; }
-  .marqueeGroup[aria-hidden="true"] { display: none; }
+  .flagFabric { animation: none; }
 }

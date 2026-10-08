@@ -15,6 +15,7 @@ export type PostMeta = {
   tags: string[];
   description: string;
   image?: string;
+  logo?: string;
   checkpoint: boolean;
   badges: string[];
   readingMinutes: number;
@@ -238,6 +239,9 @@ export function getPostBySlug(slug: string): RenderedPost & { meta: PostMeta } {
       ? [...new Set(data.tags.map((tag) => String(tag).trim()).filter(Boolean))]
       : [];
   const image = typeof data.image === "string" && isSafeUrl(data.image) ? data.image : undefined;
+  const logo = typeof data.logo === "string" && isSafeUrl(data.logo)
+    ? data.logo
+    : source.checkpoint ? undefined : "/post-logos/notebook.svg";
 
   const meta: PostMeta = {
     slug,
@@ -246,6 +250,7 @@ export function getPostBySlug(slug: string): RenderedPost & { meta: PostMeta } {
     tags,
     description: String(data.description ?? "").trim(),
     image,
+    logo,
     checkpoint: source.checkpoint,
     badges: source.checkpoint
       ? [...new Set((Array.isArray(data.badges) ? data.badges : typeof data.badges === "string" ? [data.badges] : []).map((badge: unknown) => String(badge).trim()).filter(Boolean))]

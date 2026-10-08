@@ -1188,8 +1188,23 @@ img {
 .research-timeline .checkpoint-year { grid-template-columns: 65px minmax(0, 1fr); gap: 18px; }
 .research-timeline .checkpoint-year > div { padding-left: 22px; }
 .research-timeline .checkpoint:before { left: -26px; }
-.research-timeline .checkpoint { flex-wrap: wrap; }
-.research-timeline .checkpoint-copy { flex-basis: 100%; }
+.research-timeline .checkpoint { display: grid; grid-template-columns: minmax(0, 1fr) 88px; gap: 24px; }
+.post-logo { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: 16px; }
+.checkpoint-logo { display: block; width: 88px; align-self: start; margin-top: 4px; border-radius: 16px; }
+.checkpoint-logo:hover { opacity: .8; }
+.research-timeline .checkpoint-image { grid-column: 1 / -1; }
+.article-heading-with-logo { display: grid; grid-template-columns: minmax(0, 1fr) 96px; align-items: start; gap: 28px; }
+.article-heading-copy { min-width: 0; }
+.article-heading-with-logo .article-heading-copy { grid-column: 1; grid-row: 1; }
+.article-logo { grid-column: 2; grid-row: 1; }
+@media (max-width: 680px) {
+  .research-timeline .checkpoint { grid-template-columns: minmax(0, 1fr) 60px; gap: 16px; }
+  .checkpoint-logo { width: 60px; }
+  .article-heading-with-logo { grid-template-columns: minmax(0, 1fr) 64px; gap: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 .back-to-top { position: fixed; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); z-index: 30; display: grid; place-items: center; width: 56px; height: 56px; padding: 0; border: 2px solid var(--bg); border-radius: 50%; color: #fff; background: var(--accent); box-shadow: 0 4px 16px #222b1940; cursor: pointer; }
 .back-to-top:hover { background: #435536; }
 @media (max-width: 680px) {

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import ProfileSignature from "../../components/ProfileSignature";
-import profileStyles from "../../components/ProfileSignature.module.css";
+import PageIntro from "../../components/PageIntro";
+import MarqueeSection from "../../components/MarqueeSection";
 import styles from "./about.module.css";
 import { renderMarkdown } from "../../lib/posts";
 
@@ -63,24 +63,12 @@ export default function AboutPage() {
   const { html } = renderMarkdown(biography);
   return (
     <main id="main-content" className="page about-page">
-      <div className={`page-heading ${profileStyles.header} ${styles.heading}`}>
-        <div>
+      <PageIntro className="page-heading">
           <p className="eyebrow">THE PERSON BEHIND THE NOTES</p>
           <h1>Hello, I’m Lit En<span className="accent">.</span></h1>
           <p className="about-tagline">Analyse problems. Design solutions. Keep learning.</p>
-        </div>
-        <ProfileSignature />
-      </div>
-      <section className={styles.places} aria-label="My travels">
-        <details className={styles.flagDetails}>
-          <summary>
-            <span className={styles.travelHeading}>Places I’ve been</span>
-            <span className={styles.toggleLabel}>
-              <span className={styles.showLabel}>See all flags</span>
-              <span className={styles.hideLabel}>Show less</span>
-              <span className={styles.chevron} aria-hidden="true">⌄</span>
-            </span>
-          </summary>
+      </PageIntro>
+      <MarqueeSection title="Places I’ve been" label="Travel flags" expandLabel="See all flags" entries={travelFlags.map((flag) => ({ id: flag.code, name: flag.name, image: `/flags/${flag.code}.svg`, content: <WavingFlag code={flag.code} name={flag.name} /> }))}>
           <ul className={styles.travelFlags} aria-label="All travel destinations">
             {travelFlags.map((flag) => (
               <li key={flag.code}>
@@ -89,21 +77,7 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
-        </details>
-        <div className={styles.marquee} tabIndex={0} role="region" aria-label="Travel flags. Expand See all flags to view the full list without scrolling.">
-          <div className={styles.marqueeTrack}>
-            {[false, true].map((duplicate) => (
-              <ul className={styles.marqueeGroup} key={String(duplicate)} aria-hidden={duplicate || undefined}>
-                {travelFlags.map((flag) => (
-                  <li key={flag.code} title={flag.name}>
-                    <WavingFlag code={flag.code} name={flag.name} />
-                  </li>
-                ))}
-              </ul>
-            ))}
-          </div>
-        </div>
-      </section>
+      </MarqueeSection>
       <div id="biography" className="article-layout">
         <article className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
       </div>

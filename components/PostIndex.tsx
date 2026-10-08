@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import type { Badge } from "../lib/badges";
 import BadgeImage from "./BadgeImage";
+import PostLogo from "./PostLogo";
 import type { PostMeta } from "../lib/posts";
 import { formatDate, timelineHref } from "../lib/format";
 
@@ -67,6 +68,7 @@ function TimelineContent({ posts, badges = [], collection = "posts", tag = "", y
           {post.description && <p>{post.description}</p>}
           <div className="tag-links">{post.tags.map((item) => <Link key={item} href={timelineHref(item, checkpoints)}>{item}</Link>)}</div>
         </div>
+        {!checkpoints && <Link className="checkpoint-logo" href={`/blog/${post.slug}/`} aria-label={`Read ${post.title}`}><PostLogo post={post} /></Link>}
         {checkpoints && badges.filter((badge) => badge.checkpoints.includes(post.slug)).length > 0 && <aside className="checkpoint-badges" aria-label="Earned badges">{badges.filter((badge) => badge.checkpoints.includes(post.slug)).map((badge) => <Link key={badge.id} href={`/checkpoints/${badge.id}/`}><BadgeImage badge={badge} /><span>{badge.name}</span></Link>)}</aside>}
         {post.image && <Link className="checkpoint-image" href={`/blog/${post.slug}/`} aria-label={`View ${post.title}`}><Image src={post.image} alt={post.title} width={220} height={160} /></Link>}
       </article>)}</div>
