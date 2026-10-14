@@ -1,3 +1,8 @@
+.biography {
+  max-width: 720px;
+  scroll-margin-top: calc(var(--header-height, 90px) + 24px);
+}
+
 .flagMount {
   display: flex;
   align-items: center;
@@ -25,11 +30,19 @@
   outline-offset: -1px;
 }
 
-.travelFlags li {
+.destination {
   display: flex;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  padding: 4px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
 }
+.destination:hover { background: var(--panel); }
 .countryName {
   font-size: 12px;
   color: var(--muted);

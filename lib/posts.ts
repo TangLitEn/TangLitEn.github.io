@@ -261,7 +261,20 @@ export function getPostBySlug(slug: string): RenderedPost & { meta: PostMeta } {
   return { meta, ...renderMarkdown(content) };
 }
 
-export function renderMarkdown(content: string): RenderedPost {
+// About references the original checkpoint files, so their stories and photos
+// have one source of truth and drafts stay unpublished.
+export function getCheckpointNoteDefinitions(): Record<string, string> {
+  return Object.fromEntries(getCheckpointPostsMeta().map((meta) => {
+    const source = getPostSources().find((post) => post.slug === meta.slug)!;
+    const { data, content } = matter(fs.readFileSync(source.fullPath, "utf8"));
+    const date = typeof data.date === "string" ? data.date : meta.date;
+    const cover = meta.image && !content.includes(meta.image)
+      ? `\n\n![${meta.title.replace(/[\[\]]/g, "")}](<${meta.image}>)` : "";
+    return [meta.slug, `**${date}**\n\n${content.trim()}${cover}`];
+  }));
+}
+
+export function renderMarkdown(content: string, definitions: Record<string, string> = {}): RenderedPost {
   const marked = new Marked();
   const headings: Heading[] = [];
   const headingIds = new Set<string>();
@@ -272,7 +285,7 @@ export function renderMarkdown(content: string): RenderedPost {
     headingIds.add(id);
     return id;
   }
-  const notes = new Map<string, string>();
+  const notes = new Map<string, string>(Object.entries(definitions));
   const noteNumbers = new Map<string, number>();
   const noteReferences = new Map<string, number>();
   {
@@ -302,7 +315,7 @@ export function renderMarkdown(content: string): RenderedPost {
       const safeTitle = resolved.title ? ` title="${escapeAttr(resolved.title)}"` : "";
       const safeText = resolved.text ? escapeAttr(resolved.text) : "";
       const safeSrc = escapeAttr(resolved.href);
-      return `<img src="${safeSrc}" alt="${safeText}"${safeTitle} style="max-width:100%;height:auto;cursor:zoom-in;" />`;
+      return `<img src="${safeSrc}" alt="${safeText}"${safeTitle} loading="lazy" role="button" tabindex="0" aria-label="Enlarge image: ${safeText || "Photo"}" style="max-width:100%;height:auto;cursor:zoom-in;" />`;
     };
 
     const mediaBlock = {
@@ -362,7 +375,7 @@ export function renderMarkdown(content: string): RenderedPost {
 
         return `<div class="md-media">
   <div class="md-media-image">
-    <img src="${safeSrc}" alt="${safeAlt}"${safeTitle} />
+    <img src="${safeSrc}" alt="${safeAlt}"${safeTitle} loading="lazy" role="button" tabindex="0" aria-label="Enlarge image: ${safeAlt || "Photo"}" />
   </div>
   <div class="md-media-body">
     ${heading}
@@ -393,10 +406,22 @@ export function renderMarkdown(content: string): RenderedPost {
           level: "block",
           start(src: string) { return src.match(/^\[\^[a-zA-Z0-9_-]+\]:/m)?.index; },
           tokenizer(src: string) {
-            const match = /^\[\^([a-zA-Z0-9_-]+)\]:[ \t]+([^\n]*(?:\n(?: {4}|\t)[^\n]*)*)(?:\n|$)/.exec(src);
+            const match = /^\[\^([a-zA-Z0-9_-]+)\]:[ \t]+([^\n]*)(?:\n|$)/.exec(src);
             if (!match) return;
-            notes.set(match[1], match[2].replace(/\n(?: {4}|\t)/g, " "));
-            return { type: "sidenoteDefinition", raw: match[0] };
+            let raw = match[0];
+            const lines = [match[2]];
+            let remaining = src.slice(raw.length);
+            while (remaining) {
+              const continuation = /^(?: {4}|\t)([^\n]*)(?:\n|$)/.exec(remaining);
+              const blank = /^(?:[ \t]*\n)+(?=(?: {4}|\t)\S)/.exec(remaining);
+              if (!continuation && !blank) break;
+              const line = continuation ?? blank!;
+              raw += line[0];
+              lines.push(continuation ? continuation[1] : "");
+              remaining = remaining.slice(line[0].length);
+            }
+            notes.set(match[1], lines.join("\n"));
+            return { type: "sidenoteDefinition", raw };
           },
           renderer() { return ""; },
         },
@@ -416,11 +441,16 @@ export function renderMarkdown(content: string): RenderedPost {
             const number = noteNumbers.get(label);
             const occurrence = (noteReferences.get(label) ?? 0) + 1;
             noteReferences.set(label, occurrence);
-            const reference = `<sup class="sidenote-ref" id="snref-${label}-${occurrence}"><a href="#sn-${label}" aria-label="Read note ${number}">${number}</a></sup>`;
+            const reference = `<sup class="sidenote-ref" id="snref-${label}-${occurrence}"><button type="button" data-note="sn-${label}" aria-haspopup="dialog" aria-label="Read note ${number}">${number}</button></sup>`;
             if (occurrence > 1) return reference;
-            // Definitions are inline Markdown; disable recursive note references.
-            const noteHtml = marked.parseInline(body.replace(/\[\^([a-zA-Z0-9_-]+)\]/g, "($1)")) as string;
-            return `${reference}<span class="sidenote" id="sn-${label}" role="note" tabindex="-1" aria-label="Note ${number}"><span class="sidenote-number">${number}</span><span>${noteHtml} <a class="sidenote-back" href="#snref-${label}-1" aria-label="Back to reference ${number}">↩</a></span></span>`;
+            // Render full Markdown in an inert template. Notes never enter the
+            // reading layout, request images, or add headings to the contents.
+            const noteHtml = marked.parse(body.replace(/\[\^([a-zA-Z0-9_-]+)\]/g, "($1)"), {
+              renderer: Object.assign(new Renderer(), renderer, {
+                heading: (text: string, depth: number) => `<h${depth}>${text}</h${depth}>`,
+              }),
+            }) as string;
+            return `${reference}<template id="sn-${label}" data-note-title="Note ${number}"><div role="note">${noteHtml}</div></template>`;
           },
         },
         {

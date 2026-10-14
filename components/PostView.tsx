@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import Lightbox from "./Lightbox";
 import PostLogo from "./PostLogo";
+import AnnotatedContent from "./AnnotatedContent";
 import type { Heading, PostMeta } from "../lib/posts";
 import { formatDate, timelineHref } from "../lib/format";
 
@@ -27,13 +28,8 @@ export default function PostView({ post, children }: { post: Post; children: Rea
     </header>
     {post.headings.length > 1 && <details className="contents"><summary>On this page</summary><ol>{post.headings.map((heading) => <li key={heading.id} className={heading.depth === 3 ? "subheading" : ""}><a href={`#${heading.id}`}>{heading.text}</a></li>)}</ol></details>}
     {post.meta.image && <button type="button" className="article-cover" onClick={() => openImage(post.meta.image!, post.meta.title)} aria-label="Enlarge cover image"><Image src={post.meta.image} alt={post.meta.title} width={960} height={540} priority /></button>}
-    <article onClick={(event) => {
-      const target = event.target as HTMLElement;
-      if (target.tagName === "IMG" && target.closest(".post-content") && !target.closest("a")) {
-        const img = target as HTMLImageElement; openImage(img.src, img.alt);
-      }
-    }}>{children}</article>
-    <div className="article-end"><span>Thanks for reading.</span><Link href={post.meta.checkpoint ? "/checkpoints/" : "/"}>{post.meta.checkpoint ? "More life checkpoints ↗" : "More from the notebook ↗"}</Link></div>
+    <AnnotatedContent>{children}</AnnotatedContent>
+    <div className="article-end"><span>Thanks for reading.</span><Link href={post.meta.checkpoint ? "/about/#biography" : "/"}>{post.meta.checkpoint ? "More about me ↗" : "More from the notebook ↗"}</Link></div>
     <Lightbox src={lightboxSrc} alt={lightboxAlt} onClose={() => setLightboxSrc(null)} />
   </>;
 }

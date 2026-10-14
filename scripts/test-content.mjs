@@ -17,14 +17,15 @@ function loadPosts(root = process.cwd()) {
   vm.runInNewContext(compiled, { module: compiledModule, exports: compiledModule.exports, require: (id) => id === "./simulations" ? simulationModule.exports : require(id), process: { cwd: () => root }, console, URL, Date });
   return compiledModule.exports;
 }
-const { renderMarkdown, getAllPostsMeta, getPostBySlug, getNotebookPostsMeta, getCheckpointPostsMeta } = loadPosts();
+const { renderMarkdown, getAllPostsMeta, getPostBySlug, getNotebookPostsMeta, getCheckpointPostsMeta, getCheckpointNoteDefinitions } = loadPosts();
 const note = renderMarkdown("## First\n\nA thought.[^one] Another reference.[^one]\n\n## First\n\n[^one]: My *personal* comment with a [source](https://example.com).\n    A continuation line.\n");
 assert.equal((note.html.match(/role="note"/g) ?? []).length, 1, "Repeated references must share a note");
-assert.match(note.html, /href="#sn-one"/);
+assert.match(note.html, /<button[^>]*data-note="sn-one"[^>]*aria-haspopup="dialog"/);
+assert.match(note.html, /<template id="sn-one"/);
 assert.match(note.html, /id="snref-one-2"/);
 assert.match(note.html, /<em>personal<\/em>/);
 assert.match(note.html, /A continuation line/);
-assert.match(note.html, /href="#snref-one-1"/);
+assert.doesNotMatch(note.html, /class="sidenote"/, "Notes stay in inert templates rather than the reading layout");
 assert.equal(note.headings[1].id, "first-2", "Duplicate headings get unique anchors");
 assert.match(renderMarkdown("Missing.[^one]").html, /\[\^one\]/, "Notes do not leak between posts");
 assert.doesNotMatch(renderMarkdown("```md\n[^code]: This is literal code.\n```\n\nText.[^code]").html, /role="note"/, "Fenced examples must not create notes");
@@ -33,6 +34,48 @@ assert.match(renderMarkdown("[Jump](#section)").html, /href="#section"/);
 assert.match(renderMarkdown("::: media\n![Caption](/photo.jpg)\n**Heading**\nDescription\n:::").html, /class="md-media"/);
 assert.match(renderMarkdown("::: youtube-lite\nhttps://youtu.be/aJ2kp675on8\n:::").html, /class="md-embed-lite"/);
 assert.match(renderMarkdown("[[Website|https://example.com]]").html, /class="md-chip"/);
+const illustratedNote = renderMarkdown("## Before\n\nGraduation.[^grad]\n\n## After\n\n[^grad]: **2024-05**\n\n    I graduated with *Highest Distinction*.\n\n    ![Graduation](/images/graduation.jpg)\n\n    ### Memories\n\n    A second paragraph with a [source](https://example.com).\n\nA normal paragraph outside the note.\n");
+assert.match(illustratedNote.html, /<template[^>]*>[\s\S]*<p><strong>2024-05<\/strong><\/p>[\s\S]*<p>I graduated with <em>Highest Distinction<\/em>\.<\/p>[\s\S]*<img src="\/images\/graduation.jpg"/);
+assert.match(illustratedNote.html, /<\/template>[\s\S]*<p>A normal paragraph outside the note\.<\/p>/, "A multiline note cannot swallow the next body paragraph");
+assert.equal(illustratedNote.headings.map((heading) => heading.id).join(), "before,after", "Note headings do not enter the article contents");
+assert.doesNotMatch(renderMarkdown("Text.[^safe]\n\n[^safe]: ![Bad](javascript:alert)\n\n    <script>alert(1)</script>\n").html, /<script|src="javascript:/, "Rich notes use the same safe rendering as posts");
+const suppliedNote = renderMarkdown("Text.[^supplied] Again.[^supplied]", { supplied: "**2024-05**\n\nA supplied story.\n\n![Photo](/photo.jpg)" });
+assert.equal((suppliedNote.html.match(/<template/g) ?? []).length, 1, "Supplied stories share one popup across references");
+assert.match(suppliedNote.html, /A supplied story/);
+const checkpointNotes = getCheckpointNoteDefinitions();
+const aboutSource = fs.readFileSync(new URL("../content/about.md", import.meta.url), "utf8");
+const about = renderMarkdown(aboutSource, checkpointNotes);
+assert.equal(Object.keys(checkpointNotes).length, getCheckpointPostsMeta().length, "Only published checkpoint files become notes");
+for (const post of getCheckpointPostsMeta()) {
+  assert.ok(aboutSource.includes(`[^${post.slug}]`), `${post.slug} is woven into About`);
+  assert.ok(about.html.includes(`id="sn-${post.slug}"`), `${post.slug} has a story popup`);
+}
+assert.match(about.html, /<template id="sn-ntu-valedictorian"[\s\S]*src="\/images\/graduation.jpg"/, "The graduation story includes its existing photograph");
+assert.doesNotMatch(about.html, /\[\^[a-zA-Z0-9_-]+\]/, "All biography note references resolve");
+const travelModule = { exports: {} };
+vm.runInNewContext(ts.transpileModule(fs.readFileSync(new URL("../lib/travel.ts", import.meta.url), "utf8"), {
+  compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true },
+}).outputText, { exports: travelModule.exports, require: (id) => id === "./posts" ? { renderMarkdown } : require(id), process });
+const { getTravelMemories } = travelModule.exports;
+const travel = getTravelMemories();
+assert.equal(travel.length, 14, "All existing travel destinations are preserved");
+assert.equal(new Set(travel.map((place) => place.code)).size, travel.length, "Flags have unique popup IDs");
+for (const place of travel) {
+  assert.ok(fs.existsSync(path.join(process.cwd(), "public", "flags", `${place.code}.svg`)), `${place.name} has local flag artwork`);
+  for (const image of place.html.matchAll(/<img[^>]*src="([^"]+)"/g)) {
+    assert.ok(fs.existsSync(path.join(process.cwd(), "public", decodeURIComponent(image[1]))), `${place.name} photo exists`);
+  }
+}
+assert.match(travel.find((place) => place.code === "la").html, /May 2023[\s\S]*<img[^>]*team.jpeg[\s\S]*Our electrical team/, "Travel memories appear as date, photo, then caption");
+assert.match(travel.find((place) => place.code === "th").html, /February 2020[\s\S]*end.jpeg[\s\S]*birthday gift/, "Thailand reuses its existing trip photos");
+assert.match(travel.find((place) => place.code === "fr").html, /More memories to come/, "Destinations awaiting photos still open a useful popup");
+const travelFixture = fs.mkdtempSync(path.join(os.tmpdir(), "travel-content-"));
+try {
+  fs.writeFileSync(path.join(travelFixture, "fr.md"), "### 01/02/2024\n\n![First photo](/travel/fr/first.jpg)\n\nFirst caption.\n\n---\n\n### 03/04/2025\n\n![Second photo](/travel/fr/second.jpg)\n\nSecond caption.");
+  const memories = getTravelMemories(travelFixture).find((place) => place.code === "fr").html;
+  assert.match(memories, /01\/02\/2024[\s\S]*first.jpg[\s\S]*First caption[\s\S]*03\/04\/2025[\s\S]*second.jpg[\s\S]*Second caption/, "New country files support multiple ordered memories");
+  assert.ok(getTravelMemories(path.join(travelFixture, "missing")).every((place) => /More memories to come/.test(place.html)), "Missing travel files do not break About");
+} finally { fs.rmSync(travelFixture, { recursive: true, force: true }); }
 const simulationMarker = "::: simulation uniform-plane-waves\n:::";
 const embedded = renderMarkdown(`## Before\n\nFirst note.[^wave]\n\n${simulationMarker}\n\n## Between\n\n[Reference][book]\n\n${simulationMarker}\n\n## After\n\nAgain.[^wave]\n\n[^wave]: A shared note.\n\n[book]: https://example.com/book`);
 assert.equal(embedded.blocks.map((block) => block.type).join(","), "html,simulation,html,simulation,html", "Multiple simulations remain between the surrounding paragraphs");

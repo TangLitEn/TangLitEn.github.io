@@ -84,9 +84,9 @@ A second thought can have a different note.[^source]
 
 A later paragraph can refer back to the first note without repeating it.[^reflection]
 
-On wide screens, these notes sit in the right margin. On phones and tablets, they appear inline. Click a number to jump to its note, and the return arrow to jump back.
+Notes stay closed by default. Click a number to open a popup with its text and images. Close it with Close, Escape, or a click outside the popup.
 
-The definitions are at the bottom of this file. Keep them to one paragraph with inline formatting. Use four spaces to continue a definition onto another source line.
+The definitions are at the bottom of this file. Use four spaces to indent continuation lines, with blank lines between paragraphs. A note can contain dates, text, images, and the existing media blocks.
 
 ## Images
 
@@ -151,4 +151,6 @@ Keep **this reference file** set to `draft: true`. A future `date` does not sche
 
 [^reflection]: A personal comment can include **emphasis**, `inline code`, and a [link](/about/).
     This is an indented continuation of the same note.
+
+    ![Graduation photograph](/images/graduation.jpg)
 [^source]: Use a note for a source or an uncertainty. Labels are case-sensitive and allow letters, numbers, hyphens, and underscores.

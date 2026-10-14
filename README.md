@@ -85,7 +85,7 @@ The settings at the top are YAML **front matter**. These fields are supported by
 | `logo` | `logo: "/post-logos/my-tool.svg"` | Square icon in the post list, article heading, and Posts marquee. Blog posts default to a notebook icon; checkpoint articles use their badge. |
 | `draft` | `draft: true` | Defaults to `false`: the post is included in the website. |
 
-The Posts, Checkpoint, and About pages share a full-width strip beneath their introduction. Collections with fewer than eight unique items appear once as a static row; eight or more loop through the strip. The threshold is `MIN_MARQUEE_ITEMS` in `components/LogoMarquee.tsx`. Reduced-motion preferences always disable scrolling animation.
+The Posts and About pages share a full-width strip beneath their introduction. Collections with fewer than eight unique items appear once as a static row; eight or more loop through the strip. The threshold is `MIN_MARQUEE_ITEMS` in `components/LogoMarquee.tsx`. Reduced-motion preferences always disable scrolling animation.
 
 Use real YAML booleans, `true` and `false`, **without quotes**. `draft: "true"` is a string and will not hide a post.
 
@@ -114,11 +114,11 @@ Keep tag spelling and capitalization consistent. Repeated identical tags on one 
 The two collections are separate:
 
 - `content/blog/`: blog posts, shown in the Posts timeline.
-- `content/checkpoints/`: life checkpoint stories, linked from their badges and excluded from the notebook.
+- `content/checkpoints/`: life checkpoint stories, referenced by notes in About and excluded from the notebook.
 
 The folder determines the collection; no `checkpoint` frontmatter field is needed. Only checkpoint files support `badges`, an optional array of image paths such as `badges: ["Brains/NTU.png"]`. Omit it when a checkpoint is not yet assigned to a badge. Blog files do not use `checkpoint` or `badges`.
 
-Both use the same Markdown format and keep their `/blog/filename/` article URLs. Search covers both and labels each result. Notebook tag links open the Posts timeline with tag and year filters saved in the URL. The Checkpoint page also groups badges into Brains and Brawls, with each badge linking to its nested stories. TINKRR, Learnr, and MediaTek are retained as drafts and excluded from the published site.
+Both use the same Markdown format and keep their `/blog/filename/` article URLs. Search covers both and labels each result. Notebook tag links open the Posts timeline with tag and year filters saved in the URL. About weaves checkpoint stories into the biography as notes that open on click. TINKRR, Learnr, and MediaTek are retained as drafts and excluded from the published site.
 
 Extra front-matter fields such as `author`, `slug`, `category`, `published`, `hidden`, or `readingTime` currently have no effect. Use `draft` to control inclusion and the filename to control the URL.
 
@@ -172,7 +172,7 @@ Task-list boxes show their saved state; they are not an interactive task tracker
 ```markdown
 [External source](https://example.com)
 [Another post](/blog/learnr/)
-[Life checkpoints](/checkpoints/)
+[About and life checkpoints](/about/)
 [A section below](#what-i-learned)
 [Download my PDF](/files/my-paper.pdf)
 ```
@@ -187,7 +187,7 @@ For a small button-style link, use the site's custom syntax:
 
 ```markdown
 [[Visit Learnr|https://www.learnr.sg/]]
-[[Back to checkpoints|/checkpoints/]]
+[[Back to About|/about/#biography]]
 ```
 
 This requires both a label and a URL separated by `|`. It is not wiki-link syntax; `[[A post title]]` alone does not link to another post.
@@ -197,25 +197,22 @@ This requires both a label and a URL separated by `|`. It is not wiki-link synta
 Add a reference immediately after the relevant thought, then define the note at the bottom of the file:
 
 ```markdown
-This explanation seems useful.[^personal-note]
+I graduated from NTU.[^graduation]
 
-A later paragraph can refer to the same note again.[^personal-note]
+[^graduation]: **2024-05**
 
-[^personal-note]: I’m still testing this idea. Here is a [source](https://example.com).
-    This continuation line starts with four spaces.
+    I graduated as valedictorian with Highest Distinction (CGPA 4.79/5.00).
+
+    ![Graduation photograph](/images/graduation.jpg)
 ```
 
-- Wide screens: the note sits in the right margin beside the first reference.
-- Screens up to 900px wide: the note appears inline in the reading flow.
-- Numbers are assigned automatically by first rendered reference; you do not need to number notes yourself.
-- Repeated references point to the same note. The return arrow goes back to its first reference.
-- Clicking a number highlights and jumps to its note; the sticky header leaves space above the destination.
+Notes stay closed by default on every screen size. Click a number to open a popup; close it with **Close**, **Escape**, or a click outside the popup. Keyboard focus returns to the number when the popup closes. Images inside a note can be clicked or activated with the keyboard for a larger view.
 
-Labels may contain `a–z`, `A–Z`, numbers, hyphens, and underscores. Labels are case-sensitive and should be unique within a post. Write a space after the definition's colon. An undefined reference remains visible as literal `[^label]` text.
+Numbers are assigned by first reference, and repeated references share the same note. Labels may contain letters, numbers, hyphens, and underscores; they are case-sensitive. An undefined reference remains visible as literal `[^label]` text.
 
-Definitions support **inline** Markdown: emphasis, links, and inline code. Keep each note to one paragraph, optionally continued with four-space-indented lines. Nested notes, multiple paragraphs, tables, and fenced code blocks inside notes are not supported. For those, write a normal body section and link to it.
+Definitions support paragraphs, images, emphasis, links, lists, tables, code, and the existing media and YouTube blocks. Indent each continuation line by four spaces (or a tab), leaving a blank line between paragraphs. Nested note references are rendered as plain text, and simulations belong in the main article body.
 
-The [About page source](app/about/page.tsx) contains an example of real side notes using existing biographical details.
+Edit the biography in [content/about.md](content/about.md). References matching a published checkpoint filename, such as `[^ntu-valedictorian]`, automatically use that story’s front-matter date, Markdown body, and cover image from `content/checkpoints/`. Drafts are excluded. Add a custom definition at the end of `content/about.md` to override a story note, or to add a standalone comment using the example above. After adding a new checkpoint, weave its reference into a relevant sentence in the biography.
 
 ## Images and captions
 
@@ -347,7 +344,7 @@ Future dates do not schedule publication: a post with `draft: false` is included
 | Post URL | Markdown filename |
 | Posts timeline | Non-draft files in `content/blog/`, grouped by year, newest first |
 | Timeline year | The post's `date` |
-| Life checkpoint stories | Non-draft files in `content/checkpoints/`, nested under their linked badges |
+| Life checkpoint stories | Non-draft files in `content/checkpoints/`, referenced in the About biography |
 | Blog tag filters | The `tags` arrays in `content/blog/` |
 | Header search | Titles, descriptions, tags, and rendered post text |
 | Reading time | Approximate source word count divided by 220, rounded up; at least one minute |
@@ -375,7 +372,7 @@ For equations or diagrams today, include an image and a text explanation.
 | New post is missing or returns 404 | Check `draft`, filename spelling, `.md` extension, and that the file is directly in `content/blog/` or `content/checkpoints/`. Refresh or restart the preview after adding a new file. |
 | Post unexpectedly appears on the website | Use `draft: true`, not `draft: "true"`, `hidden: true`, or `published: false`. |
 | Post is missing from the notebook | Place it in `content/blog/` and ensure `draft` is not `true`. |
-| Post does not appear in Life checkpoints | Place it in `content/checkpoints/`, set its `badges` image path, and ensure it is not a draft. |
+| Post does not appear in Life checkpoints | Place it in `content/checkpoints/`, ensure it is not a draft, and add a matching `[^filename]` reference in `content/about.md`. |
 | Date shows 1970 | Supply a quoted, valid date in the supported format. |
 | Front matter causes an error | Check the opening/closing `---`, quote strings containing colons, and use spaces instead of tabs for YAML indentation. |
 | Image is missing | Check that it exists under `public/`, that the URL omits `public`, and that capitalization matches. |
@@ -489,9 +486,11 @@ Future changes in that repository are not synchronized automatically.
 | Content | File |
 | --- | --- |
 | Welcome and notebook sidebar | `app/page.tsx` |
-| About biography, side notes, and page layout | `app/about/page.tsx` |
-| Shared portrait, Malaysia/Singapore flags, and bilingual motto on Posts, Checkpoint, and About | `components/ProfileSignature.tsx` and `components/ProfileSignature.module.css` |
-| Checkpoint page and Brains/Brawls categories | `app/checkpoints/page.tsx` |
+| About biography, notes, and page layout | `content/about.md`, `app/about/page.tsx`, and `components/AnnotatedContent.tsx` |
+| FAQ questions, answers, and layout | `data/faq.ts`, `app/faq/page.tsx`, and `app/faq/faq.module.css` |
+| Travel destinations, dated photos, and captions | `lib/travel.ts` and `content/travel/<country-code>.md` |
+| Shared portrait, Malaysia/Singapore flags, and bilingual motto on Posts and About | `components/ProfileSignature.tsx` and `components/ProfileSignature.module.css` |
+| Legacy checkpoint routes and badge story pages | `app/checkpoints/page.tsx` and `app/checkpoints/[badge]/page.tsx` |
 | Shared year-grouped timelines and URL filters | `components/PostIndex.tsx` |
 | Tag destination links | `lib/format.ts` |
 | Floating back-to-top button | `components/BackToTop.tsx` |
@@ -502,7 +501,7 @@ Future changes in that repository are not synchronized automatically.
 | Markdown rendering and custom syntax | `lib/posts.ts` |
 | Site title, description, and share metadata | `app/layout.tsx` |
 
-The `/checkpoints/` page contains the Brains and Brawls badge categories, with stories available through each badge. The old `/timeline/` route forwards to `/checkpoints/`. The header has separate Checkpoint and About tabs.
+The header has Posts, About, and FAQ tabs, in that order. Edit FAQ questions and answers in `data/faq.ts`; each question expands when clicked. About includes the checkpoint stories as biography notes, closed by default. The old `/checkpoints/` and `/timeline/` routes forward to `/about/#biography`; existing `/blog/<slug>/` article URLs and individual badge pages remain available.
 
 Notebook tag links use `/?tag=Research#posts`; an optional `year` parameter combines with the tag filter. Checkpoint stories do not use tags.
 
@@ -532,10 +531,16 @@ To nest a story beneath a badge, create its Markdown file in `content/checkpoint
 badges: ["Brains/NTU.png"]
 ```
 
-Only published life checkpoints are linked. One badge can collect several stories; a story can reference multiple badges. The 12 current stories are grouped under NTU EEE Valedictorian (9), Sin Chew Daily Student Reporter (2), and Micron Junior Engineer (1).
+Only published life checkpoints are linked. One badge can collect several stories; a story can reference multiple badges. The 16 current stories are referenced in the About biography. Badge associations remain available for existing badge URLs.
 
-Each badge opens its own `/checkpoints/<badge-id>/` page with its achievement date and related stories, newest first. Badges without written stories show “Story coming soon”. Badge IDs come from image filenames without extensions; filenames must produce unique IDs across both folders. Missing image references or invalid dates fail the build with a descriptive error.
+Each legacy badge URL opens its own `/checkpoints/<badge-id>/` page with its achievement date and related stories, newest first. Badges without written stories show “Story coming soon”. Badge IDs come from image filenames without extensions; filenames must produce unique IDs across both folders. Missing image references or invalid dates fail the build with a descriptive error.
 
-The Checkpoint page ends after the badge categories. There is no separate life checkpoint timeline or filter bar. About contains the biography, compact Singapore and Malaysia flags beneath the portrait, and an automatically scrolling strip of flags under “Places I’ve been”. Country names appear only in the expanded travel grid or as hover labels. “See all flags” expands a stationary grid; the strip pauses on hover or keyboard focus and supports manual scrolling with reduced motion enabled. Edit travel destinations in `app/about/page.tsx` and the shared profile flags and motto in `components/ProfileSignature.tsx`. Local artwork lives in `public/flags/`; travel styles are in `app/about/about.module.css`, and shared profile styles are in `components/ProfileSignature.module.css`.
+About starts with an earned-badge strip. Each badge links to its existing story page, and “See all badges” expands the full grid with names and achievement dates.
+
+The biography includes an “Exploring the world” paragraph, followed by the “Places I’ve been” flag strip. Click a flag in the strip or expanded grid to open that country’s travel memories. Popups stay closed by default and support multiple entries in date → image → caption order, with enlarged images on click. Laos and Thailand reuse existing trip photos; other countries show “More memories to come” until their files are added.
+
+Write travel memories in `content/travel/<country-code>.md`, for example `fr.md` for France. Use a date heading, a normal Markdown image, and a paragraph for the caption, then repeat for another memory. Put new photos in `public/travel/<country-code>/`. The [travel authoring guide](content/travel/README.md) has a copyable example and the full country-code list. Edit or reorder destinations in `lib/travel.ts`.
+
+“See all flags” expands a stationary grid; the strip pauses on hover or keyboard focus and supports manual scrolling with reduced motion enabled. The compact Singapore and Malaysia flags beneath the portrait are managed in `components/ProfileSignature.tsx`. Local flag artwork lives in `public/flags/`; travel styles are in `app/about/about.module.css`, and shared profile styles are in `components/ProfileSignature.module.css`.
 
 Run `npm run test:content` to check badge dates, ordering, artwork paths, all story assignments, archived posts, and content rules.

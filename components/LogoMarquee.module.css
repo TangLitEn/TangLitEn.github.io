@@ -27,7 +27,8 @@
 
 .group li { flex: 0 0 64px; }
 .item { display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 12px; }
-.group a:hover { opacity: .8; }
+.group button { border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; }
+.group a:hover, .group button:hover { opacity: .8; }
 .item > img { display: block; width: 64px; height: 64px; object-fit: contain; }
 
 .marquee:hover .track { animation-play-state: paused; }

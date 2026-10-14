@@ -20,8 +20,8 @@ export default async function BlogPostPage({ params }: Props) {
   const post = getPostBySlug(slug);
   const badge = post.meta.checkpoint ? getBadges([post.meta]).find((item) => item.checkpoints.includes(slug)) : undefined;
   return <main id="main-content" className="page article-page">
-    {post.meta.checkpoint ? <Link className="back-link" href={badge ? `/checkpoints/${badge.id}/` : "/checkpoints/"}>
-      ← Back to {badge?.name ?? "Checkpoint"}
+    {post.meta.checkpoint ? <Link className="back-link" href="/about/#biography">
+      ← Back to About
     </Link> : <PostBackLink slug={slug} />}
     <PostView post={{ meta: { ...post.meta, logo: post.meta.logo ?? badge?.image }, headings: post.headings }}><PostBody blocks={post.blocks} /></PostView>
   </main>;

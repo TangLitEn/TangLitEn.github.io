@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import styles from "./LogoMarquee.module.css";
 
-export type MarqueeEntry = { id: string; name: string; image: string; href?: string; content?: ReactNode };
+export type MarqueeEntry = { id: string; name: string; image: string; href?: string; noteId?: string; content?: ReactNode };
 export const MIN_MARQUEE_ITEMS = 8;
 
 export default function LogoMarquee({ entries, label }: { entries: MarqueeEntry[]; label: string }) {
@@ -16,7 +16,9 @@ export default function LogoMarquee({ entries, label }: { entries: MarqueeEntry[
     <div className={styles.track}>
       {(animated ? [false, true] : [false]).map((duplicate) => <ul className={styles.group} key={String(duplicate)} aria-hidden={duplicate || undefined}>
         {Array.from({ length: copies }, (_, copy) => uniqueEntries.map((entry) => <li key={`${copy}-${entry.id}`} aria-hidden={copy > 0 || undefined}>
-          {entry.href ? <Link className={styles.item} href={entry.href} title={entry.name} aria-label={entry.name} tabIndex={duplicate || copy > 0 ? -1 : undefined}>
+          {entry.noteId ? <button type="button" className={styles.item} data-note={entry.noteId} title={entry.name} aria-label={`Travel memories: ${entry.name}`} aria-haspopup="dialog" tabIndex={duplicate || copy > 0 ? -1 : undefined}>
+            {entry.content ?? <Image src={entry.image} alt="" width={64} height={64} />}
+          </button> : entry.href ? <Link className={styles.item} href={entry.href} title={entry.name} aria-label={entry.name} tabIndex={duplicate || copy > 0 ? -1 : undefined}>
             {entry.content ?? <Image src={entry.image} alt="" width={64} height={64} />}
           </Link> : <span className={styles.item} title={entry.name}>
             {entry.content ?? <Image src={entry.image} alt={entry.name} width={64} height={64} />}

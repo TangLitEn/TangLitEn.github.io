@@ -79,8 +79,8 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
   );
   const links = [
     { href: "/", label: "Posts", current: pathname === "/" || (pathname.startsWith("/blog/") && !isCheckpoint) },
-    { href: "/checkpoints/", label: "Checkpoint", current: pathname.startsWith("/checkpoints") || isCheckpoint },
-    { href: "/about/", label: "About", current: pathname === "/about/" },
+    { href: "/about/", label: "About", current: pathname.replace(/\/$/, "") === "/about" || pathname.startsWith("/checkpoints") || isCheckpoint },
+    { href: "/faq/", label: "FAQ", current: pathname.replace(/\/$/, "") === "/faq" },
   ];
 
   return (
