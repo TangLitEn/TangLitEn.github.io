@@ -167,6 +167,8 @@ const { getBadges } = badgeModule.exports;
 const badges = getBadges(posts);
 const expected = {
   brains: [
+    ["Chess Rapid Elo 1000", "2026-10"],
+    ["Learnr", "2026-06"],
     ["Micron Junior Engineer", "2024-08-19"],
     ["NTU EEE Valedictorian", "2024"],
     ["STPM 4.00", "2019"],
@@ -181,7 +183,7 @@ const expected = {
     ["Ironman Bangsean", "2020-02-23"],
   ],
 };
-assert.equal(badges.length, 10);
+assert.equal(badges.length, 12);
 for (const [category, entries] of Object.entries(expected)) {
   assert.equal(JSON.stringify(badges.filter((badge) => badge.category === category).map((badge) => [badge.name, badge.achieved])), JSON.stringify(entries), `${category} dates and newest-first order match the supplied list`);
 }

@@ -4,6 +4,7 @@ date: "2023-03"
 description: "Exploring how to deliver better learning experiences via interactive content, discussion, and structured knowledge pathways."
 image: "/blog/2023-03/poster.jpg"
 draft: true
+badges: ["Brains/Learnr.png"]
 ---
 
 Started this project in March of 2023 together with my friends. Exploring how to deliver better learning experiences via interactive content, discussion, and structured knowledge pathways.

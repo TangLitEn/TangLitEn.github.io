@@ -1,5 +1,11 @@
 ---
 badges:
+  Brains/ChessRapidElo1000.png:
+    name: "Chess Rapid Elo 1000"
+    achieved: "2026-10"
+  Brains/Learnr.png:
+    name: "Learnr"
+    achieved: "2026-06"
   Brawls/FBS_400kg.png:
     name: "FBS_400kg"
     achieved: "2025-08-23"

@@ -37,16 +37,23 @@ export default function AboutPage() {
           <h1>Hello, I’m Lit En<span className="accent">.</span></h1>
           <p className="about-tagline">Analyse problems. Design solutions. Keep learning.</p>
       </PageIntro>
-      <MarqueeSection title="Badges I’ve earned" label="Earned badges" expandLabel="See all badges" entries={badges.map((badge) => ({ id: badge.id, name: badge.name, image: badge.image, href: `/checkpoints/${badge.id}/` }))}>
-        <ul className={badgeStyles.earnedBadges} aria-label="All earned badges">
-          {badges.map((badge) => <li key={badge.id}>
-            <a href={`/checkpoints/${badge.id}/`}>
-              <BadgeImage badge={badge} />
-              <span className={badgeStyles.earnedName}>{badge.name}</span>
-              {badge.achieved && <time dateTime={badge.achieved}>{formatAchievementDate(badge.achieved)}</time>}
-            </a>
-          </li>)}
-        </ul>
+      <MarqueeSection title="Badges I’ve earned" label="Earned badges" expandLabel="See all badges" entries={badges.map((badge) => ({ id: badge.id, name: badge.name, image: badge.image }))}>
+        <div className={badgeStyles.earnedCategories}>
+          {(["brains", "brawls"] as const).map((category) => {
+            const categoryBadges = badges.filter((badge) => badge.category === category);
+            if (!categoryBadges.length) return null;
+            return <section key={category} aria-labelledby={`earned-${category}`}>
+              <h2 id={`earned-${category}`} className={badgeStyles.earnedCategoryHeading}>{category === "brains" ? "Brains" : "Brawls"}</h2>
+              <ul className={badgeStyles.earnedBadges}>
+                {categoryBadges.map((badge) => <li key={badge.id}>
+                  <BadgeImage badge={badge} />
+                  <span className={badgeStyles.earnedName}>{badge.name}</span>
+                  {badge.achieved && <time dateTime={badge.achieved}>{formatAchievementDate(badge.achieved)}</time>}
+                </li>)}
+              </ul>
+            </section>;
+          })}
+        </div>
       </MarqueeSection>
       <div id="biography" className={styles.biography}>
         <AnnotatedContent>
