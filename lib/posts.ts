@@ -209,6 +209,20 @@ export function getAllPostsMeta(): PostMeta[] {
   return all.sort((a, b) => normalizeDate(b.date).localeCompare(normalizeDate(a.date)));
 }
 
+// Drafts are discoverable only through the dragon's separate collection.
+// Keep the published slug list unchanged for search, badges, and blog routes.
+export function getDraftPostSlugs(): string[] {
+  return getPostSources()
+    .filter(({ fullPath }) => matter(fs.readFileSync(fullPath, "utf8")).data.draft === true)
+    .map(({ slug }) => slug);
+}
+
+export function getDraftPostsMeta(): PostMeta[] {
+  return getDraftPostSlugs()
+    .map((slug) => getPostBySlug(slug).meta)
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
 export function getNotebookPostsMeta(): PostMeta[] {
   return getAllPostsMeta().filter((post) => !post.checkpoint);
 }

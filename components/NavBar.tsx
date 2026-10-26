@@ -127,9 +127,9 @@ export default function NavBar({ entries }: { entries: SearchEntry[] }) {
               {!matches.length && <p className="search-hint">Try a topic, project, or a word from a post.</p>}
             </div>}
           </div>
-          <span className={`${styles.logo} ${styles.dragon}`}>
-            <Image src="/dragon.png" alt="Dragon logo" width={96} height={96} />
-          </span>
+          <Link href="/drafts/" className={`${styles.logo} ${styles.dragon}`} aria-label="Discover draft posts" aria-current={pathname.startsWith("/drafts") ? "page" : undefined}>
+            <Image src="/dragon.png" alt="" width={96} height={96} />
+          </Link>
         </div>
       </div>
     </header>

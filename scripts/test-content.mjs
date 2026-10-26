@@ -127,6 +127,8 @@ try {
   assert.equal(published[0].date, "2026-09-07", "Unquoted YAML dates retain their value");
   assert.equal(published[0].checkpoint, false, "New notes are not automatically life checkpoints");
   assert.equal(published[0].tags.length, 1, "Tags are deduplicated");
+  assert.equal(fixturePosts.getDraftPostSlugs().join(), "draft", "The hidden collection includes only drafts");
+  assert.equal(fixturePosts.getDraftPostsMeta()[0].title, "Hidden", "Draft metadata is available to the hidden page");
   fs.mkdirSync(path.join(fixture, "content/checkpoints"));
   fs.writeFileSync(path.join(fixture, "content/checkpoints/milestone.md"), '---\ntitle: A milestone\ndate: "2020-01-01"\nbadges: ["Brains/NTU.png", "Brains/NTU.png"]\ntags: [Research]\n---\nA life checkpoint');
   assert.equal(fixturePosts.getNotebookPostsMeta().length, 1);
@@ -140,6 +142,13 @@ try {
   assert.equal(fixturePosts.getPostBySlug("milestone").meta.badges.join(), "Brains/NTU.png", "Checkpoint badge references are preserved and deduplicated");
   fs.writeFileSync(path.join(fixture, "content/checkpoints/hidden.md"), '---\ndraft: true\n---\nHidden checkpoint');
   assert.equal(fixturePosts.getAllPostSlugs().length, 2, "Drafts in either folder stay unpublished");
+  assert.equal(fixturePosts.getDraftPostSlugs().sort().join(), "draft,hidden", "The hidden page discovers drafts in both folders");
+  assert.equal(fixturePosts.getDraftPostsMeta()[0].slug, "draft", "Drafts are listed newest first");
+  assert.equal(fixturePosts.getSearchIndex().some((entry) => ["draft", "hidden"].includes(entry.slug)), false, "Draft discovery does not expose drafts in normal search");
+  fs.writeFileSync(path.join(fixture, "content/blog/draft.md"), '---\ntitle: Ready\ndraft: false\n---\nPublished now');
+  assert.equal(fixturePosts.getDraftPostSlugs().join(), "hidden", "Publishing a draft removes it from the hidden collection");
+  assert.ok(fixturePosts.getAllPostSlugs().includes("draft"), "Publishing a draft adds it to the regular collection");
+  fs.writeFileSync(path.join(fixture, "content/blog/draft.md"), '---\ndraft: true\n---\nDraft again');
   fs.writeFileSync(path.join(fixture, "content/blog/published.md"), '---\ncheckpoint: true\nbadges: ["Brains/NTU.png"]\n---\nA blog');
   assert.equal(fixturePosts.getPostBySlug("published").meta.checkpoint, false, "Legacy frontmatter cannot turn a blog into a checkpoint");
   assert.equal(fixturePosts.getPostBySlug("published").meta.badges.length, 0, "Blogs ignore checkpoint-only badge fields");
@@ -156,6 +165,7 @@ try {
   assert.equal(fixturePosts.getAllPostSlugs().join(), "milestone", "Checkpoint-only sites work without a blog folder");
   fs.rmSync(path.join(fixture, "content/checkpoints"), { recursive: true });
   assert.equal(fixturePosts.getAllPostSlugs().length, 0, "Missing content folders are empty collections");
+  assert.equal(fixturePosts.getDraftPostsMeta().length, 0, "Missing content folders produce an empty draft list");
 
 } finally { fs.rmSync(fixture, { recursive: true, force: true }); }
 console.log("Content checks passed: Markdown, notes, links, media, published checkpoint entries, drafts, dates, collection separation, and search indexing.");
