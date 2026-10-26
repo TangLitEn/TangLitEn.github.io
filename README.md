@@ -171,7 +171,7 @@ Task-list boxes show their saved state; they are not an interactive task tracker
 
 ```markdown
 [External source](https://example.com)
-[Another post](/blog/learnr/)
+[Another post](/blog/markov-chains/)
 [About and life checkpoints](/about/)
 [A section below](#what-i-learned)
 [Download my PDF](/files/my-paper.pdf)
