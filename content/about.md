@@ -36,7 +36,7 @@ After graduation, I joined Micron as an HVM Process Integration Engineer, using 
 
 Outside my professional work, I enjoy building products with friends.
 
-In March 2023, we started **Learnr**, exploring how interactive content, discussions, and structured learning pathways could make learning more engaging.
+In March 2023, we started **Learnr**,[^learnr-team] exploring how interactive content, discussions, and structured learning pathways could make learning more engaging.
 
 For me, building is as much about the process of experimenting, learning, and improving as it is about the final product.
 
@@ -55,3 +55,10 @@ One of my greatest joys is discovering new places, experiencing different cultur
 I see travelling as another way of learning — about the world, about others, and sometimes about myself.
 
 Every destination leaves behind a few stories worth remembering.
+
+[^learnr-team]:
+
+    ::: media
+    ![The Learnr team at Sunset Bazaar](/blog/2023-03/team.jpeg)
+    **The team behind Learnr**
+    :::
