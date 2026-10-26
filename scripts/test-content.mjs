@@ -98,7 +98,8 @@ const originalSlugs = ["29th-cohort-cadet-reporter-training-camp", "enitio2021",
 for (const slug of originalSlugs) assert.ok(posts.find((post) => post.slug === slug)?.checkpoint, `${slug} remains a published checkpoint`);
 for (const slug of ["learnr", "mediatek", "tinkrr-life-optimization"]) {
   assert.ok(!posts.some((post) => post.slug === slug), `${slug} is unpublished`);
-  assert.ok(fs.existsSync(path.join(process.cwd(), "content/checkpoints", `${slug}.md`)), `${slug} source is preserved`);
+  assert.ok(!fs.existsSync(path.join(process.cwd(), "content/checkpoints", `${slug}.md`)), `${slug} source is deleted`);
+  assert.ok(!loadPosts().getDraftPostSlugs().includes(slug), `${slug} is absent from the hidden draft list`);
   assert.ok(!loadPosts().getSearchIndex().some((post) => post.slug === slug), `${slug} is absent from search`);
 }
 const notebookPosts = getNotebookPostsMeta();

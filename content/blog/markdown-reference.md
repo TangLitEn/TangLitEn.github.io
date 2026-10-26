@@ -64,7 +64,7 @@ Use `##` for main sections and `###` for subsections. The site already displays 
 
 ## Links
 
-[Open an existing post](/blog/learnr/).
+[Open an existing post](/blog/markov-chains/).
 
 [Jump to the code section](#code).
 
