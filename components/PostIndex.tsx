@@ -16,7 +16,7 @@ type View = "checkpoints" | "badges";
 
 function TimelineContent({ posts, badges = [], collection = "posts", tag = "", year = "", onFilter, view = "checkpoints", onView }: Props & Partial<Filters> & { onFilter?: (filters: Filters) => void; view?: View; onView?: (view: View) => void }) {
   const checkpoints = collection === "checkpoints";
-  const title = checkpoints ? "Life checkpoints" : "Research notes";
+  const title = checkpoints ? "Life checkpoints" : "Learning note";
   const tags = Array.from(new Set(posts.flatMap((post) => post.tags))).sort((a, b) => a.localeCompare(b));
   const years = Array.from(new Set(posts.map((post) => post.date.slice(0, 4)))).sort().reverse();
   const filtered = posts.filter((post) => (!tag || post.tags.includes(tag)) && (!year || post.date.slice(0, 4) === year))
