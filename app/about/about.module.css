@@ -3,6 +3,10 @@
   scroll-margin-top: calc(var(--header-height, 90px) + 24px);
 }
 
+.biography section[aria-label="Places I’ve been"] {
+  border-bottom: 0;
+}
+
 .flagMount {
   display: flex;
   align-items: center;
