@@ -56,9 +56,7 @@ I see travelling as another way of learning — about the world, about others, a
 
 Every destination leaves behind a few stories worth remembering.
 
-[^learnr-team]:
-
-    ::: media
+[^learnr-team]: ::: media
     ![The Learnr team at Sunset Bazaar](/blog/2023-03/team.jpeg)
     **The team behind Learnr**
     :::
