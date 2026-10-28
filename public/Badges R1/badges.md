@@ -6,6 +6,9 @@ badges:
   Brains/ChessRapidElo900.png:
     name: "Chess Rapid Elo 900"
     achieved: "2023-06-05"
+  Brains/IntoRelationship.png:
+    name: "Into relationship 💘"
+    achieved: "2022-12-12"
   Brains/Learnr.png:
     name: "Learnr"
     achieved: "2026-06"

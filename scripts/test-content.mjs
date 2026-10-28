@@ -183,6 +183,7 @@ const expected = {
     ["Micron Junior Engineer", "2024-08-19"],
     ["NTU EEE Valedictorian", "2024"],
     ["Chess Rapid Elo 900", "2023-06-05"],
+    ["Into relationship 💘", "2022-12-12"],
     ["STPM 4.00", "2019"],
     ["SPM 10A", "2017"],
     ["Sin Chew Daily Student Reporter", "2015"],
@@ -195,7 +196,7 @@ const expected = {
     ["Ironman Bangsean", "2020-02-23"],
   ],
 };
-assert.equal(badges.length, 13);
+assert.equal(badges.length, 14);
 for (const [category, entries] of Object.entries(expected)) {
   assert.equal(JSON.stringify(badges.filter((badge) => badge.category === category).map((badge) => [badge.name, badge.achieved])), JSON.stringify(entries), `${category} dates and newest-first order match the supplied list`);
 }
