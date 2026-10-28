@@ -2,7 +2,10 @@
 badges:
   Brains/ChessRapidElo1000.png:
     name: "Chess Rapid Elo 1000"
-    achieved: "2026-10"
+    achieved: "2026-10-05"
+  Brains/ChessRapidElo900.png:
+    name: "Chess Rapid Elo 900"
+    achieved: "2023-06-05"
   Brains/Learnr.png:
     name: "Learnr"
     achieved: "2026-06"
